@@ -19,7 +19,16 @@ type ParallaxViewProps = {
 };
 
 const ParallaxView = memo((props: ParallaxViewProps) => {
-  const { className, offset, loop, onLeftChange, onDirectionChange, leftNode, rightNode } = props;
+  const {
+    className,
+    offset,
+    loop,
+    onLeftChange,
+    onDirectionChange,
+    leftNode,
+    rightNode,
+    staticNode,
+  } = props;
 
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -88,9 +97,11 @@ const ParallaxView = memo((props: ParallaxViewProps) => {
       <div ref={contentRef}>
         <div style={{ left }}>
           <div className={className} ref={leftBoxRef}>
+            {staticNode}
             {leftNode}
           </div>
           <div className={className} ref={rightBoxRef}>
+            {staticNode}
             {rightNode}
           </div>
         </div>

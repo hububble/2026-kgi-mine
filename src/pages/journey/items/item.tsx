@@ -13,65 +13,68 @@ type TItemProps = {
   onCenter?: () => void;
   onInView?: () => void;
   onItemSelected?: (item: string) => void;
+  isStatic?: boolean;
 };
 
-const Item = memo(({ item, y, x, left, onCenter, onInView, onItemSelected }: TItemProps) => {
-  const [, setURI] = useURI();
+const Item = memo(
+  ({ item, y, x, left, onCenter, onInView, onItemSelected, isStatic }: TItemProps) => {
+    const [, setURI] = useURI();
 
-  const ref = useRef<HTMLDivElement>(null);
-  const [status, setStatus] = useState({ isCenter: false, isInView: false });
+    const ref = useRef<HTMLDivElement>(null);
+    const [status, setStatus] = useState({ isCenter: false, isInView: false });
 
-  const randomPattern = useRef(
-    PATTERN_URI_PROPERTIES[Math.floor(Math.random() * PATTERN_URI_PROPERTIES.length)].name,
-  );
+    const randomPattern = useRef(
+      PATTERN_URI_PROPERTIES[Math.floor(Math.random() * PATTERN_URI_PROPERTIES.length)].name,
+    );
 
-  useEffect(() => {
-    if (ref.current && left !== '') {
-      const inCenter = checkElementCenterOfScreenWithOffset(
-        ref.current,
-        JourneySceneSetting.itemsCenterThreshold,
-      );
-      const inView = checkElementInViewport(ref.current);
-      if (inCenter && !status.isCenter) {
-        onCenter?.();
-        setStatus((S) => ({ ...S, isCenter: true }));
+    useEffect(() => {
+      if (ref.current && left !== '' && !isStatic) {
+        const inCenter = checkElementCenterOfScreenWithOffset(
+          ref.current,
+          JourneySceneSetting.itemsCenterThreshold,
+        );
+        const inView = checkElementInViewport(ref.current);
+        if (inCenter && !status.isCenter) {
+          onCenter?.();
+          setStatus((S) => ({ ...S, isCenter: true }));
+        }
+        if (inView && !status.isInView) {
+          onInView?.();
+          setStatus((S) => ({ ...S, isInView: true }));
+        }
       }
-      if (inView && !status.isInView) {
-        onInView?.();
-        setStatus((S) => ({ ...S, isInView: true }));
-      }
-    }
-  }, [left, status]);
+    }, [left, status, isStatic]);
 
-  useEffect(() => {
-    PATTERN_URI_PROPERTIES.forEach((item) => setURI(item));
-  }, []);
+    useEffect(() => {
+      PATTERN_URI_PROPERTIES.forEach((item) => setURI(item));
+    }, []);
 
-  return (
-    <div
-      ref={ref}
-      key={item.name}
-      className={item.name}
-      style={{
-        transform: `translateY(${y}vh)`,
-        left: `${x.toFixed(2)}%`,
-      }}
-    >
-      <div className='marker'>
-        {!item.name.includes('roadSign') && !item.clicked && (
-          <Button
-            onClick={() => {
-              setStatus((S) => ({ ...S, isCenter: true, isInView: true }));
-              onItemSelected?.(item.name);
-            }}
-          >
-            <Button.Marker>
-              <div className={`box ${randomPattern.current}`}></div>
-            </Button.Marker>
-          </Button>
-        )}
+    return (
+      <div
+        ref={ref}
+        key={item.name}
+        className={item.name}
+        style={{
+          transform: `translateY(${y}vh)`,
+          left: `${x.toFixed(2)}%`,
+        }}
+      >
+        <div className='marker'>
+          {!item.name.includes('roadSign') && !item.clicked && (
+            <Button
+              onClick={() => {
+                setStatus((S) => ({ ...S, isCenter: true, isInView: true }));
+                onItemSelected?.(item.name);
+              }}
+            >
+              <Button.Marker>
+                <div className={`box ${randomPattern.current}`}></div>
+              </Button.Marker>
+            </Button>
+          )}
+        </div>
       </div>
-    </div>
-  );
-});
+    );
+  },
+);
 export default Item;

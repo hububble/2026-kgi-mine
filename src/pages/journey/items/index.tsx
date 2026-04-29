@@ -82,6 +82,7 @@ const Items = memo((props: TJourneyItemsProps) => {
               left={left}
               onCenter={() => onCenter?.(item.name)}
               onItemSelected={() => onSelected?.(item.name)}
+              isStatic
             />
           ),
       )}
