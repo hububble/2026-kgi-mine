@@ -70,7 +70,7 @@ const ParallaxView = memo((props: ParallaxViewProps) => {
 
   const left = useMemo(() => {
     if (innerWidth === 0) return '0%';
-    return `-${(offset * SceneDepth.middle * ratio) % (innerWidth * 2)}%`;
+    return `${(offset * SceneDepth.middle * ratio * -1) % (innerWidth * 2)}%`;
   }, [offset, innerWidth, ratio]);
 
   useEffect(() => {

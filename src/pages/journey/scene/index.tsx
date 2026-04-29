@@ -8,7 +8,7 @@ import { ActionType } from '@/settings/type';
 import { getViewPxByDirection as getPx } from '@/utils';
 import EnterFrame from 'lesca-enterframe';
 import useTween, { Bezier } from 'lesca-use-tween';
-import { memo, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { memo, use, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import {
   JourneyContext,
   JourneyItemsList,
@@ -16,6 +16,7 @@ import {
   JourneySceneList,
   JourneySceneSetting,
   JourneySceneType,
+  JourneyStaticItemsList,
   JourneyStepType,
 } from '../config';
 import Items from '../items';
@@ -23,6 +24,7 @@ import MinerWalker from '../miner';
 import './index.less';
 import Moon from './Moon';
 import View from './view';
+import { URI } from './config';
 
 type TSceneProps = {
   onEnd: () => void;
@@ -47,6 +49,10 @@ const Scene = memo(({ onEnd, onLooped, onEncounteringRoadSign, onItemSelected }:
   useEffect(() => {
     if (state && state.scene) {
       JourneySceneList[state.scene].forEach((item) => setURI(item));
+
+      // Wave for 蔚藍海岸
+      if (state.scene === JourneySceneType.蔚藍海岸) URI.forEach((item) => setURI(item));
+
       sounds?.track?.stopAll();
     }
   }, [state.scene]);
@@ -71,7 +77,14 @@ const Scene = memo(({ onEnd, onLooped, onEncounteringRoadSign, onItemSelected }:
       const dissociation = item.top < 5.5 ? 'back' : ('front' as 'back' | 'front');
       return { name: item.name, top: item.top, left: item.left, clicked: false, dissociation };
     });
+
     return [null, ...currentItems];
+  }, [state.scene]);
+
+  const staticItems = useMemo(() => {
+    return JourneyStaticItemsList[state.scene].map((item) => {
+      return { name: item.name, top: item.top, left: item.left, clicked: true };
+    });
   }, [state.scene]);
 
   useEffect(() => {
@@ -142,9 +155,7 @@ const Scene = memo(({ onEnd, onLooped, onEncounteringRoadSign, onItemSelected }:
   }, [state.step]);
 
   useEffect(() => {
-    if (state.loop) {
-      onLooped?.(state.loop);
-    }
+    if (state.loop) onLooped?.(state.loop);
   }, [state.loop]);
 
   useEffect(() => {
@@ -204,6 +215,7 @@ const Scene = memo(({ onEnd, onLooped, onEncounteringRoadSign, onItemSelected }:
       <Items
         offset={offset}
         items={items}
+        staticItems={staticItems}
         onCenter={onCenter}
         loop
         onItemSelected={onItemSelected}

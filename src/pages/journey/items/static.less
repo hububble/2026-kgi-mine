@@ -1,0 +1,15 @@
+@import url('@/settings/global.css');
+@import url('@/settings/config.less');
+
+.Item {
+  .scene-azureCoast-view-wave-1 {
+    width: (unit(image-height(@img))) / 1080 * 4210vh;
+
+    @img: '../../../../public/scene-azureCoast-view-wave-1.png';
+
+    &::before {
+      padding-bottom: (unit(image-height(@img) / unit(image-width(@img))) * 100%);
+      background-image: var(--scene-azureCoast-view-wave-1);
+    }
+  }
+}

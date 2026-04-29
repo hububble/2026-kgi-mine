@@ -129,7 +129,7 @@ export const JourneyStaticItemsList = {
   [JourneySceneType.金黃稻浪]: [],
   [JourneySceneType.花海平原]: [],
   [JourneySceneType.蔚藍海岸]: [
-    { name: 'scene-azureCoast-view-wave-1', path: 'scene-azureCoast-view-wave-1.png', top: 10, left: 2680 },
+    { name: 'scene-azureCoast-view-wave-1', path: 'scene-azureCoast-view-wave-1.png', top: -10, left: 20 },
   ],
   [JourneySceneType.月夜雪地]: [],
   [JourneySceneType.晴光森林]: [],
@@ -138,7 +138,7 @@ export const JourneyStaticItemsList = {
 export const JourneySceneSetting = {
   itemsCenterThreshold: 200,
   // offset: 100,
-  offset: 100,
+  offset: 0,
   shouldReloadWhenWindowResized: false,
 };
 
@@ -148,6 +148,6 @@ type JourneySceneDebugType = {
 };
 
 export const JourneySceneDebug: JourneySceneDebugType = {
-  enabled: false,
+  enabled: true,
   count: QueryString.get('count') === 'max' ? 'max' : Number(QueryString.get('count')) || 1,
 };

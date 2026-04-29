@@ -6,6 +6,7 @@ import OnloadProvider from 'lesca-react-onload';
 import { memo, useCallback, useContext, useEffect, useState } from 'react';
 import {
   JourneyContext,
+  JourneySceneDebug,
   JourneySceneSetting,
   JourneySceneType,
   JourneyState,
@@ -34,6 +35,7 @@ const Journey = memo(() => {
   }, []);
 
   const onEnd = useCallback(() => {
+    if (JourneySceneDebug.enabled) return;
     setContext({ type: ActionType.Questionnaire, state: { enabled: true } });
   }, []);
 
