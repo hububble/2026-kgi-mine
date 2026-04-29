@@ -15,6 +15,7 @@ type ParallaxViewProps = {
   onDirectionChange?: (direction: 'left' | 'right') => void;
   leftNode?: ReactNode;
   rightNode?: ReactNode;
+  staticNode?: ReactNode;
 };
 
 const ParallaxView = memo((props: ParallaxViewProps) => {

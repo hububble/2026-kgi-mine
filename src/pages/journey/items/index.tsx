@@ -71,64 +71,60 @@ const Items = memo((props: TJourneyItemsProps) => {
           };
         });
       }}
-      leftNode={[
-        staticItems?.map((item) => (
-          <Item
-            key={item.name}
-            item={item}
-            y={item.top + 5.5}
-            x={(item.left / 3840) * 100}
-            left={left}
-          />
-        )),
+      staticNode={staticItems?.map(
+        (item) =>
+          item && (
+            <Item
+              key={item.name}
+              item={item}
+              y={item.top + 5.5}
+              x={(item.left / 3840) * 100}
+              left={left}
+              onCenter={() => onCenter?.(item.name)}
+              onItemSelected={() => onSelected?.(item.name)}
+            />
+          ),
+      )}
+      leftNode={
         state.view.direction === 'left' &&
-          currentItems
-            .filter((_, index) => state.view.index === index)
-            .filter((item) => item?.dissociation === dissociation)
-            .map(
-              (item) =>
-                item && (
-                  <Item
-                    key={item.name}
-                    item={item}
-                    y={item.top + 5.5}
-                    x={(item.left / 3840) * 100}
-                    left={left}
-                    onCenter={() => onCenter?.(item.name)}
-                    onItemSelected={() => onSelected?.(item.name)}
-                  />
-                ),
-            ),
-      ]}
-      rightNode={[
-        staticItems?.map((item) => (
-          <Item
-            key={item.name}
-            item={item}
-            y={item.top + 5.5}
-            x={(item.left / 3840) * 100}
-            left={left}
-          />
-        )),
+        currentItems
+          .filter((_, index) => state.view.index === index)
+          .filter((item) => item?.dissociation === dissociation)
+          .map(
+            (item) =>
+              item && (
+                <Item
+                  key={item.name}
+                  item={item}
+                  y={item.top + 5.5}
+                  x={(item.left / 3840) * 100}
+                  left={left}
+                  onCenter={() => onCenter?.(item.name)}
+                  onItemSelected={() => onSelected?.(item.name)}
+                />
+              ),
+          )
+      }
+      rightNode={
         state.view.direction === 'right' &&
-          currentItems
-            .filter((_, index) => state.view.index === index)
-            .filter((item) => item?.dissociation === dissociation)
-            .map(
-              (item) =>
-                item && (
-                  <Item
-                    key={item.name}
-                    item={item}
-                    y={item.top + 5.5}
-                    x={(item.left / 3840) * 100}
-                    left={left}
-                    onCenter={() => onCenter?.(item.name)}
-                    onItemSelected={() => onSelected?.(item.name)}
-                  />
-                ),
-            ),
-      ]}
+        currentItems
+          .filter((_, index) => state.view.index === index)
+          .filter((item) => item?.dissociation === dissociation)
+          .map(
+            (item) =>
+              item && (
+                <Item
+                  key={item.name}
+                  item={item}
+                  y={item.top + 5.5}
+                  x={(item.left / 3840) * 100}
+                  left={left}
+                  onCenter={() => onCenter?.(item.name)}
+                  onItemSelected={() => onSelected?.(item.name)}
+                />
+              ),
+          )
+      }
     />
   );
 });

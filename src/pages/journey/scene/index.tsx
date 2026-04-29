@@ -5,7 +5,7 @@ import useURI from '@/hooks/useURI';
 import { SceneDepth } from '@/settings/config';
 import { Context } from '@/settings/constant';
 import { ActionType } from '@/settings/type';
-import { getPercentByViewPx, getViewPxByDirection as getPx, printCSSAnimation } from '@/utils';
+import { getPercentByViewPx, getViewPxByDirection as getPx } from '@/utils';
 import EnterFrame from 'lesca-enterframe';
 import useTween, { Bezier } from 'lesca-use-tween';
 import { memo, useContext, useEffect, useMemo, useRef, useState } from 'react';
@@ -33,7 +33,7 @@ type TSceneProps = {
   onItemSelected?: (item: string) => void;
 };
 
-printCSSAnimation(30, false);
+// printCSSAnimation(30, false);
 
 const Scene = memo(({ onEnd, onLooped, onEncounteringRoadSign, onItemSelected }: TSceneProps) => {
   const [context] = useContext(Context);
