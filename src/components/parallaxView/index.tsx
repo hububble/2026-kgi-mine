@@ -29,7 +29,7 @@ type ViewProps = {
 };
 const View = memo(({ left, className, currentWidth, isStatic, leftNode, rightNode }: ViewProps) => {
   return (
-    <div style={{ left: `${(left % innerWidth) * (isStatic ? 1 : 2)}%` }}>
+    <div style={{ left: `${left % (innerWidth * (isStatic ? 1 : 2))}%` }}>
       <div className={twMerge(className, 'left-0')} style={{ width: `${currentWidth}px` }}>
         {leftNode}
       </div>

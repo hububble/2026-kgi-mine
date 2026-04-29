@@ -28,11 +28,11 @@ const Item = memo(
     );
 
     useEffect(() => {
+      const currentThreshold =
+        JourneySceneSetting.itemsCenterThreshold * (Math.min(window.innerWidth, 640) / 320);
+
       if (ref.current && left !== '' && !isStatic) {
-        const inCenter = checkElementCenterOfScreenWithOffset(
-          ref.current,
-          JourneySceneSetting.itemsCenterThreshold,
-        );
+        const inCenter = checkElementCenterOfScreenWithOffset(ref.current, currentThreshold);
         const inView = checkElementInViewport(ref.current);
         if (inCenter && !status.isCenter) {
           onCenter?.();
