@@ -19,9 +19,7 @@ export const printCSSAnimation = (radius: number = 20, isBlank: boolean = false)
     const currentX = x + r;
     const rotate = index;
 
-    out += `${Math.round((index / 360) * 100)}%{transform: translateX(${currentX.toFixed(
-      2,
-    )}px) translateY(${y.toFixed(2)}px) rotate(${rotate}deg)}\n`;
+    out += `${Math.round((index / 360) * 100)}%{transform: translateX(${currentX.toFixed(2)}px)}\n`;
 
     index += 5;
     if (index <= 360) requestAnimationFrame(render);
@@ -105,6 +103,12 @@ export const getViewPxByDirection = (percent: number, width: number) => {
   const ratio = getViewPxRatio({ width });
   const currentOffset = percent / SceneDepth.middle / ratio;
   return currentOffset;
+};
+
+export const getPercentByViewPx = (px: number, width: number) => {
+  const ratio = getViewPxRatio({ width });
+  const currentPercent = px * SceneDepth.middle * ratio;
+  return currentPercent + 17;
 };
 
 export const getViewPxRatio = ({ width }: { width: number }) => {

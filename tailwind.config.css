@@ -32,6 +32,12 @@
   --animate-infinite-circle-reverse-r30-100s: infiniteCircle_reverse_30 100s linear infinite;
   --animate-infinite-circle-reverse-r20-50s: infiniteCircle_reverse_20 50s linear infinite;
   --animate-infinite-circle-reverse-r20-100s: infiniteCircle_reverse_20 100s linear infinite;
+  --animate-wave-r100: wave_r100 5s linear infinite;
+  --animate-wave-r50: wave_r50 5s linear infinite;
+  --animate-wave-r30: wave_r30 5s linear infinite;
+  --animate-wave-r20: wave_r20 5s linear infinite;
+  --animate-wave-r10: wave_r10 5s linear infinite;
+  --animate-wave-r5: wave_r5 5s linear infinite;
 
   --animate-fadeIn: fadeIn 0.3s ease-in-out forwards;
   --animate-fadeInPy: fadeInPy 0.3s ease-in-out forwards;

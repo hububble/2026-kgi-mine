@@ -5,10 +5,10 @@ import useURI from '@/hooks/useURI';
 import { SceneDepth } from '@/settings/config';
 import { Context } from '@/settings/constant';
 import { ActionType } from '@/settings/type';
-import { getViewPxByDirection as getPx } from '@/utils';
+import { getPercentByViewPx, getViewPxByDirection as getPx, printCSSAnimation } from '@/utils';
 import EnterFrame from 'lesca-enterframe';
 import useTween, { Bezier } from 'lesca-use-tween';
-import { memo, use, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { memo, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import {
   JourneyContext,
   JourneyItemsList,
@@ -21,10 +21,10 @@ import {
 } from '../config';
 import Items from '../items';
 import MinerWalker from '../miner';
+import { URI } from './config';
 import './index.less';
 import Moon from './Moon';
 import View from './view';
-import { URI } from './config';
 
 type TSceneProps = {
   onEnd: () => void;
@@ -32,6 +32,8 @@ type TSceneProps = {
   onEncounteringRoadSign: () => void;
   onItemSelected?: (item: string) => void;
 };
+
+printCSSAnimation(30, false);
 
 const Scene = memo(({ onEnd, onLooped, onEncounteringRoadSign, onItemSelected }: TSceneProps) => {
   const [context] = useContext(Context);
@@ -197,11 +199,17 @@ const Scene = memo(({ onEnd, onLooped, onEncounteringRoadSign, onItemSelected }:
     if (!JourneySceneDebug.enabled) return;
     window.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowRight') {
-        setOffset((S) => S + 20);
+        setOffset((S) => {
+          document.title = `${getPercentByViewPx(S + 20, width)}`;
+          return S + 20;
+        });
         EnterFrame.stop();
       }
       if (e.key === 'ArrowLeft') {
-        setOffset((S) => S - 20);
+        setOffset((S) => {
+          document.title = `${getPercentByViewPx(S - 20, width)}`;
+          return S - 20;
+        });
         EnterFrame.stop();
       }
     });

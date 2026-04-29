@@ -130,6 +130,12 @@ export const JourneyStaticItemsList = {
   [JourneySceneType.花海平原]: [],
   [JourneySceneType.蔚藍海岸]: [
     { name: 'scene-azureCoast-view-wave-1', path: 'scene-azureCoast-view-wave-1.png', top: -10, left: 20 },
+    { name: 'scene-azureCoast-view-wave-2', path: 'scene-azureCoast-view-wave-2.png', top: -12.8, left: 1920 },
+    { name: 'scene-azureCoast-view-wave-3', path: 'scene-azureCoast-view-wave-3.png', top: -18.8, left: 2380 },
+    { name: 'scene-azureCoast-view-wave-4', path: 'scene-azureCoast-view-wave-4.png', top: -21.2, left: 3010 },
+    { name: 'scene-azureCoast-view-wave-5', path: 'scene-azureCoast-view-wave-5.png', top: -17, left: 810 },
+    { name: 'scene-azureCoast-view-wave-6', path: 'scene-azureCoast-view-wave-6.png', top: -20.4, left: 560 },
+    { name: 'scene-azureCoast-view-wave-7', path: 'scene-azureCoast-view-wave-7.png', top: -14, left: 30 },
   ],
   [JourneySceneType.月夜雪地]: [],
   [JourneySceneType.晴光森林]: [],
@@ -138,7 +144,7 @@ export const JourneyStaticItemsList = {
 export const JourneySceneSetting = {
   itemsCenterThreshold: 200,
   // offset: 100,
-  offset: 0,
+  offset: 14,
   shouldReloadWhenWindowResized: false,
 };
 
@@ -148,6 +154,6 @@ type JourneySceneDebugType = {
 };
 
 export const JourneySceneDebug: JourneySceneDebugType = {
-  enabled: true,
+  enabled: false,
   count: QueryString.get('count') === 'max' ? 'max' : Number(QueryString.get('count')) || 1,
 };
