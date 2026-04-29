@@ -6,6 +6,7 @@ import { getViewPxRatio } from '@/utils';
 import { memo, ReactNode, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useDebounce } from 'use-debounce';
 import './index.less';
+import { twMerge } from 'tailwind-merge';
 
 type ParallaxViewProps = {
   className: string;
@@ -17,6 +18,30 @@ type ParallaxViewProps = {
   rightNode?: ReactNode;
   staticNode?: ReactNode;
 };
+
+type ViewProps = {
+  left: number;
+  className: string;
+  currentWidth: number;
+  isStatic: boolean;
+  leftNode?: ReactNode;
+  rightNode?: ReactNode;
+};
+const View = memo(({ left, className, currentWidth, isStatic, leftNode, rightNode }: ViewProps) => {
+  return (
+    <div style={{ left: `${(left % innerWidth) * (isStatic ? 1 : 2)}%` }}>
+      <div className={twMerge(className, 'left-0')} style={{ width: `${currentWidth}px` }}>
+        {leftNode}
+      </div>
+      <div
+        className={twMerge(className)}
+        style={{ width: `${currentWidth}px`, left: `${currentWidth}px` }}
+      >
+        {rightNode}
+      </div>
+    </div>
+  );
+});
 
 const ParallaxView = memo((props: ParallaxViewProps) => {
   const {
@@ -32,8 +57,8 @@ const ParallaxView = memo((props: ParallaxViewProps) => {
 
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const rightBoxRef = useRef<HTMLDivElement>(null);
-  const leftBoxRef = useRef<HTMLDivElement>(null);
+
+  const [currentWidth, setCurrentWidth] = useState(0);
 
   const [, setState] = useContext(JourneyContext);
   const [context] = useContext(Context);
@@ -47,7 +72,7 @@ const ParallaxView = memo((props: ParallaxViewProps) => {
 
   useEffect(() => {
     const resize = () => {
-      if (containerRef.current && contentRef.current && rightBoxRef.current && leftBoxRef.current) {
+      if (containerRef.current && contentRef.current) {
         const { width, height } = containerRef.current.getBoundingClientRect();
         const ratio = SceneSize.width / SceneSize.height;
         const currentWidth = width / height < ratio ? height * ratio : width;
@@ -55,12 +80,7 @@ const ParallaxView = memo((props: ParallaxViewProps) => {
         contentRef.current.style.width = `${currentWidth - width}px`;
         contentRef.current.style.height = `${currentHeight}px`;
         contentRef.current.style.visibility = 'visible';
-
-        rightBoxRef.current.style.width = `${currentWidth}px`;
-        leftBoxRef.current.style.width = `${currentWidth}px`;
-        rightBoxRef.current.style.left = `${currentWidth}px`;
-        leftBoxRef.current.style.left = '0px';
-
+        setCurrentWidth(currentWidth);
         setInnerWidth((currentWidth / (currentWidth - width)) * 100);
       }
     };
@@ -79,13 +99,13 @@ const ParallaxView = memo((props: ParallaxViewProps) => {
   }, [offset, innerWidth, ratio, debounceOffsetRef, width]);
 
   const left = useMemo(() => {
-    if (innerWidth === 0) return '0%';
-    return `${(offset * SceneDepth.middle * ratio * -1) % (innerWidth * 2)}%`;
+    if (innerWidth === 0) return 0;
+    return offset * SceneDepth.middle * ratio * -1;
   }, [offset, innerWidth, ratio]);
 
   useEffect(() => {
-    onLeftChange?.(left);
-    setDirection(parseFloat(left) < -100 ? 'right' : 'left');
+    onLeftChange?.(`${left % (innerWidth * 2)}%`);
+    setDirection(left % (innerWidth * 2) < -100 ? 'right' : 'left');
   }, [left]);
 
   useEffect(() => {
@@ -95,16 +115,24 @@ const ParallaxView = memo((props: ParallaxViewProps) => {
   return (
     <div className='ParallaxView' ref={containerRef}>
       <div ref={contentRef}>
-        <div style={{ left }}>
-          <div className={className} ref={leftBoxRef}>
-            {staticNode}
-            {leftNode}
-          </div>
-          <div className={className} ref={rightBoxRef}>
-            {staticNode}
-            {rightNode}
-          </div>
-        </div>
+        {staticNode && (
+          <View
+            left={left}
+            className={className}
+            currentWidth={currentWidth}
+            isStatic={true}
+            leftNode={staticNode}
+            rightNode={staticNode}
+          />
+        )}
+        <View
+          left={left}
+          className={className}
+          currentWidth={currentWidth}
+          isStatic={false}
+          leftNode={leftNode}
+          rightNode={rightNode}
+        />
       </div>
     </div>
   );
