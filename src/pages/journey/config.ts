@@ -29,15 +29,17 @@ export type TJourneyState = {
   loop: number;
   selectedItem?: string;
   dialog: { enabled: boolean; type: JourneyDialogType };
+  view: { direction: 'left' | 'right' | 'unset'; index: number };
 };
 
 export type TJourneyContext = [TJourneyState, Dispatch<SetStateAction<TJourneyState>>];
 
-export const JourneyState = {
+export const JourneyState: TJourneyState = {
   step: JourneyStepType.unset,
   scene: JourneySceneType.晴光森林,
   loop: 0,
   dialog: { enabled: false, type: JourneyDialogType.wish },
+  view: { direction: 'unset', index: -1 },
 };
 
 export const JourneyContext = createContext<TJourneyContext>([JourneyState, () => {}]);
@@ -121,6 +123,16 @@ export const JourneyItemsList = {
     { name: 'lushForest-item-6', path: 'scene-lushForest-item-6.png', top: -57, left: 630 },
     { name: 'lushForest-item-7', path: 'scene-lushForest-item-7.png', top: -27.5, left: 1880 },
   ],
+};
+
+export const JourneyStaticItemsList = {
+  [JourneySceneType.金黃稻浪]: [],
+  [JourneySceneType.花海平原]: [],
+  [JourneySceneType.蔚藍海岸]: [
+    { name: 'scene-azureCoast-view-wave-1', path: 'scene-azureCoast-view-wave-1.png', top: 10, left: 2680 },
+  ],
+  [JourneySceneType.月夜雪地]: [],
+  [JourneySceneType.晴光森林]: [],
 };
 
 export const JourneySceneSetting = {

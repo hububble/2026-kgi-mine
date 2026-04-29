@@ -24,13 +24,14 @@ import './index.less';
 import Moon from './Moon';
 import View from './view';
 
-type TJourneySceneProps = {
+type TSceneProps = {
+  onEnd: () => void;
   onLooped: (index: number) => void;
   onEncounteringRoadSign: () => void;
   onItemSelected?: (item: string) => void;
 };
 
-const Scene = memo(({ onLooped, onEncounteringRoadSign, onItemSelected }: TJourneySceneProps) => {
+const Scene = memo(({ onEnd, onLooped, onEncounteringRoadSign, onItemSelected }: TSceneProps) => {
   const [context] = useContext(Context);
   const { width = window.innerWidth } = context[ActionType.SceneViewSize]!;
   const sounds = context[ActionType.Sounds];
@@ -50,37 +51,27 @@ const Scene = memo(({ onLooped, onEncounteringRoadSign, onItemSelected }: TJourn
     }
   }, [state.scene]);
 
-  const { back, front } = useMemo(() => {
+  const items = useMemo(() => {
     const { scene } = state;
     const currentList = JourneyItemsList[scene];
+
     const pickCount = Math.min(
       currentList?.length || 1,
       JourneySceneDebug.count === 'max' ? currentList.length : JourneySceneDebug.count,
     );
+
     const roadSign = currentList.find((item) => item.name.includes('roadSign'));
     const currentListWithoutRoadSign = currentList.filter(
       (item) => !item.name.includes('roadSign'),
     );
     const items = currentListWithoutRoadSign.sort(() => Math.random() - 0.5).slice(0, pickCount);
-    if (roadSign) items.push(roadSign);
+    if (roadSign) items.splice(1, 0, roadSign);
 
-    const backOfMinerItems = items
-      .filter((item) => item.top < 5.5)
-      .map((item) => {
-        setURI({ path: item.path, name: item.name });
-        return { name: item.name, top: item.top, left: item.left, clicked: false };
-      })
-      .sort((a, b) => a.name.localeCompare(b.name));
-
-    const frontOfMinerItems = items
-      .filter((item) => item.top >= 5.5)
-      .map((item) => {
-        setURI({ path: item.path, name: item.name });
-        return { name: item.name, top: item.top, left: item.left, clicked: false };
-      })
-      .sort((a, b) => a.name.localeCompare(b.name));
-
-    return { back: backOfMinerItems, front: frontOfMinerItems };
+    const currentItems = items.map((item) => {
+      const dissociation = item.top < 5.5 ? 'back' : ('front' as 'back' | 'front');
+      return { name: item.name, top: item.top, left: item.left, clicked: false, dissociation };
+    });
+    return [null, ...currentItems];
   }, [state.scene]);
 
   useEffect(() => {
@@ -156,6 +147,12 @@ const Scene = memo(({ onLooped, onEncounteringRoadSign, onItemSelected }: TJourn
     }
   }, [state.loop]);
 
+  useEffect(() => {
+    if (state.view.index === items.length) {
+      onEnd?.();
+    }
+  }, [state.view.index, items.length]);
+
   const onShowDown = (frame: CharacterFrame) => {
     if (frame) {
       setStyle(
@@ -184,6 +181,7 @@ const Scene = memo(({ onLooped, onEncounteringRoadSign, onItemSelected }: TJourn
     setState((S) => ({ ...S, step: JourneyStepType.fadeOut }));
   };
 
+  // TODO: remove debug code after testing
   useEffect(() => {
     if (!JourneySceneDebug.enabled) return;
     window.addEventListener('keydown', (e) => {
@@ -205,13 +203,20 @@ const Scene = memo(({ onLooped, onEncounteringRoadSign, onItemSelected }: TJourn
       <View offset={offset} depth={SceneDepth.middle} image='middle' />
       <Items
         offset={offset}
-        items={back}
+        items={items}
         onCenter={onCenter}
         loop
         onItemSelected={onItemSelected}
+        dissociation='back'
       />
       <MinerWalker onShowDown={onShowDown} />
-      <Items offset={offset} items={front} onCenter={onCenter} onItemSelected={onItemSelected} />
+      <Items
+        offset={offset}
+        items={items}
+        onCenter={onCenter}
+        onItemSelected={onItemSelected}
+        dissociation='front'
+      />
       <View offset={offset} depth={SceneDepth.front} image='front' isAlpha={isAlpha} />
     </div>
   );

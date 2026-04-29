@@ -10,27 +10,6 @@
 
   .middle {
     background-image: var(--scene-middleView);
-
-    & > div {
-      @apply absolute;
-    }
-
-    & > div:nth-child(1) {
-      top: 0%;
-      left: 0%;
-      width: (unit(image-width(@img))) / 3840 * 100%;
-
-      @img: '../../../../public/scene-azureCoast-view-middle-wave-1.png';
-      @apply absolute;
-
-      &::before {
-        padding-bottom: (unit(image-height(@img) / unit(image-width(@img))) * 100%);
-        background-image: var(--scene-azureCoast-view-middle-wave-1);
-        content: '';
-
-        @apply inline-block w-full bg-contain bg-center bg-no-repeat;
-      }
-    }
   }
 
   .front {

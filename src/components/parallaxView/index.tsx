@@ -3,80 +3,98 @@ import { SceneDepth, SceneSize } from '@/settings/config';
 import { Context } from '@/settings/constant';
 import { ActionType, IReactProps } from '@/settings/type';
 import { getViewPxRatio } from '@/utils';
-import { memo, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { memo, ReactNode, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useDebounce } from 'use-debounce';
 import './index.less';
 
-type ParallaxViewProps = IReactProps & {
+type ParallaxViewProps = {
   className: string;
   offset: number;
   loop?: boolean;
   onLeftChange?: (left: string) => void;
+  onDirectionChange?: (direction: 'left' | 'right') => void;
+  leftNode?: ReactNode;
+  rightNode?: ReactNode;
 };
 
-const ParallaxView = memo(
-  ({ className, children, offset, loop, onLeftChange }: ParallaxViewProps) => {
-    const containerRef = useRef<HTMLDivElement>(null);
-    const contentRef = useRef<HTMLDivElement>(null);
-    const boxRef = useRef<HTMLDivElement>(null);
+const ParallaxView = memo((props: ParallaxViewProps) => {
+  const { className, offset, loop, onLeftChange, onDirectionChange, leftNode, rightNode } = props;
 
-    const [, setState] = useContext(JourneyContext);
-    const [context] = useContext(Context);
-    const { width = window.innerWidth } = context[ActionType.SceneViewSize]!;
-    const ratio = useMemo(() => getViewPxRatio({ width }), [width]);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const rightBoxRef = useRef<HTMLDivElement>(null);
+  const leftBoxRef = useRef<HTMLDivElement>(null);
 
-    const [innerWidth, setInnerWidth] = useState(window.innerWidth);
-    const [debounceOffsetRef] = useDebounce(innerWidth, 1000);
+  const [, setState] = useContext(JourneyContext);
+  const [context] = useContext(Context);
+  const { width = window.innerWidth } = context[ActionType.SceneViewSize]!;
+  const ratio = useMemo(() => getViewPxRatio({ width }), [width]);
 
-    useEffect(() => {
-      const resize = () => {
-        if (containerRef.current && contentRef.current && boxRef.current) {
-          const { width, height } = containerRef.current.getBoundingClientRect();
-          const ratio = SceneSize.width / SceneSize.height;
-          const currentWidth = width / height < ratio ? height * ratio : width;
-          const currentHeight = width / height < ratio ? height : width / ratio;
-          contentRef.current.style.width = `${currentWidth - width}px`;
-          contentRef.current.style.height = `${currentHeight}px`;
-          contentRef.current.style.visibility = 'visible';
-          boxRef.current.style.width = `${currentWidth}px`;
-          boxRef.current.style.left = `${currentWidth}px`;
-          setInnerWidth((currentWidth / (currentWidth - width)) * 100);
-        }
-      };
-      resize();
-      window.addEventListener('resize', resize);
-      return () => window.removeEventListener('resize', resize);
-    }, []);
+  const [innerWidth, setInnerWidth] = useState(window.innerWidth);
+  const [debounceOffsetRef] = useDebounce(innerWidth, 1000);
 
-    useEffect(() => {
-      if (innerWidth === 0) return;
-      if (innerWidth !== debounceOffsetRef) return;
-      const currentLoop = Math.floor((offset * SceneDepth.middle * ratio) / (innerWidth * 2));
-      if (loop) {
-        setState((S) => ({ ...S, loop: currentLoop }));
+  const [direction, setDirection] = useState<'left' | 'right'>('right');
+
+  useEffect(() => {
+    const resize = () => {
+      if (containerRef.current && contentRef.current && rightBoxRef.current && leftBoxRef.current) {
+        const { width, height } = containerRef.current.getBoundingClientRect();
+        const ratio = SceneSize.width / SceneSize.height;
+        const currentWidth = width / height < ratio ? height * ratio : width;
+        const currentHeight = width / height < ratio ? height : width / ratio;
+        contentRef.current.style.width = `${currentWidth - width}px`;
+        contentRef.current.style.height = `${currentHeight}px`;
+        contentRef.current.style.visibility = 'visible';
+
+        rightBoxRef.current.style.width = `${currentWidth}px`;
+        leftBoxRef.current.style.width = `${currentWidth}px`;
+        rightBoxRef.current.style.left = `${currentWidth}px`;
+        leftBoxRef.current.style.left = '0px';
+
+        setInnerWidth((currentWidth / (currentWidth - width)) * 100);
       }
-    }, [offset, innerWidth, ratio, debounceOffsetRef, width]);
+    };
+    resize();
+    window.addEventListener('resize', resize);
+    return () => window.removeEventListener('resize', resize);
+  }, []);
 
-    const left = useMemo(() => {
-      if (innerWidth === 0) return '0%';
-      return `-${(offset * SceneDepth.middle * ratio) % (innerWidth * 2)}%`;
-    }, [offset, innerWidth, ratio]);
+  useEffect(() => {
+    if (innerWidth === 0) return;
+    if (innerWidth !== debounceOffsetRef) return;
+    const currentLoop = Math.floor((offset * SceneDepth.middle * ratio) / (innerWidth * 2));
+    if (loop) {
+      setState((S) => ({ ...S, loop: currentLoop }));
+    }
+  }, [offset, innerWidth, ratio, debounceOffsetRef, width]);
 
-    useEffect(() => {
-      onLeftChange?.(left);
-    }, [left, onLeftChange]);
+  const left = useMemo(() => {
+    if (innerWidth === 0) return '0%';
+    return `-${(offset * SceneDepth.middle * ratio) % (innerWidth * 2)}%`;
+  }, [offset, innerWidth, ratio]);
 
-    return (
-      <div className='ParallaxView' ref={containerRef}>
-        <div ref={contentRef}>
-          <div style={{ left }}>
-            <div className={className} ref={boxRef}>
-              {children}
-            </div>
+  useEffect(() => {
+    onLeftChange?.(left);
+    setDirection(parseFloat(left) < -100 ? 'right' : 'left');
+  }, [left]);
+
+  useEffect(() => {
+    if (direction) onDirectionChange?.(direction);
+  }, [direction]);
+
+  return (
+    <div className='ParallaxView' ref={containerRef}>
+      <div ref={contentRef}>
+        <div style={{ left }}>
+          <div className={className} ref={leftBoxRef}>
+            {leftNode}
+          </div>
+          <div className={className} ref={rightBoxRef}>
+            {rightNode}
           </div>
         </div>
       </div>
-    );
-  },
-);
+    </div>
+  );
+});
 export default ParallaxView;

@@ -6,7 +6,6 @@ import OnloadProvider from 'lesca-react-onload';
 import { memo, useCallback, useContext, useEffect, useState } from 'react';
 import {
   JourneyContext,
-  JourneyDialogType,
   JourneySceneSetting,
   JourneySceneType,
   JourneyState,
@@ -31,6 +30,10 @@ const Journey = memo(() => {
 
   const onLooped = useCallback((loop: number) => {
     if (loop < 0) return;
+    // setContext({ type: ActionType.Questionnaire, state: { enabled: true } });
+  }, []);
+
+  const onEnd = useCallback(() => {
     setContext({ type: ActionType.Questionnaire, state: { enabled: true } });
   }, []);
 
@@ -90,6 +93,7 @@ const Journey = memo(() => {
       >
         <div className='Journey'>
           <Scene
+            onEnd={onEnd}
             onLooped={onLooped}
             onItemSelected={onItemSelected}
             onEncounteringRoadSign={onEncounteringRoadSign}
