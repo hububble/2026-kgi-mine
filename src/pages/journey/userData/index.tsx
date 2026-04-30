@@ -33,7 +33,7 @@ const Icon = memo(() => {
   useEffect(() => {
     intervalRef.current = setInterval(() => {
       setOffsetIndex((S) => S + 1);
-    }, 5000);
+    }, 1000);
     // return () => {
     //   if (intervalRef.current) clearInterval(intervalRef.current);
     // };
