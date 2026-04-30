@@ -224,23 +224,7 @@ const Scene = memo(({ onEnd, onLooped, onEncounteringRoadSign, onItemSelected }:
       <View offset={offset} depth={SceneDepth.back} image='back' />
       {state.scene && state.scene === JourneySceneType.月夜雪地 && <Moon />}
       <View offset={offset} depth={SceneDepth.middle} image='middle' />
-      <Items
-        offset={offset}
-        items={items}
-        staticItems={staticItems}
-        onCenter={onCenter}
-        loop
-        onItemSelected={onItemSelected}
-        dissociation='back'
-      />
       <MinerWalker onShowDown={onShowDown} />
-      <Items
-        offset={offset}
-        items={items}
-        onCenter={onCenter}
-        onItemSelected={onItemSelected}
-        dissociation='front'
-      />
       <View offset={offset} depth={SceneDepth.front} image='front' isAlpha={isAlpha} />
     </div>
   );
