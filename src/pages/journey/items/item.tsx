@@ -45,10 +45,6 @@ const Item = memo(
       }
     }, [left, status, isStatic]);
 
-    useEffect(() => {
-      PATTERN_URI_PROPERTIES.forEach((item) => setURI(item));
-    }, []);
-
     return (
       <div
         ref={ref}

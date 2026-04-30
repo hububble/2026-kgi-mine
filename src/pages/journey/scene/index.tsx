@@ -2,7 +2,7 @@ import { PreloadType } from '@/components/sounds';
 import { SoundName } from '@/components/sounds/type';
 import { CharacterFrame } from '@/hooks/useCharacterSlowDown';
 import useURI from '@/hooks/useURI';
-import { SceneDepth } from '@/settings/config';
+import { PATTERN_URI_PROPERTIES, SceneDepth } from '@/settings/config';
 import { Context } from '@/settings/constant';
 import { ActionType } from '@/settings/type';
 import { getPercentByViewPx, getViewPxByDirection as getPx } from '@/utils';
@@ -47,6 +47,10 @@ const Scene = memo(({ onEnd, onLooped, onEncounteringRoadSign, onItemSelected }:
   const [offset, setOffset] = useState(getPx(JourneySceneSetting.offset, width) - 300);
   const [isAlpha, setIsAlpha] = useState(false);
   const encounteringRoadSignRef = useRef('');
+
+  useEffect(() => {
+    PATTERN_URI_PROPERTIES.forEach((item) => setURI(item));
+  }, []);
 
   useEffect(() => {
     if (state && state.scene) {
