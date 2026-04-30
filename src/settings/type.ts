@@ -61,7 +61,13 @@ export type TUserDataState = {
   character?: string;
 };
 
-export type TSceneViewSizeState = { height?: number; width?: number };
+export type TSceneViewSizeState = {
+  height?: number;
+  width?: number;
+  coverPercent?: number;
+  containPercent?: number;
+  ratio?: number;
+};
 
 export type TCardState = {
   enabled?: boolean;

@@ -14,7 +14,7 @@ import {
   JourneyItemsList,
   JourneySceneDebug,
   JourneySceneList,
-  JourneySceneSetting,
+  JourneySceneSetting as setting,
   JourneySceneType,
   JourneyStaticItemsList,
   JourneyStepType,
@@ -24,6 +24,7 @@ import { URI } from './config';
 import './index.less';
 import Moon from './Moon';
 import View from './view';
+import StackView from '@/components/stackView';
 
 type TSceneProps = {
   onEnd: () => void;
@@ -38,12 +39,13 @@ const Scene = memo(({ onEnd, onLooped, onEncounteringRoadSign, onItemSelected }:
   const [context] = useContext(Context);
   const { width = window.innerWidth } = context[ActionType.SceneViewSize]!;
   const sounds = context[ActionType.Sounds];
-
   const [state, setState] = useContext(JourneyContext);
 
+  const left = useMemo(() => getPx(setting.offset, width) - setting.walkFadeInDistance, []);
+
   const [, setURI] = useURI();
-  const [, setStyle] = useTween({ left: getPx(JourneySceneSetting.offset, width) - 300 });
-  const [offset, setOffset] = useState(getPx(JourneySceneSetting.offset, width) - 300);
+  const [, setStyle] = useTween({ left });
+  const [offset, setOffset] = useState(left);
   const [isAlpha, setIsAlpha] = useState(false);
   const encounteringRoadSignRef = useRef('');
 
@@ -102,7 +104,7 @@ const Scene = memo(({ onEnd, onLooped, onEncounteringRoadSign, onItemSelected }:
         return;
       }
       setStyle(
-        { left: getPx(JourneySceneSetting.offset, width) },
+        { left: getPx(setting.offset, width) },
         {
           duration: 12000, // duration: (60 / Debug.fps) * 20000,
           easing: Bezier.easeIn,
@@ -176,11 +178,12 @@ const Scene = memo(({ onEnd, onLooped, onEncounteringRoadSign, onItemSelected }:
 
   return (
     <div className='Scene'>
-      <View offset={offset} depth={SceneDepth.back} image='back' />
+      {/* <View offset={offset} depth={SceneDepth.back} image='back' /> */}
       {state.scene && state.scene === JourneySceneType.月夜雪地 && <Moon />}
       <View offset={offset} depth={SceneDepth.middle} image='middle' />
+      <StackView offset={offset} />
       <MinerWalker onShowDown={onShowDown} />
-      <View offset={offset} depth={SceneDepth.front} image='front' isAlpha={isAlpha} />
+      {/* <View offset={offset} depth={SceneDepth.front} image='front' isAlpha={isAlpha} /> */}
     </div>
   );
 });

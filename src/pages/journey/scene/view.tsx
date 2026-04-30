@@ -10,7 +10,6 @@ type ViewProps = { offset: number; depth: number; image: string; isAlpha?: boole
 const View = memo(({ offset, depth, image, isAlpha }: ViewProps) => {
   const [context] = useContext(Context);
   const { width = window.innerWidth } = context[ActionType.SceneViewSize]!;
-
   const ratio = getViewPxRatio({ width });
   const currentOffset = offset * depth * ratio; // 根據深度調整偏移量
 

@@ -143,8 +143,9 @@ export const JourneyStaticItemsList = {
 
 export const JourneySceneSetting = {
   itemsCenterThreshold: 200,
-  // offset: 100,
-  offset: 14,
+  offset: 100,
+  walkFadeInDistance: 0,
+  // offset: 14,
   shouldReloadWhenWindowResized: false,
 };
 
@@ -154,6 +155,6 @@ type JourneySceneDebugType = {
 };
 
 export const JourneySceneDebug: JourneySceneDebugType = {
-  enabled: false,
+  enabled: true,
   count: QueryString.get('count') === 'max' ? 'max' : Number(QueryString.get('count')) || 1,
 };

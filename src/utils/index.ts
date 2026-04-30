@@ -112,7 +112,7 @@ export const getPercentByViewPx = (px: number, width: number) => {
 };
 
 export const getViewPxRatio = ({ width }: { width: number }) => {
-  const basicBackgroundPanOffset = SceneSize.width - 1680;
+  const basicBackgroundPanOffset = SceneSize.width - window.innerWidth;
   const targetBackgroundPanOffset = width - window.innerWidth;
   return targetBackgroundPanOffset / basicBackgroundPanOffset;
 };

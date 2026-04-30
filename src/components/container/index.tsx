@@ -7,6 +7,7 @@ import Div100vh from 'react-div-100vh';
 import Menu from '../menu';
 import NavBar from '../navBar';
 import './index.less';
+import { getViewPxRatio } from '@/utils';
 
 const Container = memo(({ children }: IReactProps) => {
   const [context, setContext] = useContext(Context);
@@ -20,7 +21,16 @@ const Container = memo(({ children }: IReactProps) => {
       if (ref.current) {
         const { height } = ref.current.getBoundingClientRect();
         const width = (height * SceneSize.width) / SceneSize.height;
-        setContext({ type: ActionType.SceneViewSize, state: { height, width } });
+        const coverPercent = ((window.innerWidth + width) / window.innerWidth) * 100;
+        const containPercent = (width / (width - window.innerWidth)) * 100;
+        const ratio = getViewPxRatio({ width });
+
+        document.documentElement.style.setProperty(`--current-view-width`, `${width}px`);
+
+        setContext({
+          type: ActionType.SceneViewSize,
+          state: { height, width, coverPercent, containPercent, ratio },
+        });
       }
     };
     resize();
