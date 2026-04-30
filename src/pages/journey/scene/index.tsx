@@ -19,7 +19,6 @@ import {
   JourneyStaticItemsList,
   JourneyStepType,
 } from '../config';
-import Items from '../items';
 import MinerWalker from '../miner';
 import { URI } from './config';
 import './index.less';
@@ -55,42 +54,9 @@ const Scene = memo(({ onEnd, onLooped, onEncounteringRoadSign, onItemSelected }:
   useEffect(() => {
     if (state && state.scene) {
       JourneySceneList[state.scene].forEach((item) => setURI(item));
-
-      // Wave for 蔚藍海岸
       if (state.scene === JourneySceneType.蔚藍海岸) URI.forEach((item) => setURI(item));
-
       sounds?.track?.stopAll();
     }
-  }, [state.scene]);
-
-  const items = useMemo(() => {
-    const { scene } = state;
-    const currentList = JourneyItemsList[scene];
-
-    const pickCount = Math.min(
-      currentList?.length || 1,
-      JourneySceneDebug.count === 'max' ? currentList.length : JourneySceneDebug.count,
-    );
-
-    const roadSign = currentList.find((item) => item.name.includes('roadSign'));
-    const currentListWithoutRoadSign = currentList.filter(
-      (item) => !item.name.includes('roadSign'),
-    );
-    const items = currentListWithoutRoadSign.sort(() => Math.random() - 0.5).slice(0, pickCount);
-    if (roadSign) items.splice(1, 0, roadSign);
-
-    const currentItems = items.map((item) => {
-      const dissociation = item.top < 5.5 ? 'back' : ('front' as 'back' | 'front');
-      return { name: item.name, top: item.top, left: item.left, clicked: false, dissociation };
-    });
-
-    return [null, ...currentItems];
-  }, [state.scene]);
-
-  const staticItems = useMemo(() => {
-    return JourneyStaticItemsList[state.scene].map((item) => {
-      return { name: item.name, top: item.top, left: item.left, clicked: true };
-    });
   }, [state.scene]);
 
   useEffect(() => {
@@ -164,12 +130,6 @@ const Scene = memo(({ onEnd, onLooped, onEncounteringRoadSign, onItemSelected }:
     if (state.loop) onLooped?.(state.loop);
   }, [state.loop]);
 
-  useEffect(() => {
-    if (state.view.index === items.length) {
-      onEnd?.();
-    }
-  }, [state.view.index, items.length]);
-
   const onShowDown = (frame: CharacterFrame) => {
     if (frame) {
       setStyle(
@@ -191,11 +151,6 @@ const Scene = memo(({ onEnd, onLooped, onEncounteringRoadSign, onItemSelected }:
         },
       );
     }
-  };
-
-  const onCenter = (name: string) => {
-    encounteringRoadSignRef.current = name;
-    setState((S) => ({ ...S, step: JourneyStepType.fadeOut }));
   };
 
   // TODO: remove debug code after testing

@@ -1,4 +1,4 @@
-import ParallaxView from '@/components/parallaxView';
+import ParallaxView from '@/components/_parallaxView';
 import useURI from '@/hooks/useURI';
 import { Context } from '@/settings/constant';
 import { ActionType } from '@/settings/type';
