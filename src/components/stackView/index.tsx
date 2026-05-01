@@ -11,6 +11,8 @@ const StackView = memo(({ offset, type }: { offset: number; type: 'odd' | 'even'
   const [, setState] = useContext(JourneyContext);
   const { coverPercent, ratio, width } = context[ActionType.SceneViewSize]!;
 
+  const normalizeModulo = (value: number, mod: number) => ((value % mod) + mod) % mod;
+
   const { left, loop } = useMemo(() => {
     if (ratio && coverPercent && width) {
       const offsetPx = getViewPxByDirection(JourneySceneSetting.offset, width);
@@ -18,12 +20,15 @@ const StackView = memo(({ offset, type }: { offset: number; type: 'odd' | 'even'
       const currentRatio = (width - window.innerWidth) / window.innerWidth;
       const currentGap = ((width - window.innerWidth) / window.innerWidth) * 100;
       const totalOffset = currentOffset * SceneDepth.middle * ratio * currentRatio;
-      const loop = Math.floor(totalOffset / (coverPercent + currentGap));
-      const left = (totalOffset * -1) % (coverPercent + currentGap);
+      const cycleDistance = coverPercent + currentGap;
+      const phaseOffset = type === 'even' ? cycleDistance / 2 : 0;
+      const movedInCycle = normalizeModulo(totalOffset + phaseOffset, cycleDistance);
+      const loop = Math.floor(totalOffset / cycleDistance);
+      const left = movedInCycle * -1;
       return { left, loop };
     }
     return { left: 0, loop: -1 };
-  }, [offset, width, ratio, coverPercent]);
+  }, [offset, width, ratio, coverPercent, type]);
 
   useEffect(() => {
     if (loop === -1) return;
