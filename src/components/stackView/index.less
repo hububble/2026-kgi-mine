@@ -3,9 +3,20 @@
 .StackView {
   @apply absolute top-0 h-full w-full;
 
-  .a {
+  .odd {
     margin-left: 100vw;
+    @apply bg-green-500/50;
+  }
+
+  .even {
+    margin-left: 100vw;
+    transform: translateX(var(--current-view-width));
+    @apply bg-blue-500/50;
+  }
+
+  .stack {
     width: var(--current-view-width);
-    @apply absolute top-0 h-full bg-red-500/50;
+    font-size: 500px;
+    @apply absolute top-0 h-full text-center;
   }
 }

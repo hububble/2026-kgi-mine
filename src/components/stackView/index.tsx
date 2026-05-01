@@ -6,7 +6,7 @@ import { SceneDepth } from '@/settings/config';
 import { JourneyContext, JourneySceneSetting } from '@/pages/journey/config';
 import { getViewPxByDirection } from '@/utils';
 
-const StackView = memo(({ offset }: { offset: number }) => {
+const StackView = memo(({ offset, type }: { offset: number; type: 'odd' | 'even' }) => {
   const [context] = useContext(Context);
   const [, setState] = useContext(JourneyContext);
   const { coverPercent, ratio, width } = context[ActionType.SceneViewSize]!;
@@ -32,7 +32,7 @@ const StackView = memo(({ offset }: { offset: number }) => {
 
   return (
     <div className='StackView'>
-      <div className='a' style={{ left: `${left}%` }} />
+      <div className={`stack ${type}`} style={{ left: `${left}%` }}></div>
     </div>
   );
 });

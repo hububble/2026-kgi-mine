@@ -181,7 +181,8 @@ const Scene = memo(({ onEnd, onLooped, onEncounteringRoadSign, onItemSelected }:
       {/* <View offset={offset} depth={SceneDepth.back} image='back' /> */}
       {state.scene && state.scene === JourneySceneType.月夜雪地 && <Moon />}
       <View offset={offset} depth={SceneDepth.middle} image='middle' />
-      <StackView offset={offset} />
+      <StackView offset={offset} type='odd' />
+      <StackView offset={offset} type='even' />
       <MinerWalker onShowDown={onShowDown} />
       {/* <View offset={offset} depth={SceneDepth.front} image='front' isAlpha={isAlpha} /> */}
     </div>
