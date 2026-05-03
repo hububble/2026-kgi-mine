@@ -11,20 +11,18 @@ import useTween, { Bezier } from 'lesca-use-tween';
 import { memo, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import {
   JourneyContext,
-  JourneyItemsList,
   JourneySceneDebug,
   JourneySceneList,
-  JourneySceneSetting as setting,
   JourneySceneType,
-  JourneyStaticItemsList,
   JourneyStepType,
+  JourneySceneSetting as setting,
 } from '../config';
+import Items from '../items';
 import MinerWalker from '../miner';
 import { URI } from './config';
 import './index.less';
 import Moon from './Moon';
 import View from './view';
-import StackView from '@/components/stackView';
 
 type TSceneProps = {
   onEnd: () => void;
@@ -40,9 +38,7 @@ const Scene = memo(({ onEnd, onLooped, onEncounteringRoadSign, onItemSelected }:
   const { width = window.innerWidth } = context[ActionType.SceneViewSize]!;
   const sounds = context[ActionType.Sounds];
   const [state, setState] = useContext(JourneyContext);
-
   const left = useMemo(() => getPx(setting.offset, width) - setting.walkFadeInDistance, []);
-
   const [, setURI] = useURI();
   const [, setStyle] = useTween({ left });
   const [offset, setOffset] = useState(left);
@@ -181,9 +177,9 @@ const Scene = memo(({ onEnd, onLooped, onEncounteringRoadSign, onItemSelected }:
       <View offset={offset} depth={SceneDepth.back} image='back' />
       {state.scene && state.scene === JourneySceneType.月夜雪地 && <Moon />}
       <View offset={offset} depth={SceneDepth.middle} image='middle' />
-      <StackView offset={offset} type='odd' />
-      <StackView offset={offset} type='even' />
-      <MinerWalker onShowDown={onShowDown} />
+      <Items offset={offset}>
+        <MinerWalker onShowDown={onShowDown} />
+      </Items>
       <View offset={offset} depth={SceneDepth.front} image='front' isAlpha={isAlpha} />
     </div>
   );
