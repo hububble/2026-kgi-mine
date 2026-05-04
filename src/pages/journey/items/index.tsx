@@ -39,8 +39,7 @@ const Items = memo(({ children, offset }: TItemsProps) => {
   }, [data, state.loop]);
 
   const onCenter = useMemo(
-    () => (name: string) => {
-      console.log(name);
+    () => (_: string) => {
       setState((S) => ({ ...S, step: JourneyStepType.fadeOut }));
     },
     [],
@@ -48,8 +47,20 @@ const Items = memo(({ children, offset }: TItemsProps) => {
 
   const onItemSelected = useMemo(
     () => (name: string) => {
-      setState((S) => ({ ...S, selectedItem: name }));
+      setState((S) => ({ ...S, step: JourneyStepType.fadeOut, selectedItem: name }));
       setContext({ type: ActionType.Card, state: { enabled: true } });
+
+      setOdd((S) => ({
+        ...S,
+        back: S.back.map((item) => (item.name === name ? { ...item, clicked: true } : item)),
+        front: S.front.map((item) => (item.name === name ? { ...item, clicked: true } : item)),
+      }));
+
+      setEven((S) => ({
+        ...S,
+        back: S.back.map((item) => (item.name === name ? { ...item, clicked: true } : item)),
+        front: S.front.map((item) => (item.name === name ? { ...item, clicked: true } : item)),
+      }));
     },
     [],
   );
@@ -66,6 +77,7 @@ const Items = memo(({ children, offset }: TItemsProps) => {
             data={item}
             offset={offset}
             onCenter={onCenter}
+            onItemSelected={onItemSelected}
           />
         ))}
       </StackView>

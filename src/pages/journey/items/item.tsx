@@ -49,7 +49,12 @@ const Item = memo(({ data, offset, onCenter, onItemSelected }: TItemProps) => {
     >
       {!data.name.includes('roadSign') && data.name && data.clicked === false && (
         <div className='marker'>
-          <Button onClick={() => onItemSelected?.(data.name)}>
+          <Button
+            onClick={() => {
+              onItemSelected?.(data.name);
+              setStatus((S) => ({ ...S, isCenter: true, isInView: true }));
+            }}
+          >
             <Button.Marker>
               <div className={`box ${randomPattern.current}`}></div>
             </Button.Marker>
