@@ -17,7 +17,7 @@
     {
       "files": ["**/config.ts", "**/config.tsx"],
       "options": {
-        "printWidth": 120
+        "printWidth": 200
       }
     }
   ]

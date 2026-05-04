@@ -1,9 +1,10 @@
-import { JourneyItemsList, JourneySceneType } from '@/pages/journey/config';
+import { JourneyItemsList, JourneySceneType, JourneyStaticItemsList } from '@/pages/journey/config';
 import QueryString from 'lesca-url-parameters';
 import { useEffect, useState } from 'react';
 import useURI from './useURI';
 
 export type TDataDiversionItem = {
+  dissociation: string;
   name: string;
   path: string;
   top: number;
@@ -14,11 +15,13 @@ export type TDataDiversionItem = {
 type TDataDiversionData = {
   back: TDataDiversionItem[][];
   front: TDataDiversionItem[][];
+  static: TDataDiversionItem[][];
 };
 
 export type TDataDiversionStateData = {
   back: TDataDiversionItem[];
   front: TDataDiversionItem[];
+  static: TDataDiversionItem[];
 };
 
 type TDataDiversionState = {
@@ -31,7 +34,7 @@ const useDataDiversion = ({ index = 0, scene }: { index: number; scene: JourneyS
   const [state, setState] = useState<TDataDiversionState>({
     index,
     scene,
-    data: { back: [], front: [] },
+    data: { back: [], front: [], static: [] },
   });
 
   const [, setURI] = useURI();
@@ -48,20 +51,23 @@ const useDataDiversion = ({ index = 0, scene }: { index: number; scene: JourneyS
       .sort(() => Math.random() - 0.5);
 
     const pickCount = Math.min(Number(QueryString.get('count')) || 3, length);
+
     const groupList: TDataDiversionItem[][] = [];
 
     for (let i = 0; i < currentListWithoutRoadSign.length; i += pickCount) {
-      const group: TDataDiversionItem[] = currentListWithoutRoadSign.slice(i, i + pickCount);
+      const group: TDataDiversionItem[] = currentListWithoutRoadSign
+        .slice(i, i + pickCount)
+        .map((item) => ({ ...item, clicked: false }));
       while (group.length < pickCount)
-        group.push({ name: '', path: '', top: 0, left: 0, clicked: false });
+        group.push({ name: '', path: '', top: 0, left: 0, clicked: true, dissociation: 'back' });
       groupList.push(group);
     }
 
     if (roadSign) {
       groupList.splice(1, 0, [
-        roadSign,
-        { name: '', path: '', top: 0, left: 0, clicked: false },
-        { name: '', path: '', top: 0, left: 0, clicked: false },
+        { ...roadSign, clicked: false },
+        { name: '', path: '', top: 0, left: 0, clicked: true, dissociation: 'back' },
+        { name: '', path: '', top: 0, left: 0, clicked: true, dissociation: 'back' },
       ]);
     }
 
@@ -70,25 +76,46 @@ const useDataDiversion = ({ index = 0, scene }: { index: number; scene: JourneyS
         const backGroup: TDataDiversionItem[] = [];
         const frontGroup: TDataDiversionItem[] = [];
         group.forEach((item) => {
-          if (item.top < 5.5) {
+          if (item.dissociation === 'back') {
             backGroup.push(item);
-            frontGroup.push({ name: '', path: '', top: 0, left: 0, clicked: false });
+            frontGroup.push({
+              name: '',
+              path: '',
+              top: 0,
+              left: 0,
+              clicked: true,
+              dissociation: 'front',
+            });
           } else {
             frontGroup.push(item);
-            backGroup.push({ name: '', path: '', top: 0, left: 0, clicked: false });
+            backGroup.push({
+              name: '',
+              path: '',
+              top: 0,
+              left: 0,
+              clicked: true,
+              dissociation: 'back',
+            });
           }
         });
         acc.back.push(backGroup);
         acc.front.push(frontGroup);
         return acc;
       },
-      { back: [], front: [] } as TDataDiversionData,
+      { back: [], front: [], static: [] } as TDataDiversionData,
     );
+
+    const staticData = JourneyStaticItemsList[scene] || [];
 
     const data = {
       back: allData.back[state.index] || [],
       front: allData.front[state.index] || [],
+      static: staticData,
     };
+
+    staticData.forEach((item) => {
+      setURI({ path: item.path, name: item.name });
+    });
 
     [...data.front, ...data.back].forEach((item) => {
       if (item.name) setURI({ path: item.path, name: item.name });
