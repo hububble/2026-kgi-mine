@@ -1,10 +1,11 @@
-import { JourneyContext, JourneySceneSetting } from '@/pages/journey/config';
+import { JourneyContext, JourneySceneDebug, JourneySceneSetting } from '@/pages/journey/config';
 import { SceneDepth } from '@/settings/config';
 import { Context } from '@/settings/constant';
 import { ActionType, IReactProps } from '@/settings/type';
 import { getViewPxByDirection } from '@/utils';
 import { memo, useContext, useEffect, useMemo } from 'react';
 import './index.less';
+import { twMerge } from 'tailwind-merge';
 
 type TStackViewProps = IReactProps & {
   offset: number;
@@ -41,7 +42,10 @@ const StackView = memo(({ offset, type, children }: TStackViewProps) => {
 
   return (
     <div className='StackView'>
-      <div className={`stack ${type}`} style={{ left: `${left}%` }}>
+      <div
+        className={twMerge('stack', JourneySceneDebug.enabled && type)}
+        style={{ left: `${left}%` }}
+      >
         <div>{children}</div>
       </div>
     </div>
