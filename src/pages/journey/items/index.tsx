@@ -3,9 +3,12 @@ import useDataDiversion, { TDataDiversionStateData } from '@/hooks/useDataDivers
 import { IReactProps } from '@/settings/type';
 import { memo, useContext, useEffect, useMemo, useState } from 'react';
 import { JourneyContext } from '../config';
-import './azureCoast.less';
-import './index.less';
 import Item from './item';
+
+import './azureCoast.less';
+import './flowerSeaPlain.less';
+import './goldenRiceField.less';
+import './index.less';
 import './lushForest.less';
 import './moonlitSnowfield.less';
 

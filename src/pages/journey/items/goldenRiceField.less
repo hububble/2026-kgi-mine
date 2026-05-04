@@ -1,0 +1,120 @@
+@import url('@/settings/global.css');
+@import url('@/settings/config.less');
+
+.Items {
+  .goldenRiceField-roadSign {
+    width: (unit(image-height(@img))) / 1080 * 42vh;
+
+    @img: '../../../../public/scene-goldenRiceField-roadSign.png';
+
+    &::before {
+      padding-bottom: (unit(image-height(@img) / unit(image-width(@img))) * 100%);
+      background-image: var(--goldenRiceField-roadSign);
+    }
+
+    .marker > div {
+      margin-left: -17%;
+    }
+  }
+
+  .goldenRiceField-item-1 {
+    width: (unit(image-height(@img))) / 1080 * 300vh;
+
+    @img: '../../../../public/scene-goldenRiceField-item-1.png';
+
+    &::before {
+      padding-bottom: (unit(image-height(@img) / unit(image-width(@img))) * 100%);
+      background-image: var(--goldenRiceField-item-1);
+    }
+
+    .marker > div {
+      margin-left: 0%;
+    }
+  }
+
+  .goldenRiceField-item-2 {
+    width: (unit(image-height(@img))) / 1080 * 150vh;
+
+    @img: '../../../../public/scene-goldenRiceField-item-2.png';
+
+    &::before {
+      padding-bottom: (unit(image-height(@img) / unit(image-width(@img))) * 100%);
+      background-image: var(--goldenRiceField-item-2);
+    }
+  }
+
+  .goldenRiceField-item-3 {
+    width: (unit(image-height(@img))) / 1080 * 210vh;
+
+    @img: '../../../../public/scene-goldenRiceField-item-3.png';
+
+    &::before {
+      padding-bottom: (unit(image-height(@img) / unit(image-width(@img))) * 100%);
+      background-image: var(--goldenRiceField-item-3);
+    }
+
+    .marker > div {
+      margin-left: 30%;
+    }
+  }
+
+  .goldenRiceField-item-4 {
+    width: (unit(image-height(@img))) / 1080 * 210vh;
+
+    @img: '../../../../public/scene-goldenRiceField-item-4.png';
+
+    &::before {
+      padding-bottom: (unit(image-height(@img) / unit(image-width(@img))) * 100%);
+      background-image: var(--goldenRiceField-item-4);
+    }
+
+    .marker > div {
+      margin-left: 35%;
+    }
+  }
+
+  .goldenRiceField-item-5 {
+    width: (unit(image-height(@img))) / 1080 * 120vh;
+
+    @img: '../../../../public/scene-goldenRiceField-item-5.png';
+
+    &::before {
+      padding-bottom: (unit(image-height(@img) / unit(image-width(@img))) * 100%);
+      background-image: var(--goldenRiceField-item-5);
+    }
+
+    .marker > div {
+      margin-left: 0%;
+    }
+  }
+
+  .goldenRiceField-item-6 {
+    width: (unit(image-height(@img))) / 1080 * 55vh;
+
+    @img: '../../../../public/scene-goldenRiceField-item-6.png';
+
+    &::before {
+      padding-bottom: (unit(image-height(@img) / unit(image-width(@img))) * 100%);
+      background-image: var(--goldenRiceField-item-6);
+    }
+
+    .marker > div {
+      margin-left: 0%;
+    }
+  }
+
+  .goldenRiceField-item-7 {
+    width: (unit(image-height(@img))) / 1080 * 200vh;
+
+    @img: '../../../../public/scene-goldenRiceField-item-7.png';
+
+    &::before {
+      padding-bottom: (unit(image-height(@img) / unit(image-width(@img))) * 100%);
+      background-image: var(--goldenRiceField-item-7);
+    }
+
+    .marker > div {
+      margin-left: 20%;
+    }
+  }
+}
