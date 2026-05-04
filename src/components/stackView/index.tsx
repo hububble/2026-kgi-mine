@@ -10,9 +10,10 @@ import { twMerge } from 'tailwind-merge';
 type TStackViewProps = IReactProps & {
   offset: number;
   type: 'odd' | 'even';
+  onPushed?: (loop: number) => void;
 };
 
-const StackView = memo(({ offset, type, children }: TStackViewProps) => {
+const StackView = memo(({ offset, type, children, onPushed }: TStackViewProps) => {
   const [context] = useContext(Context);
   const [, setState] = useContext(JourneyContext);
   const { coverPercent, ratio, width } = context[ActionType.SceneViewSize]!;
@@ -31,10 +32,14 @@ const StackView = memo(({ offset, type, children }: TStackViewProps) => {
       const movedInCycle = normalizeModulo(totalOffset + phaseOffset, cycleDistance);
       const loop = Math.floor(totalOffset / (cycleDistance * 0.5));
       const left = movedInCycle * -1;
+
+      const isPushPrevToEnd = left <= -100;
+      if (isPushPrevToEnd) onPushed?.(loop);
+
       return { left, loop };
     }
     return { left: 0, loop: -1 };
-  }, [offset, width, ratio, coverPercent, type]);
+  }, [offset, width, ratio, coverPercent, type, onPushed]);
 
   useEffect(() => {
     setState((S) => ({ ...S, loop }));
