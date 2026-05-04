@@ -27,6 +27,8 @@ const Items = memo(({ children, offset }: TItemsProps) => {
     else setOdd(data);
   }, [data, state.loop]);
 
+  console.log(data);
+
   return (
     <div className='Items'>
       <StackView offset={offset} type='odd'>

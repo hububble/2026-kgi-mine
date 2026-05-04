@@ -1,6 +1,5 @@
 import { TDataDiversionItem } from '@/hooks/useDataDiversion';
-import { IReactProps } from '@/settings/type';
-import { memo, useEffect } from 'react';
+import { memo } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 type TItemProps = {
@@ -8,10 +7,6 @@ type TItemProps = {
 };
 
 const Item = memo(({ data }: TItemProps) => {
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
   return (
     <div
       className={twMerge(data.name)}
