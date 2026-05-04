@@ -155,6 +155,6 @@ type JourneySceneDebugType = {
 };
 
 export const JourneySceneDebug: JourneySceneDebugType = {
-  enabled: true,
+  enabled: false,
   count: QueryString.get('count') === 'max' ? 'max' : Number(QueryString.get('count')) || 1,
 };
