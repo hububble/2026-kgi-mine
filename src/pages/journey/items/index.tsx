@@ -39,8 +39,19 @@ const Items = memo(({ children, offset }: TItemsProps) => {
   }, [data, state.loop]);
 
   const onCenter = useMemo(
-    () => (_: string) => {
+    () => (name: string) => {
       setState((S) => ({ ...S, step: JourneyStepType.fadeOut }));
+
+      const isRoadSign = name.includes('roadSign');
+      if (isRoadSign) {
+        // TODO
+        setContext({
+          type: ActionType.Modal,
+          state: {
+            enabled: true,
+          },
+        });
+      }
     },
     [],
   );
