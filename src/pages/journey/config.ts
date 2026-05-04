@@ -95,7 +95,7 @@ export const JourneyItemsList = {
   ],
   [JourneySceneType.蔚藍海岸]: [
     { name: 'azureCoast-roadSign', path: 'scene-azureCoast-roadSign.png', top: -5, left: 0 },
-    { name: 'azureCoast-item-1', path: 'scene-azureCoast-item-1.png', top: 10, left: 9 },
+    { name: 'azureCoast-item-1', path: 'scene-azureCoast-item-1.png', top: 12.1, left: 65 },
     // { name: 'azureCoast-item-2', path: 'scene-azureCoast-item-2.png', top: -31.5, left: 1040 },
     // { name: 'azureCoast-item-3', path: 'scene-azureCoast-item-3.png', top: -28.1, left: 2000 },
     // { name: 'azureCoast-item-4', path: 'scene-azureCoast-item-4.png', top: -29.6, left: 3000 },

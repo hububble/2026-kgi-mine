@@ -1,7 +1,7 @@
 @import url('@/settings/global.css');
 
 .StackView {
-  @apply absolute top-0 h-full w-full;
+  @apply pointer-events-none absolute top-0 h-full w-full;
 
   .odd {
     margin-left: 100vw;
@@ -20,8 +20,9 @@
 
     & > div {
       @apply relative h-0 w-full;
+
       & > div {
-        @apply absolute;
+        @apply pointer-events-auto absolute;
 
         &::before {
           content: '';
