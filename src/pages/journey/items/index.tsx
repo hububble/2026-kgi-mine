@@ -6,6 +6,8 @@ import { JourneyContext } from '../config';
 import './azureCoast.less';
 import './index.less';
 import Item from './item';
+import './lushForest.less';
+import './moonlitSnowfield.less';
 
 type TItemsProps = IReactProps & {
   offset: number;

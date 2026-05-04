@@ -114,14 +114,14 @@ export const JourneyItemsList = {
     { name: 'moonlitSnowfield-item-7', path: 'scene-moonlitSnowfield-item-7.png', top: -1, left: 2656, dissociation: 'back' },
   ],
   [JourneySceneType.晴光森林]: [
-    { name: 'lushForest-roadSign', path: 'scene-lushForest-roadSign.png', top: -3.5, left: 1880, dissociation: 'back' },
-    { name: 'lushForest-item-1', path: 'scene-lushForest-item-1.png', top: -22, left: 860, dissociation: 'back' },
-    { name: 'lushForest-item-2', path: 'scene-lushForest-item-2.png', top: 7, left: 260, dissociation: 'back' },
-    { name: 'lushForest-item-3', path: 'scene-lushForest-item-3.png', top: -11, left: 2970, dissociation: 'back' },
-    { name: 'lushForest-item-4', path: 'scene-lushForest-item-4.png', top: -57.2, left: 2740, dissociation: 'back' },
-    { name: 'lushForest-item-5', path: 'scene-lushForest-item-5.png', top: -54, left: 1630, dissociation: 'back' },
-    { name: 'lushForest-item-6', path: 'scene-lushForest-item-6.png', top: -57, left: 630, dissociation: 'back' },
-    { name: 'lushForest-item-7', path: 'scene-lushForest-item-7.png', top: -27.5, left: 1880, dissociation: 'back' },
+    { name: 'lushForest-roadSign', path: 'scene-lushForest-roadSign.png', top: 7.4, left: 49, dissociation: 'back' },
+    { name: 'lushForest-item-1', path: 'scene-lushForest-item-1.png', top: -11.1, left: 22.3, dissociation: 'back' },
+    { name: 'lushForest-item-2', path: 'scene-lushForest-item-2.png', top: 14.2, left: 7.1, dissociation: 'back' },
+    { name: 'lushForest-item-3', path: 'scene-lushForest-item-3.png', top: -0.1, left: 77.5, dissociation: 'back' },
+    { name: 'lushForest-item-4', path: 'scene-lushForest-item-4.png', top: -46, left: 71, dissociation: 'back' },
+    { name: 'lushForest-item-5', path: 'scene-lushForest-item-5.png', top: -43.5, left: 42.5, dissociation: 'back' },
+    { name: 'lushForest-item-6', path: 'scene-lushForest-item-6.png', top: -39, left: 17, dissociation: 'front' },
+    { name: 'lushForest-item-7', path: 'scene-lushForest-item-7.png', top: -16.8, left: 49, dissociation: 'back' },
   ],
 };
 
@@ -144,7 +144,7 @@ export const JourneyStaticItemsList = {
 export const JourneySceneSetting = {
   itemsCenterThreshold: 200,
   offset: 100,
-  walkFadeInDistance: 300,
+  walkFadeInDistance: -1000,
   // offset: 14,
   shouldReloadWhenWindowResized: false,
 };

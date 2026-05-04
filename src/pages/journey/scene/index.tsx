@@ -158,14 +158,14 @@ const Scene = memo(({ onEnd, onLooped, onEncounteringRoadSign, onItemSelected }:
       if (e.key === 'ArrowRight') {
         setOffset((S) => {
           document.title = `${getPercentByViewPx(S + 20, width)}`;
-          return S + 20;
+          return S + 50;
         });
         EnterFrame.stop();
       }
       if (e.key === 'ArrowLeft') {
         setOffset((S) => {
           document.title = `${getPercentByViewPx(S - 20, width)}`;
-          return S - 20;
+          return S - 50;
         });
         EnterFrame.stop();
       }
@@ -174,13 +174,13 @@ const Scene = memo(({ onEnd, onLooped, onEncounteringRoadSign, onItemSelected }:
 
   return (
     <div className='Scene'>
-      <View offset={offset} depth={SceneDepth.back} image='back' />
+      {/* <View offset={offset} depth={SceneDepth.back} image='back' /> */}
       {state.scene && state.scene === JourneySceneType.月夜雪地 && <Moon />}
       <View offset={offset} depth={SceneDepth.middle} image='middle' />
       <Items offset={offset}>
         <MinerWalker onShowDown={onShowDown} />
       </Items>
-      <View offset={offset} depth={SceneDepth.front} image='front' isAlpha={isAlpha} />
+      {/* <View offset={offset} depth={SceneDepth.front} image='front' isAlpha={isAlpha} /> */}
     </div>
   );
 });
