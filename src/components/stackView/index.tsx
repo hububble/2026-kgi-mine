@@ -1,12 +1,17 @@
+import { JourneyContext, JourneySceneSetting } from '@/pages/journey/config';
+import { SceneDepth } from '@/settings/config';
+import { Context } from '@/settings/constant';
+import { ActionType, IReactProps } from '@/settings/type';
+import { getViewPxByDirection } from '@/utils';
 import { memo, useContext, useEffect, useMemo } from 'react';
 import './index.less';
-import { Context } from '@/settings/constant';
-import { ActionType } from '@/settings/type';
-import { SceneDepth } from '@/settings/config';
-import { JourneyContext, JourneySceneSetting } from '@/pages/journey/config';
-import { getViewPxByDirection } from '@/utils';
 
-const StackView = memo(({ offset, type }: { offset: number; type: 'odd' | 'even' }) => {
+type TStackViewProps = IReactProps & {
+  offset: number;
+  type: 'odd' | 'even';
+};
+
+const StackView = memo(({ offset, type, children }: TStackViewProps) => {
   const [context] = useContext(Context);
   const [, setState] = useContext(JourneyContext);
   const { coverPercent, ratio, width } = context[ActionType.SceneViewSize]!;
@@ -23,7 +28,7 @@ const StackView = memo(({ offset, type }: { offset: number; type: 'odd' | 'even'
       const cycleDistance = coverPercent + currentGap;
       const phaseOffset = type === 'even' ? cycleDistance / 2 : 0;
       const movedInCycle = normalizeModulo(totalOffset + phaseOffset, cycleDistance);
-      const loop = Math.floor(totalOffset / cycleDistance);
+      const loop = Math.floor(totalOffset / (cycleDistance * 0.5));
       const left = movedInCycle * -1;
       return { left, loop };
     }
@@ -31,13 +36,14 @@ const StackView = memo(({ offset, type }: { offset: number; type: 'odd' | 'even'
   }, [offset, width, ratio, coverPercent, type]);
 
   useEffect(() => {
-    if (loop === -1) return;
     setState((S) => ({ ...S, loop }));
   }, [loop, setState]);
 
   return (
     <div className='StackView'>
-      <div className={`stack ${type}`} style={{ left: `${left}%` }}></div>
+      <div className={`stack ${type}`} style={{ left: `${left}%` }}>
+        <div>{children}</div>
+      </div>
     </div>
   );
 });

@@ -37,7 +37,7 @@ export type TJourneyContext = [TJourneyState, Dispatch<SetStateAction<TJourneySt
 export const JourneyState: TJourneyState = {
   step: JourneyStepType.unset,
   scene: JourneySceneType.晴光森林,
-  loop: 0,
+  loop: -1,
   dialog: { enabled: false, type: JourneyDialogType.wish },
   view: { direction: 'unset', index: -1 },
 };
@@ -144,7 +144,7 @@ export const JourneyStaticItemsList = {
 export const JourneySceneSetting = {
   itemsCenterThreshold: 200,
   offset: 100,
-  walkFadeInDistance: 0,
+  walkFadeInDistance: 300,
   // offset: 14,
   shouldReloadWhenWindowResized: false,
 };
