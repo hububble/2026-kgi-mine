@@ -3,14 +3,8 @@ import Questionnaire from '@/components/questionnaire';
 import { Context } from '@/settings/constant';
 import { ActionType } from '@/settings/type';
 import OnloadProvider from 'lesca-react-onload';
-import { memo, useContext, useEffect, useState } from 'react';
-import {
-  JourneyContext,
-  JourneySceneSetting,
-  JourneySceneType,
-  JourneyState,
-  JourneyStepType,
-} from './config';
+import { memo, useContext, useState } from 'react';
+import { JourneyContext, JourneySceneType, JourneyState, JourneyStepType } from './config';
 import JourneyEventProvider, { JourneyEventsContext, JourneyEventsState } from './events';
 import './index.less';
 import Scene from './scene';
@@ -29,14 +23,6 @@ const Journey = memo(() => {
   });
 
   const value = useState(JourneyEventsState);
-
-  useEffect(() => {
-    if (JourneySceneSetting.shouldReloadWhenWindowResized) {
-      window.addEventListener('resize', () => {
-        setResetIndex((index) => index + 1);
-      });
-    }
-  }, []);
 
   return (
     <JourneyContext.Provider value={[state, setState]}>

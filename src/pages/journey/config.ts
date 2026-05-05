@@ -141,7 +141,7 @@ export const JourneySceneSetting = {
   offset: 100,
   walkFadeInDistance: 300,
   // offset: 14,
-  shouldReloadWhenWindowResized: false,
+  shouldReloadWhenWindowResized: true,
 };
 
 type JourneySceneDebugType = {
