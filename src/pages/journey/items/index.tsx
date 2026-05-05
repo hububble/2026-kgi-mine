@@ -32,6 +32,7 @@ const Items = memo(({ children, offset }: TItemsProps) => {
 
   useEffect(() => {
     updateStep({ step: state.loop });
+    setEvent((S) => ({ ...S, onLoopChange: { loop: state.loop } }));
   }, [state.loop]);
 
   useEffect(() => {

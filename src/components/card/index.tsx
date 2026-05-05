@@ -94,6 +94,7 @@ const Card = memo(() => {
 
   return (
     <OnloadProvider
+      hideBeforeLoaded
       onStart={() => {
         setContext({ type: ActionType.LoadingProcess, state: { enabled: true } });
       }}
@@ -105,7 +106,7 @@ const Card = memo(() => {
       <div className='Card'>
         <Blockquote className='max-w-md' scroll>
           <div className='inner'>
-            <div className='inner-contain'>
+            <div className='inner-contain animate-fadeInPy'>
               <div
                 className={twMerge(
                   'round',

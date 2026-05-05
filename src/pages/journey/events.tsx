@@ -15,10 +15,8 @@ export type TJourneyEventsState = {
     prev: number;
     callback: (name: string) => void;
   };
-  onLoopChange?: {
-    index: number;
-    prev: number;
-    callback: (loop: number) => void;
+  onLoopChange: {
+    loop: number;
   };
   isCharacterStopped: boolean;
 };
@@ -31,6 +29,7 @@ export type TJourneyEventsContext = [
 export const JourneyEventsState: TJourneyEventsState = {
   onEncounteringRoadSign: { index: -1, prev: -1, callback: () => {} },
   onItemSelected: { index: -1, prev: -1, callback: () => {} },
+  onLoopChange: { loop: -1 },
   isCharacterStopped: false,
 };
 
@@ -41,14 +40,12 @@ export const JourneyEventsContext = createContext<TJourneyEventsContext>([
 
 export const JourneyEventProvider = memo(({ children }: IReactProps) => {
   const [, setContext] = useContext(Context);
-  const [state, setState] = useContext(JourneyContext);
+  const [, setState] = useContext(JourneyContext);
   const [eventState] = useContext(JourneyEventsContext);
 
   useEffect(() => {
     if (!eventState.isCharacterStopped) return;
-
     if (eventState.onItemSelected.index !== eventState.onItemSelected.prev) {
-      // Example action on item selection, can be customized
       setContext({ type: ActionType.Card, state: { enabled: true } });
       eventState.onItemSelected.prev = eventState.onItemSelected.index;
     }
@@ -70,7 +67,7 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
                 const scenes = Object.values(JourneySceneType).filter((scene) => scene !== S.scene);
                 return {
                   ...S,
-                  loop: 0,
+                  loop: -1,
                   scene: scenes[Math.floor(Math.random() * scenes.length)],
                   step: JourneyStepType.unset,
                 };
@@ -87,6 +84,11 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
       eventState.onEncounteringRoadSign.prev = eventState.onEncounteringRoadSign.index;
     }
   }, [eventState.onEncounteringRoadSign, eventState.isCharacterStopped]);
+
+  useEffect(() => {
+    if (eventState.onLoopChange.loop === -1) return;
+    console.log(`畫布第${eventState.onLoopChange.loop + 1}圈`);
+  }, [eventState.onLoopChange]);
 
   return <>{children}</>;
 });
