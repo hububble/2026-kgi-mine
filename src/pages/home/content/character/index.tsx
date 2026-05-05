@@ -34,8 +34,8 @@ const 選擇你的Miner角色 = memo(({ data }: { data?: ResponseType['result'][
         setContext({ type: ActionType.LoadingProcess, state: { enabled: false } });
       }}
     >
-      <div className='w-full'>
-        <div className='flex w-full flex-col gap-2 text-center'>
+      <div className='flex w-full flex-col items-center'>
+        <div className='flex w-fit flex-col items-center gap-2 text-center'>
           <TweenerProvider
             initialStyle={{ y: 50, opacity: 0 }}
             tweenTo={{ y: 0, opacity: 1 }}
