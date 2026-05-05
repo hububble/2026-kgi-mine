@@ -1,0 +1,93 @@
+import { Context } from '@/settings/constant';
+import { ActionType, IReactProps } from '@/settings/type';
+import { createContext, Dispatch, SetStateAction, useContext } from 'react';
+import { memo, useEffect } from 'react';
+import { JourneyContext, JourneySceneType, JourneyStepType } from './config';
+
+export type TJourneyEventsState = {
+  onEncounteringRoadSign: {
+    index: number;
+    prev: number;
+    callback: () => void;
+  };
+  onItemSelected: {
+    index: number;
+    prev: number;
+    callback: (name: string) => void;
+  };
+  onLoopChange?: {
+    index: number;
+    prev: number;
+    callback: (loop: number) => void;
+  };
+  isCharacterStopped: boolean;
+};
+
+export type TJourneyEventsContext = [
+  TJourneyEventsState,
+  Dispatch<SetStateAction<TJourneyEventsState>>,
+];
+
+export const JourneyEventsState: TJourneyEventsState = {
+  onEncounteringRoadSign: { index: -1, prev: -1, callback: () => {} },
+  onItemSelected: { index: -1, prev: -1, callback: () => {} },
+  isCharacterStopped: false,
+};
+
+export const JourneyEventsContext = createContext<TJourneyEventsContext>([
+  JourneyEventsState,
+  () => {},
+]);
+
+export const JourneyEventProvider = memo(({ children }: IReactProps) => {
+  const [, setContext] = useContext(Context);
+  const [state, setState] = useContext(JourneyContext);
+  const [eventState] = useContext(JourneyEventsContext);
+
+  useEffect(() => {
+    if (!eventState.isCharacterStopped) return;
+
+    if (eventState.onItemSelected.index !== eventState.onItemSelected.prev) {
+      // Example action on item selection, can be customized
+      setContext({ type: ActionType.Card, state: { enabled: true } });
+      eventState.onItemSelected.prev = eventState.onItemSelected.index;
+    }
+  }, [eventState.onItemSelected, eventState.isCharacterStopped]);
+
+  useEffect(() => {
+    if (!eventState.isCharacterStopped) return;
+
+    if (eventState.onEncounteringRoadSign.index !== eventState.onEncounteringRoadSign.prev) {
+      setContext({
+        type: ActionType.Modal,
+        state: {
+          enabled: true,
+          body: '是否探索一條新的路線?',
+          label: ['好的', '暫時不要'],
+          onConfirm: (label) => {
+            if (label === '好的') {
+              setState((S) => {
+                const scenes = Object.values(JourneySceneType).filter((scene) => scene !== S.scene);
+                return {
+                  ...S,
+                  loop: 0,
+                  scene: scenes[Math.floor(Math.random() * scenes.length)],
+                  step: JourneyStepType.unset,
+                };
+              });
+            } else {
+              setState((S) => ({ ...S, step: JourneyStepType.resume }));
+            }
+          },
+          onClose: () => {
+            setState((S) => ({ ...S, step: JourneyStepType.resume }));
+          },
+        },
+      });
+      eventState.onEncounteringRoadSign.prev = eventState.onEncounteringRoadSign.index;
+    }
+  }, [eventState.onEncounteringRoadSign, eventState.isCharacterStopped]);
+
+  return <>{children}</>;
+});
+export default JourneyEventProvider;

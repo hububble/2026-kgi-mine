@@ -15,6 +15,7 @@ import Dialog from './dialog';
 import './index.less';
 import Scene from './scene';
 import UserData from './userData';
+import JourneyEventProvider, { JourneyEventsContext, JourneyEventsState } from './events';
 
 const Journey = memo(() => {
   const [context, setContext] = useContext(Context);
@@ -28,6 +29,8 @@ const Journey = memo(() => {
       : JourneyState.scene,
   });
 
+  const value = useState(JourneyEventsState);
+
   useEffect(() => {
     if (JourneySceneSetting.shouldReloadWhenWindowResized) {
       window.addEventListener('resize', () => {
@@ -36,56 +39,30 @@ const Journey = memo(() => {
     }
   }, []);
 
-  const onEncounteringRoadSign = useCallback(() => {
-    setContext({
-      type: ActionType.Modal,
-      state: {
-        enabled: true,
-        body: '是否探索一條新的路線?',
-        label: ['好的', '暫時不要'],
-        onConfirm: (label) => {
-          if (label === '好的') {
-            setState((S) => {
-              const scenes = Object.values(JourneySceneType).filter((scene) => scene !== S.scene);
-              return {
-                ...S,
-                loop: 0,
-                scene: scenes[Math.floor(Math.random() * scenes.length)],
-                step: JourneyStepType.unset,
-              };
-            });
-          } else {
-            setState((S) => ({ ...S, step: JourneyStepType.resume }));
-          }
-        },
-        onClose: () => {
-          setState((S) => ({ ...S, step: JourneyStepType.resume }));
-        },
-      },
-    });
-  }, []);
-
   return (
     <JourneyContext.Provider value={[state, setState]}>
-      <OnloadProvider
-        key={`${state.scene}-${resetIndex}`}
-        onStart={() => {
-          setState((S) => ({ ...S, step: JourneyStepType.unset }));
-          setContext({ type: ActionType.LoadingProcess, state: { enabled: true } });
-        }}
-        onload={() => {
-          setState((S) => ({ ...S, step: JourneyStepType.fadeIn }));
-          setContext({ type: ActionType.LoadingProcess, state: { enabled: false } });
-        }}
-      >
-        <div className='Journey'>
-          <Scene onEncounteringRoadSign={onEncounteringRoadSign} />
-          <UserData />
-          {state.dialog.enabled && <Dialog />}
-          {context[ActionType.Card]?.enabled && <Card />}
-          {context[ActionType.Questionnaire]?.enabled && <Questionnaire />}
-        </div>
-      </OnloadProvider>
+      <JourneyEventsContext.Provider value={value}>
+        <OnloadProvider
+          key={`${state.scene}-${resetIndex}`}
+          onStart={() => {
+            setState((S) => ({ ...S, step: JourneyStepType.unset }));
+            setContext({ type: ActionType.LoadingProcess, state: { enabled: true } });
+          }}
+          onload={() => {
+            setState((S) => ({ ...S, step: JourneyStepType.fadeIn }));
+            setContext({ type: ActionType.LoadingProcess, state: { enabled: false } });
+          }}
+        >
+          <div className='Journey'>
+            <JourneyEventProvider>
+              <Scene />
+              <UserData />
+              {context[ActionType.Card]?.enabled && <Card />}
+              {context[ActionType.Questionnaire]?.enabled && <Questionnaire />}
+            </JourneyEventProvider>
+          </div>
+        </OnloadProvider>
+      </JourneyEventsContext.Provider>
     </JourneyContext.Provider>
   );
 });

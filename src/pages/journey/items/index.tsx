@@ -12,6 +12,7 @@ import './index.less';
 import './lushForest.less';
 import './moonlitSnowfield.less';
 import { Context } from '@/settings/constant';
+import { JourneyEventsContext } from '../events';
 
 type TItemsProps = IReactProps & {
   offset: number;
@@ -20,6 +21,8 @@ type TItemsProps = IReactProps & {
 const Items = memo(({ children, offset }: TItemsProps) => {
   const [, setContext] = useContext(Context);
   const [state, setState] = useContext(JourneyContext);
+  const [, setEvent] = useContext(JourneyEventsContext);
+
   const [itemData, updateStep] = useDataDiversion({ index: -1, scene: state.scene });
   const { data } = useMemo(() => itemData, [itemData]);
   const endLoopShouldBe = useRef(Infinity);
@@ -48,40 +51,16 @@ const Items = memo(({ children, offset }: TItemsProps) => {
   const onCenter = useMemo(
     () => (name: string) => {
       if (JourneySceneDebug.enabled) return;
-
       setState((S) => ({ ...S, step: JourneyStepType.fadeOut }));
       const isRoadSign = name.includes('roadSign');
       if (isRoadSign) {
-        setTimeout(() => {
-          setContext({
-            type: ActionType.Modal,
-            state: {
-              enabled: true,
-              body: '是否探索一條新的路線?',
-              label: ['好的', '暫時不要'],
-              onConfirm: (label) => {
-                if (label === '好的') {
-                  setState((S) => {
-                    const scenes = Object.values(JourneySceneType).filter(
-                      (scene) => scene !== S.scene,
-                    );
-                    return {
-                      ...S,
-                      loop: 0,
-                      scene: scenes[Math.floor(Math.random() * scenes.length)],
-                      step: JourneyStepType.unset,
-                    };
-                  });
-                } else {
-                  setState((S) => ({ ...S, step: JourneyStepType.resume }));
-                }
-              },
-              onClose: () => {
-                setState((S) => ({ ...S, step: JourneyStepType.resume }));
-              },
-            },
-          });
-        }, 500);
+        setEvent((S) => ({
+          ...S,
+          onEncounteringRoadSign: {
+            ...S.onEncounteringRoadSign,
+            index: S.onEncounteringRoadSign.index + 1,
+          },
+        }));
       }
     },
     [],
@@ -89,15 +68,16 @@ const Items = memo(({ children, offset }: TItemsProps) => {
 
   const onItemSelected = useMemo(
     () => (name: string) => {
-      setState((S) => ({ ...S, step: JourneyStepType.fadeOut, selectedItem: name }));
-      setContext({ type: ActionType.Card, state: { enabled: true } });
-
+      setState((S) => ({ ...S, step: JourneyStepType.fadeOut }));
+      setEvent((S) => ({
+        ...S,
+        onItemSelected: { ...S.onItemSelected, index: S.onItemSelected.index + 1 },
+      }));
       setOdd((S) => ({
         ...S,
         back: S.back.map((item) => (item.name === name ? { ...item, clicked: true } : item)),
         front: S.front.map((item) => (item.name === name ? { ...item, clicked: true } : item)),
       }));
-
       setEven((S) => ({
         ...S,
         back: S.back.map((item) => (item.name === name ? { ...item, clicked: true } : item)),

@@ -27,9 +27,6 @@ export type TJourneyState = {
   step: JourneyStepType;
   scene: JourneySceneType;
   loop: number;
-  selectedItem?: string;
-  dialog: { enabled: boolean; type: JourneyDialogType };
-  view: { direction: 'left' | 'right' | 'unset'; index: number };
 };
 
 export type TJourneyContext = [TJourneyState, Dispatch<SetStateAction<TJourneyState>>];
@@ -38,8 +35,6 @@ export const JourneyState: TJourneyState = {
   step: JourneyStepType.unset,
   scene: JourneySceneType.晴光森林,
   loop: -1,
-  dialog: { enabled: false, type: JourneyDialogType.wish },
-  view: { direction: 'unset', index: -1 },
 };
 
 export const JourneyContext = createContext<TJourneyContext>([JourneyState, () => {}]);

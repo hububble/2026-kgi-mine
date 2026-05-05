@@ -8,7 +8,7 @@ import { ActionType } from '@/settings/type';
 import { getPercentByViewPx, getViewPxByDirection as getPx } from '@/utils';
 import EnterFrame from 'lesca-enterframe';
 import useTween, { Bezier } from 'lesca-use-tween';
-import { memo, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { memo, useContext, useEffect, useMemo, useState } from 'react';
 import {
   JourneyContext,
   JourneySceneDebug,
@@ -23,24 +23,22 @@ import { URI } from './config';
 import './index.less';
 import Moon from './Moon';
 import View from './view';
+import { JourneyEventsContext } from '../events';
 
-type TSceneProps = {
-  onEncounteringRoadSign: () => void;
-};
-
-// printCSSAnimation(30, false);
-
-const Scene = memo(({ onEncounteringRoadSign }: TSceneProps) => {
+const Scene = memo(() => {
   const [context] = useContext(Context);
+  const [state, setState] = useContext(JourneyContext);
+  const [, setEvent] = useContext(JourneyEventsContext);
+  const [, setURI] = useURI();
+
   const { width = window.innerWidth } = context[ActionType.SceneViewSize]!;
   const sounds = context[ActionType.Sounds];
-  const [state, setState] = useContext(JourneyContext);
+
   const left = useMemo(() => getPx(setting.offset, width) - setting.walkFadeInDistance, []);
-  const [, setURI] = useURI();
   const [, setStyle] = useTween({ left });
   const [offset, setOffset] = useState(left);
+
   const [isAlpha, setIsAlpha] = useState(false);
-  const encounteringRoadSignRef = useRef('');
 
   useEffect(() => {
     PATTERN_URI_PROPERTIES.forEach((item) => setURI(item));
@@ -113,6 +111,7 @@ const Scene = memo(({ onEncounteringRoadSign }: TSceneProps) => {
     } else if (state.step === JourneyStepType.resume) {
       EnterFrame.play();
       setIsAlpha(false);
+      setEvent((S) => ({ ...S, isCharacterStopped: true }));
     } else if (state.step === JourneyStepType.loop) {
       EnterFrame.destroy();
       EnterFrame.reset();
@@ -133,11 +132,8 @@ const Scene = memo(({ onEncounteringRoadSign }: TSceneProps) => {
           },
           onEnd: (value: { left: number }) => {
             setOffset(value.left);
-            const isRoadSign = encounteringRoadSignRef.current.includes('roadSign');
-            if (isRoadSign) onEncounteringRoadSign?.();
-            else {
-              if (state.scene === JourneySceneType.晴光森林) setIsAlpha(true);
-            }
+            if (state.scene === JourneySceneType.晴光森林) setIsAlpha(true);
+            setEvent((S) => ({ ...S, isCharacterStopped: true }));
           },
         },
       );
