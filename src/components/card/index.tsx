@@ -104,8 +104,8 @@ const Card = memo(() => {
       }}
     >
       <div className='Card'>
-        <Blockquote className='max-w-md' scroll>
-          <div className='inner'>
+        <Blockquote className='flex w-full justify-center' scroll>
+          <div className='inner max-w-md'>
             <div className='inner-contain animate-fadeInPy'>
               <div
                 className={twMerge(

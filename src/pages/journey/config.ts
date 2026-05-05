@@ -1,4 +1,3 @@
-import QueryString from 'lesca-url-parameters';
 import { createContext, Dispatch, SetStateAction } from 'react';
 
 export enum JourneySceneType {
