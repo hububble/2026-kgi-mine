@@ -8,7 +8,7 @@ import { useDebounce } from 'use-debounce';
 
 const Questionnaire = memo(() => {
   const [context, setContext] = useContext(Context);
-  const { question = QuestionnaireDemoData } = context[ActionType.Questionnaire]!;
+  const { question = QuestionnaireDemoData, onClose } = context[ActionType.Questionnaire]!;
 
   const [index, setIndex] = useState(0);
   const [debouncedIndex] = useDebounce(index, 300);
@@ -52,6 +52,9 @@ const Questionnaire = memo(() => {
               setContext({ type: ActionType.Modal, state: { enabled: false } });
               if (index < QuestionnaireDemoData.length - 1) {
                 setIndex((S) => S + 1);
+              } else {
+                onClose?.();
+                setContext({ type: ActionType.Questionnaire, state: { enabled: false } });
               }
             }
           },

@@ -33,7 +33,7 @@ export const ModalState: TModalState = {
 };
 
 export const UserDataState: TUserDataState = {
-  journey: '金黃稻浪',
+  journey: '晴光森林',
   character: undefined,
 };
 
@@ -52,6 +52,7 @@ export const CardState: TCardState = {
 export const QuestionnaireState: TQuestionnaireState = {
   enabled: false,
   question: QuestionnaireDemoData,
+  onClose: () => {},
 };
 
 // 最近活動

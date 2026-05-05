@@ -1,14 +1,13 @@
-import { memo, useContext, useEffect, useState } from 'react';
-import './index.less';
 import useURI from '@/hooks/useURI';
-import { URI } from './config';
-import Heading from '../heading';
 import { Context } from '@/settings/constant';
 import { ActionType, TransitionType } from '@/settings/type';
-import Button from '../button';
-import EnterFrame from 'lesca-enterframe';
 import OnloadProvider from 'lesca-react-onload';
+import { memo, useContext, useEffect, useState } from 'react';
+import Button from '../button';
+import Heading from '../heading';
 import TweenerProvider from '../tweenProvider';
+import { URI } from './config';
+import './index.less';
 
 const Recent = memo(() => {
   const [context, setContext] = useContext(Context);
@@ -18,11 +17,6 @@ const Recent = memo(() => {
   const [, setURI] = useURI();
   useEffect(() => {
     URI.forEach((uri) => setURI(uri));
-  }, []);
-
-  useEffect(() => {
-    EnterFrame.stop();
-    return () => EnterFrame.play();
   }, []);
 
   return (

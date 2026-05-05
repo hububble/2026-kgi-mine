@@ -89,6 +89,7 @@ export type TQuestionnaireOption = {
 export type TQuestionnaireState = {
   enabled?: boolean;
   question?: TQuestionnaireOption[];
+  onClose?: () => void;
 };
 
 export type TRecentState = {

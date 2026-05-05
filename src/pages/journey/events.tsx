@@ -96,7 +96,15 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
 
     if (eventState.onJourneyEnd.index !== eventState.onJourneyEnd.prev) {
       // 旅程結束，重置所有狀態
-      setContext({ type: ActionType.Questionnaire, state: { enabled: true } });
+      setContext({
+        type: ActionType.Questionnaire,
+        state: {
+          enabled: true,
+          onClose: () => {
+            setState((S) => ({ ...S, step: JourneyStepType.resume }));
+          },
+        },
+      });
       eventState.onJourneyEnd.prev = eventState.onJourneyEnd.index;
     }
   }, [eventState.onJourneyEnd, eventState.isCharacterStopped]);
