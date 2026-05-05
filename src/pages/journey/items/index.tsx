@@ -91,9 +91,10 @@ const Items = memo(({ children, offset }: TItemsProps) => {
   const onPushed = useCallback((loop: number) => {
     if (loop === endLoopShouldBe.current) {
       setState((S) => ({ ...S, step: JourneyStepType.fadeOut }));
-      setTimeout(() => {
-        setContext({ type: ActionType.Questionnaire, state: { enabled: true } });
-      }, 500);
+      setEvent((S) => ({
+        ...S,
+        onJourneyEnd: { ...S.onJourneyEnd, index: S.onJourneyEnd.index + 1 },
+      }));
     }
   }, []);
 

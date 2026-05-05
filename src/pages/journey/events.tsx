@@ -5,6 +5,10 @@ import { memo, useEffect } from 'react';
 import { JourneyContext, JourneySceneType, JourneyStepType } from './config';
 
 export type TJourneyEventsState = {
+  isCharacterStopped: boolean;
+  onLoopChange: {
+    loop: number;
+  };
   onEncounteringRoadSign: {
     index: number;
     prev: number;
@@ -15,10 +19,11 @@ export type TJourneyEventsState = {
     prev: number;
     callback: (name: string) => void;
   };
-  onLoopChange: {
-    loop: number;
+  onJourneyEnd: {
+    index: number;
+    prev: number;
+    callback: () => void;
   };
-  isCharacterStopped: boolean;
 };
 
 export type TJourneyEventsContext = [
@@ -29,6 +34,7 @@ export type TJourneyEventsContext = [
 export const JourneyEventsState: TJourneyEventsState = {
   onEncounteringRoadSign: { index: -1, prev: -1, callback: () => {} },
   onItemSelected: { index: -1, prev: -1, callback: () => {} },
+  onJourneyEnd: { index: -1, prev: -1, callback: () => {} },
   onLoopChange: { loop: -1 },
   isCharacterStopped: false,
 };
@@ -84,6 +90,16 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
       eventState.onEncounteringRoadSign.prev = eventState.onEncounteringRoadSign.index;
     }
   }, [eventState.onEncounteringRoadSign, eventState.isCharacterStopped]);
+
+  useEffect(() => {
+    if (!eventState.isCharacterStopped) return;
+
+    if (eventState.onJourneyEnd.index !== eventState.onJourneyEnd.prev) {
+      // 旅程結束，重置所有狀態
+      setContext({ type: ActionType.Questionnaire, state: { enabled: true } });
+      eventState.onJourneyEnd.prev = eventState.onJourneyEnd.index;
+    }
+  }, [eventState.onJourneyEnd, eventState.isCharacterStopped]);
 
   useEffect(() => {
     if (eventState.onLoopChange.loop === -1) return;
