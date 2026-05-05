@@ -1,5 +1,4 @@
 import useURI from '@/hooks/useURI';
-import { JourneySceneSetting } from '@/pages/journey/config';
 import { SceneSize } from '@/settings/config';
 import { Context } from '@/settings/constant';
 import { ActionType, IReactProps } from '@/settings/type';
@@ -14,7 +13,6 @@ const Container = memo(({ children }: IReactProps) => {
   const [context, setContext] = useContext(Context);
   const sceneImageSize = context[ActionType.SceneViewSize];
   const ref = useRef<HTMLDivElement>(null);
-  const innerWidthRef = useRef<number>(0);
   useURI({ path: 'scene-bg.jpg', name: 'scene-bg' });
   useURI({ path: 'scene-bg-m.jpg', name: 'scene-bg-m' });
 
@@ -28,13 +26,6 @@ const Container = memo(({ children }: IReactProps) => {
         const ratio = getViewPxRatio({ width });
 
         document.documentElement.style.setProperty(`--current-view-width`, `${width}px`);
-
-        if (innerWidthRef.current !== 0 && innerWidthRef.current !== window.innerWidth) {
-          if (innerWidthRef.current > window.innerWidth) {
-            if (JourneySceneSetting.shouldReloadWhenWindowResized) window.location.reload();
-          }
-        }
-        innerWidthRef.current = window.innerWidth;
 
         setContext({
           type: ActionType.SceneViewSize,
