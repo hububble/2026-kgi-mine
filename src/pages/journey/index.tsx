@@ -3,7 +3,7 @@ import Questionnaire from '@/components/questionnaire';
 import { Context } from '@/settings/constant';
 import { ActionType } from '@/settings/type';
 import OnloadProvider from 'lesca-react-onload';
-import { memo, useCallback, useContext, useEffect, useState } from 'react';
+import { memo, useContext, useEffect, useState } from 'react';
 import {
   JourneyContext,
   JourneySceneSetting,
@@ -11,11 +11,10 @@ import {
   JourneyState,
   JourneyStepType,
 } from './config';
-import Dialog from './dialog';
+import JourneyEventProvider, { JourneyEventsContext, JourneyEventsState } from './events';
 import './index.less';
 import Scene from './scene';
 import UserData from './userData';
-import JourneyEventProvider, { JourneyEventsContext, JourneyEventsState } from './events';
 
 const Journey = memo(() => {
   const [context, setContext] = useContext(Context);
