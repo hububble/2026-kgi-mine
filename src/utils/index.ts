@@ -19,7 +19,7 @@ export const printCSSAnimation = (radius: number = 20, isBlank: boolean = false)
     const currentX = x + r;
     const rotate = index;
 
-    out += `${Math.round((index / 360) * 100)}%{transform: translateX(${currentX.toFixed(2)}px)}\n`;
+    out += `${Math.round((index / 360) * 100)}%{transform: translateX(${currentX.toFixed(2)}px) translateY(${y.toFixed(2)}px) rotate(${rotate}deg);}\n`;
 
     index += 5;
     if (index <= 360) requestAnimationFrame(render);

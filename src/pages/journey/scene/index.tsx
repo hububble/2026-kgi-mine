@@ -25,15 +25,12 @@ import Moon from './Moon';
 import View from './view';
 
 type TSceneProps = {
-  onEnd: () => void;
-  onLooped: (index: number) => void;
   onEncounteringRoadSign: () => void;
-  onItemSelected?: (item: string) => void;
 };
 
 // printCSSAnimation(30, false);
 
-const Scene = memo(({ onEnd, onLooped, onEncounteringRoadSign, onItemSelected }: TSceneProps) => {
+const Scene = memo(({ onEncounteringRoadSign }: TSceneProps) => {
   const [context] = useContext(Context);
   const { width = window.innerWidth } = context[ActionType.SceneViewSize]!;
   const sounds = context[ActionType.Sounds];
@@ -123,10 +120,6 @@ const Scene = memo(({ onEnd, onLooped, onEncounteringRoadSign, onItemSelected }:
       EnterFrame.play();
     }
   }, [state.step]);
-
-  useEffect(() => {
-    if (state.loop) onLooped?.(state.loop);
-  }, [state.loop]);
 
   const onShowDown = (frame: CharacterFrame) => {
     if (frame) {

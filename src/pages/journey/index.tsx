@@ -6,7 +6,6 @@ import OnloadProvider from 'lesca-react-onload';
 import { memo, useCallback, useContext, useEffect, useState } from 'react';
 import {
   JourneyContext,
-  JourneySceneDebug,
   JourneySceneSetting,
   JourneySceneType,
   JourneyState,
@@ -28,21 +27,6 @@ const Journey = memo(() => {
       ? Object.entries(JourneySceneType).filter(([key]) => key === journey)[0][1]
       : JourneyState.scene,
   });
-
-  const onLooped = useCallback((loop: number) => {
-    if (loop < 0) return;
-
-    // setContext({ type: ActionType.Questionnaire, state: { enabled: true } });
-  }, []);
-
-  const onEnd = useCallback(() => {
-    if (JourneySceneDebug.enabled) return;
-    setContext({ type: ActionType.Questionnaire, state: { enabled: true } });
-  }, []);
-
-  const onItemSelected = useCallback((item: string) => {
-    console.log(item);
-  }, []);
 
   useEffect(() => {
     if (JourneySceneSetting.shouldReloadWhenWindowResized) {
@@ -95,12 +79,7 @@ const Journey = memo(() => {
         }}
       >
         <div className='Journey'>
-          <Scene
-            onEnd={onEnd}
-            onLooped={onLooped}
-            onItemSelected={onItemSelected}
-            onEncounteringRoadSign={onEncounteringRoadSign}
-          />
+          <Scene onEncounteringRoadSign={onEncounteringRoadSign} />
           <UserData />
           {state.dialog.enabled && <Dialog />}
           {context[ActionType.Card]?.enabled && <Card />}

@@ -1,5 +1,4 @@
 import Button from '@/components/button';
-import useURI from '@/hooks/useURI';
 import { PATTERN_URI_PROPERTIES } from '@/settings/config';
 import { checkElementCenterOfScreenWithOffset, checkElementInViewport } from '@/utils';
 import { memo, useEffect, useRef, useState } from 'react';
@@ -18,8 +17,6 @@ type TItemProps = {
 
 const Item = memo(
   ({ item, y, x, left, onCenter, onInView, onItemSelected, isStatic }: TItemProps) => {
-    const [, setURI] = useURI();
-
     const ref = useRef<HTMLDivElement>(null);
     const [status, setStatus] = useState({ isCenter: false, isInView: false });
 

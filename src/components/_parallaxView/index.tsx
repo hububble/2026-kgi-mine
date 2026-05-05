@@ -1,12 +1,12 @@
 import { JourneyContext } from '@/pages/journey/config';
 import { SceneDepth, SceneSize } from '@/settings/config';
 import { Context } from '@/settings/constant';
-import { ActionType, IReactProps } from '@/settings/type';
+import { ActionType } from '@/settings/type';
 import { getViewPxRatio } from '@/utils';
 import { memo, ReactNode, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { twMerge } from 'tailwind-merge';
 import { useDebounce } from 'use-debounce';
 import './index.less';
-import { twMerge } from 'tailwind-merge';
 
 type ParallaxViewProps = {
   className: string;
