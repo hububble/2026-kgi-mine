@@ -1,25 +1,23 @@
 import StackView from '@/components/stackView';
 import useDataDiversion, { TDataDiversionStateData } from '@/hooks/useDataDiversion';
-import { ActionType, IReactProps } from '@/settings/type';
+import { IReactProps } from '@/settings/type';
 import { memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { JourneyContext, JourneySceneDebug, JourneySceneType, JourneyStepType } from '../config';
+import { JourneyContext, JourneySceneDebug, JourneyStepType } from '../config';
 import Item from './item';
 
+import { JourneyEventsContext } from '../events';
 import './azureCoast.less';
 import './flowerSeaPlain.less';
 import './goldenRiceField.less';
 import './index.less';
 import './lushForest.less';
 import './moonlitSnowfield.less';
-import { Context } from '@/settings/constant';
-import { JourneyEventsContext } from '../events';
 
 type TItemsProps = IReactProps & {
   offset: number;
 };
 
 const Items = memo(({ children, offset }: TItemsProps) => {
-  const [, setContext] = useContext(Context);
   const [state, setState] = useContext(JourneyContext);
   const [, setEvent] = useContext(JourneyEventsContext);
 
