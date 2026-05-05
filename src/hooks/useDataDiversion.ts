@@ -1,4 +1,9 @@
-import { JourneyItemsList, JourneySceneType, JourneyStaticItemsList } from '@/pages/journey/config';
+import {
+  JourneyItemsList,
+  JourneySceneDebug,
+  JourneySceneType,
+  JourneyStaticItemsList,
+} from '@/pages/journey/config';
 import QueryString from 'lesca-url-parameters';
 import { useEffect, useState } from 'react';
 import useURI from './useURI';
@@ -50,7 +55,7 @@ const useDataDiversion = ({ index = 0, scene }: { index: number; scene: JourneyS
       .filter((item) => !item.name.includes('roadSign'))
       .sort(() => Math.random() - 0.5);
 
-    const pickCount = Math.min(Number(QueryString.get('count')) || 3, length);
+    const pickCount = Math.min(Number(QueryString.get('count')) || JourneySceneDebug.count, length);
 
     const groupList: TDataDiversionItem[][] = [];
 

@@ -140,16 +140,15 @@ export const JourneySceneSetting = {
   itemsCenterThreshold: 200,
   offset: 100,
   walkFadeInDistance: 300,
-  // offset: 14,
   shouldReloadWhenWindowResized: true,
 };
 
 type JourneySceneDebugType = {
   enabled: boolean;
-  count: number | 'max';
+  count: number;
 };
 
 export const JourneySceneDebug: JourneySceneDebugType = {
   enabled: false,
-  count: QueryString.get('count') === 'max' ? 'max' : Number(QueryString.get('count')) || 1,
+  count: 3,
 };
