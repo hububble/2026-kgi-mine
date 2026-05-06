@@ -133,11 +133,9 @@ type CarouselProps = {
   data?: ResponseType['result']['minerList'];
 };
 
-const Carousel = memo(({ data }: CarouselProps) => {
-  return (
-    <Blockquote className='w-full lg:max-w-5xl xl:max-w-7xl'>
-      <SliderContainer data={data} />
-    </Blockquote>
-  );
-});
+const Carousel = memo(({ data }: CarouselProps) => (
+  <Blockquote className='w-full lg:max-w-5xl xl:max-w-7xl'>
+    <SliderContainer data={data} />
+  </Blockquote>
+));
 export default Carousel;

@@ -5,6 +5,7 @@ import {
   IAction,
   IState,
   LoadingProcessType,
+  TArticleState,
   TCardState,
   TContext,
   TDatasetState,
@@ -61,8 +62,14 @@ export const RecentState: TRecentState = {
   title: '探索更多活動',
 };
 
+// 文章
+export const ArticleState: TArticleState = {
+  enabled: false,
+  onClose: () => {},
+};
+
 export const InitialState: IState = {
-  [ActionType.Page]: PAGE.home,
+  [ActionType.Page]: PAGE.journey,
   [ActionType.LoadingProcess]: LoadingProcessState,
   [ActionType.Dataset]: DatasetState,
   [ActionType.Sounds]: { track: undefined },
@@ -72,6 +79,7 @@ export const InitialState: IState = {
   [ActionType.Card]: CardState,
   [ActionType.Questionnaire]: QuestionnaireState,
   [ActionType.Recent]: RecentState,
+  [ActionType.Article]: ArticleState,
 };
 
 export const Context = createContext<TContext>([InitialState, () => {}]);

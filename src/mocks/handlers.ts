@@ -78,6 +78,13 @@ export const handlers = [
     });
   }),
 
+  http.post(mergePath(REST_PATH.answer), () => {
+    return HttpResponse.json({
+      isSuccess: true,
+      result: true,
+    });
+  }),
+
   http.get('/img/favicon.ico', () => {
     return new HttpResponse(null, { status: 204 });
   }),

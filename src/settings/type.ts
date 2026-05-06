@@ -12,6 +12,7 @@ export enum ActionType {
   Card = 'card',
   Questionnaire = 'questionnaire',
   Recent = 'recent',
+  Article = 'article',
 }
 
 export enum LoadingProcessType {
@@ -98,6 +99,11 @@ export type TRecentState = {
   onClick?: () => void;
 };
 
+export type TArticleState = {
+  enabled?: boolean;
+  onClose?: () => void;
+};
+
 export interface IState {
   [ActionType.Page]: string;
   [ActionType.LoadingProcess]: TLoadingProcessState;
@@ -109,6 +115,7 @@ export interface IState {
   [ActionType.Card]: TCardState;
   [ActionType.Questionnaire]: TQuestionnaireState;
   [ActionType.Recent]: TRecentState;
+  [ActionType.Article]: TArticleState;
 }
 
 export interface IAction {
