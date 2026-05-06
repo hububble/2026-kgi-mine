@@ -1,8 +1,17 @@
 import { REST_PATH } from '@/settings/config';
+import { faker } from '@faker-js/faker';
 import { mergePath } from 'lesca-fetcher';
 import { HttpResponse, http } from 'msw';
 
 export const handlers = [
+  http.get(mergePath(REST_PATH.login), () => {
+    return HttpResponse.json({
+      isSuccess: true,
+      account: faker.string.uuid(),
+      credential: faker.string.nanoid(),
+    });
+  }),
+
   http.get(mergePath(REST_PATH.start), () => {
     return HttpResponse.json({
       isSuccess: true,

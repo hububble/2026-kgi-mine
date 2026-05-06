@@ -6,6 +6,7 @@ export const PAGE = {
 };
 
 export const REST_PATH = {
+  login: 'admin/login',
   start: 'immersion/content',
   questions: 'immersion/miner',
 };
