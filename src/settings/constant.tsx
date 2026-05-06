@@ -7,6 +7,7 @@ import {
   LoadingProcessType,
   TArticleState,
   TCardState,
+  TCharacterName,
   TContext,
   TDatasetState,
   TLoadingProcessState,
@@ -33,9 +34,18 @@ export const ModalState: TModalState = {
   enabled: false,
 };
 
+const characterList: TCharacterName[] = [
+  'character-blue',
+  'character-green',
+  'character-orange',
+  'character-yellow',
+  'character-peach',
+  'character-gray',
+];
+
 export const UserDataState: TUserDataState = {
-  journey: '晴光森林',
-  character: 'character-blue',
+  journey: '月夜雪地',
+  character: characterList[Math.floor(Math.random() * characterList.length)],
 };
 
 export const SceneViewSizeState: TSceneViewSizeState = {
@@ -64,13 +74,13 @@ export const RecentState: TRecentState = {
 
 // 文章
 export const ArticleState: TArticleState = {
-  enabled: true,
+  enabled: false,
   type: 'article',
   onClose: () => {},
 };
 
 export const InitialState: IState = {
-  [ActionType.Page]: PAGE.journey,
+  [ActionType.Page]: PAGE.home,
   [ActionType.LoadingProcess]: LoadingProcessState,
   [ActionType.Dataset]: DatasetState,
   [ActionType.Sounds]: { track: undefined },

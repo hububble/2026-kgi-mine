@@ -98,7 +98,7 @@ export const JourneyItemsList = {
     // { name: 'azureCoast-item-7', path: 'scene-azureCoast-item-7.png', top: 4, left: 550 , dissociation: 'back'},
   ],
   [JourneySceneType.月夜雪地]: [
-    { name: 'moonlitSnowfield-roadSign', path: 'scene-moonlitSnowfield-roadSign.png', top: 3.7, left: 55.1, dissociation: 'back' },
+    { name: 'moonlitSnowfield-roadSign', path: 'scene-moonlitSnowfield-roadSign.png', top: 1.8, left: 54.1, dissociation: 'back' },
     // { name: 'moonlitSnowfield-item-1', path: 'scene-moonlitSnowfield-item-1.png', top: -40, left: 1930 , dissociation: 'back'},
     { name: 'moonlitSnowfield-item-2', path: 'scene-moonlitSnowfield-item-2.png', top: -7.5, left: 33.8, dissociation: 'back' },
     { name: 'moonlitSnowfield-item-3', path: 'scene-moonlitSnowfield-item-3.png', top: -18, left: 17.4, dissociation: 'back' },
@@ -110,7 +110,7 @@ export const JourneyItemsList = {
   [JourneySceneType.晴光森林]: [
     { name: 'lushForest-roadSign', path: 'scene-lushForest-roadSign.png', top: 7.4, left: 49, dissociation: 'back' },
     { name: 'lushForest-item-1', path: 'scene-lushForest-item-1.png', top: -11.1, left: 22.3, dissociation: 'back' },
-    { name: 'lushForest-item-2', path: 'scene-lushForest-item-2.png', top: 14.2, left: 7.1, dissociation: 'back' },
+    { name: 'lushForest-item-2', path: 'scene-lushForest-item-2.png', top: 12.5, left: 7.1, dissociation: 'back' },
     { name: 'lushForest-item-3', path: 'scene-lushForest-item-3.png', top: -0.1, left: 77.5, dissociation: 'back' },
     { name: 'lushForest-item-4', path: 'scene-lushForest-item-4.png', top: -46, left: 71, dissociation: 'back' },
     { name: 'lushForest-item-5', path: 'scene-lushForest-item-5.png', top: -43.5, left: 42.5, dissociation: 'back' },
