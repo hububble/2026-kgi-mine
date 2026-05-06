@@ -1,0 +1,106 @@
+@import url('@/settings/config.less');
+@import url('@/settings/global.css');
+
+.Article {
+  @apply absolute top-0 h-full w-full bg-transparent;
+
+  .inner {
+    padding-top: 96px;
+    padding-bottom: 13vh;
+
+    @apply w-full max-w-5xl;
+
+    @media only screen and (max-width: @LG) {
+      & {
+        padding-top: 80px;
+      }
+    }
+
+    @media only screen and (max-width: @XS) {
+      & {
+        padding-top: 19vw;
+      }
+    }
+
+    @media only screen and (max-width: @XXS) {
+      & {
+        padding-top: 60px;
+      }
+    }
+
+    .inner-contain {
+      @apply relative w-full p-0 md:p-10;
+
+      .ctx {
+        background-image: var(--scene-bg);
+
+        @apply relative w-full bg-cover bg-top;
+
+        &::before {
+          content: '';
+          @apply absolute top-0 left-0 h-full w-full bg-black/50;
+        }
+
+        & > * {
+          @apply relative;
+        }
+
+        .navBar {
+          @apply flex w-full justify-end p-3 md:p-2;
+        }
+
+        .article {
+          @apply w-full px-0 md:px-10;
+
+          .image {
+            width: (unit(image-width(@img))) / 1280 * 100%;
+
+            @img: './img/cover.png';
+            @apply w-full;
+
+            &::before {
+              padding-bottom: (unit(image-height(@img) / unit(image-width(@img))) * 100%);
+              background-image: url(@img);
+              content: '';
+
+              @apply inline-block w-full bg-contain bg-center bg-no-repeat;
+            }
+          }
+
+          .blockquote {
+            @apply p-8;
+
+            .career {
+              background-image: var(--pattern-xs-icon-career);
+              @apply h-6 w-6;
+            }
+
+            .relations {
+              background-image: var(--pattern-xs-icon-relations);
+              @apply h-6 w-6;
+            }
+
+            .field {
+              padding-block: 6px;
+              @apply border-font-white-light flex flex-none shrink basis-auto flex-row items-center justify-center gap-3 rounded-l-full rounded-r-full border px-4;
+
+              @media only screen and (max-width: @XS) {
+                & {
+                  flex-basis: calc((100% - 2rem * 32px) / 3);
+                  @apply flex-1;
+                }
+              }
+
+              @media only screen and (max-width: 393px) {
+                & {
+                  // flex-basis: calc((100% - 2rem * 32px) / 3);
+                  @apply flex-none basis-auto;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

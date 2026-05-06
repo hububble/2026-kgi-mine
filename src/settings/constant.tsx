@@ -64,7 +64,7 @@ export const RecentState: TRecentState = {
 
 // 文章
 export const ArticleState: TArticleState = {
-  enabled: false,
+  enabled: true,
   onClose: () => {},
 };
 
