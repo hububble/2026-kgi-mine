@@ -71,6 +71,15 @@ const Article = memo(() => {
                     </Paragraph>
                     <Heading.H3>「ETF 是什麼？白話文大解密」</Heading.H3>
                     <Paragraph>
+                      <Heading.D4 className='text-justify'>
+                        ETF 是什麼？想像你走進一間水果行，想買水果。ETF (Exchange Traded
+                        Fund)，也就是指數股票型基金，就好像是水果行老闆事先幫你搭配好的綜合水果籃。
+                        這個水果籃裡，有各式各樣的水果，例如蘋果、香蕉、橘子、葡萄等等，而不是只有單一種水果。同樣地，一個
+                        ETF
+                        基金裡面，也包含了許多不同的股票、債券或其他資產，而不是只有單一一種資產。
+                      </Heading.D4>
+                    </Paragraph>
+                    <Paragraph>
                       <div className='flex flex-col gap-3 pt-5'>
                         <Heading.D3>
                           <a
