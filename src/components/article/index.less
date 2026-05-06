@@ -55,12 +55,12 @@
           .image {
             width: (unit(image-width(@img))) / 1280 * 100%;
 
-            @img: './img/cover.png';
+            @img: '../../../public/article-demo-cover.png';
             @apply w-full;
 
             &::before {
               padding-bottom: (unit(image-height(@img) / unit(image-width(@img))) * 100%);
-              background-image: url(@img);
+              background-image: var(--article-demo-cover);
               content: '';
 
               @apply inline-block w-full bg-contain bg-center bg-no-repeat;

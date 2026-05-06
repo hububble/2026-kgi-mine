@@ -1,7 +1,7 @@
 import { Context } from '@/settings/constant';
 import { ActionType, TransitionType } from '@/settings/type';
 import OnloadProvider from 'lesca-react-onload';
-import { memo, useContext, useState } from 'react';
+import { memo, useContext, useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import Blockquote from '../blockquote';
 import Heading from '../heading';
@@ -10,10 +10,16 @@ import { ArticleIcons } from './config';
 import Field from './field';
 import './index.less';
 import NavBar from './navBar';
+import useURI from '@/hooks/useURI';
 
 const Article = memo(() => {
   const [, setContext] = useContext(Context);
   const [transition, setTransition] = useState(TransitionType.Unset);
+  const [, setURI] = useURI();
+
+  useEffect(() => {
+    setURI({ path: 'article-demo-cover.png', name: 'article-demo-cover' });
+  }, []);
 
   return (
     <OnloadProvider
