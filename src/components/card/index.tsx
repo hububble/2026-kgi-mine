@@ -59,7 +59,12 @@ const InnerCard = memo(({ transition }: { transition: TransitionType }) => {
           </div>
         </div>
         <div className='foot'>
-          <Button className='w-fit'>
+          <Button
+            className='w-fit'
+            onClick={() => {
+              setContext({ type: ActionType.Article, state: { enabled: true } });
+            }}
+          >
             <Button.Soft>點我觀看</Button.Soft>
           </Button>
           <Button className='w-fit'>

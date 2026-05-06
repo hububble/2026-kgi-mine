@@ -1,11 +1,17 @@
-import { memo, useEffect } from 'react';
+import { Context } from '@/settings/constant';
+import { ActionType } from '@/settings/type';
+import { memo, useContext } from 'react';
 import Button from '../button';
 
 const NavBar = memo(() => {
-  useEffect(() => {}, []);
+  const [, setContext] = useContext(Context);
   return (
     <div className='navBar'>
-      <Button>
+      <Button
+        onClick={() => {
+          setContext({ type: ActionType.Article, state: { enabled: false } });
+        }}
+      >
         <svg
           width='36'
           height='36'
