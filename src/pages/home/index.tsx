@@ -1,5 +1,5 @@
 import { Context } from '@/settings/constant';
-import { ActionType } from '@/settings/type';
+import { ActionType, TCharacterName } from '@/settings/type';
 import OnloadProvider from 'lesca-react-onload';
 import { memo, useContext, useEffect, useState } from 'react';
 import Background from './background';
@@ -26,6 +26,19 @@ const Home = memo(() => {
       });
     }
   }, [state.journeyData]);
+
+  useEffect(() => {
+    const { characterData } = state;
+    if (characterData) {
+      const { name } = characterData;
+      setContext({
+        type: ActionType.UserData,
+        state: {
+          character: (name as TCharacterName) || 'blue',
+        },
+      });
+    }
+  }, [state.characterData]);
 
   useEffect(() => {
     if (imageLoaded) {

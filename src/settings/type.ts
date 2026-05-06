@@ -57,9 +57,17 @@ export type TModalState = {
   onClose?: () => void;
 };
 
+export type TCharacterName =
+  | 'character-blue'
+  | 'character-green'
+  | 'character-orange'
+  | 'character-yellow'
+  | 'character-peach'
+  | 'character-gray';
+
 export type TUserDataState = {
   journey?: '金黃稻浪' | '花海平原' | '蔚藍海岸' | '月夜雪地' | '晴光森林';
-  character?: string;
+  character?: TCharacterName;
 };
 
 export type TSceneViewSizeState = {

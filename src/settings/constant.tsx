@@ -35,7 +35,7 @@ export const ModalState: TModalState = {
 
 export const UserDataState: TUserDataState = {
   journey: '晴光森林',
-  character: undefined,
+  character: 'character-blue',
 };
 
 export const SceneViewSizeState: TSceneViewSizeState = {

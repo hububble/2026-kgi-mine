@@ -1,9 +1,19 @@
 import useCharacterSlowDown, { CharacterFrame } from '@/hooks/useCharacterSlowDown';
 import useURI from '@/hooks/useURI';
 import EnterFrame from 'lesca-enterframe';
-import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import {
+  forwardRef,
+  useCallback,
+  useContext,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react';
 import { MINER_SIZE, MINER_SPRITE_FRAME_COUNT } from './config';
 import './index.less';
+import { Context } from '@/settings/constant';
+import { ActionType } from '@/settings/type';
 
 type MinerProps = {
   height?: string;
@@ -13,13 +23,19 @@ type MinerProps = {
 };
 
 const Miner = forwardRef(({ height, className, autoplay, onShowDown }: MinerProps, ref) => {
+  const [context] = useContext(Context);
+  const { character } = context[ActionType.UserData]!;
   const containerRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(0);
   const [spriteName, setSpriteName] = useState(0);
   const [frame, setFrame] = useCharacterSlowDown();
   const targetWidth = useRef(0);
 
-  useURI({ path: 'character-blue-sprite-sheet.png', name: 'minerSprite' });
+  const [, setURI] = useURI();
+
+  useEffect(() => {
+    setURI({ path: `${character}-sprite-sheet.png`, name: 'minerSprite' });
+  }, [character]);
 
   useEffect(() => {
     if (frame) setSpriteName(frame.step);
