@@ -13,7 +13,7 @@ const Blockquote = memo(
     }, [id]);
 
     return (
-      <article id={id} className='Article'>
+      <article id={id} className='Blockquote'>
         <div
           className={twMerge(className ? className : 'max-w-3xl', scroll && 'overflow-y-scroll')}
         >
