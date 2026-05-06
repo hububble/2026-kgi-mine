@@ -1,4 +1,4 @@
-import Blockquote from '@/components/article';
+import Blockquote from '@/components/blockquote';
 import Button from '@/components/button';
 import Heading from '@/components/heading';
 import TweenerProvider from '@/components/tweenProvider';

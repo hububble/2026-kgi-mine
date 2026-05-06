@@ -3,7 +3,7 @@ import { ActionType } from '@/settings/type';
 import { shareURL } from '@/utils';
 import { Bezier } from 'lesca-use-tween';
 import { memo, useContext, useEffect, useState } from 'react';
-import Blockquote from '../article';
+import Blockquote from '../blockquote';
 import Button from '../button';
 import Contain from '../contain';
 import TweenerProvider from '../tweenProvider';

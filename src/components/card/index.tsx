@@ -6,7 +6,7 @@ import OnloadProvider from 'lesca-react-onload';
 import useTween from 'lesca-use-tween';
 import { memo, useContext, useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
-import Blockquote from '../article';
+import Blockquote from '../blockquote';
 import Button from '../button';
 import Heading from '../heading';
 import { URI } from './config';

@@ -1,4 +1,4 @@
-import Blockquote from '@/components/article';
+import Blockquote from '@/components/blockquote';
 import Button from '@/components/button';
 import TweenerProvider from '@/components/tweenProvider';
 import { ResponseType } from '@/hooks/useQuestion';
