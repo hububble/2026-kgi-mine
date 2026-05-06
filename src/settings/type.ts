@@ -101,6 +101,7 @@ export type TRecentState = {
 
 export type TArticleState = {
   enabled?: boolean;
+  type?: 'article' | 'video' | 'audio';
   onClose?: () => void;
 };
 
