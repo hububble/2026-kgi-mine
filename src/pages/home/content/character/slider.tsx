@@ -84,6 +84,7 @@ const SliderContainer = memo(({ data }: SliderContainerProps) => {
     >
       <div className='slider-container'>
         <Swiper
+          allowTouchMove={window.innerWidth < 768 ? true : false}
           loop
           spaceBetween={0}
           slidesPerView={3}
