@@ -62,7 +62,16 @@ const InnerCard = memo(({ transition }: { transition: TransitionType }) => {
           <Button
             className='w-fit'
             onClick={() => {
-              setContext({ type: ActionType.Article, state: { enabled: true } });
+              setContext({
+                type: ActionType.Article,
+                state: {
+                  enabled: true,
+                  onClose: () => {
+                    setState((S) => ({ ...S, step: JourneyStepType.resume }));
+                  },
+                },
+              });
+              setContext({ type: ActionType.Card, state: { enabled: false } });
             }}
           >
             <Button.Soft>點我觀看</Button.Soft>

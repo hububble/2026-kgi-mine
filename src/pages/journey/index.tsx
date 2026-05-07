@@ -16,6 +16,9 @@ import './index.less';
 import Scene from './scene';
 import UserData from './userData';
 import EnterFrame from 'lesca-enterframe';
+import Article from '@/components/article';
+import Modal from '@/components/modal';
+import Recent from '@/components/recent';
 
 const Journey = memo(() => {
   const [context, setContext] = useContext(Context);
@@ -74,6 +77,9 @@ const Journey = memo(() => {
               <UserData />
               {context[ActionType.Card]?.enabled && <Card />}
               {context[ActionType.Questionnaire]?.enabled && <Questionnaire />}
+              {context[ActionType.Article]?.enabled && <Article />}
+              {context[ActionType.Modal]?.enabled && <Modal />}
+              {context[ActionType.Recent]?.enabled && <Recent />}
             </JourneyEventProvider>
           </div>
         </OnloadProvider>

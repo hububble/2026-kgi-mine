@@ -62,9 +62,6 @@ const App = ({ dataset }: { dataset: typeof rooAppDataset }) => {
       <Context.Provider {...{ value }}>
         <Container>{currentPage}</Container>
         {context[ActionType.LoadingProcess]?.enabled && <LoadingProcess />}
-        {context[ActionType.Article]?.enabled && <Article />}
-        {context[ActionType.Modal]?.enabled && <Modal />}
-        {context[ActionType.Recent]?.enabled && <Recent />}
       </Context.Provider>
     </div>
   );
