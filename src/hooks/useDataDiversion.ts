@@ -5,7 +5,7 @@ import {
   JourneyStaticItemsList,
 } from '@/pages/journey/config';
 import QueryString from 'lesca-url-parameters';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import useURI from './useURI';
 
 export type TDataDiversionItem = {
@@ -42,89 +42,104 @@ const useDataDiversion = ({ index = 0, scene }: { index: number; scene: JourneyS
     data: { back: [], front: [], static: [] },
   });
 
+  const dataRef = useRef<TDataDiversionData>({ back: [], front: [], static: [] });
+
   const [, setURI] = useURI();
+
+  useEffect(() => {
+    if (!state.scene) return;
+    dataRef.current = { back: [], front: [], static: [] };
+  }, [state.scene]);
 
   useEffect(() => {
     const { scene } = state;
     if (!scene) return;
-    const currentList = JourneyItemsList[scene];
-    const length = currentList.length;
-    const roadSign = currentList.find((item) => item.name.includes('roadSign'));
 
-    const currentListWithoutRoadSign = currentList
-      .filter((item) => !item.name.includes('roadSign'))
-      .sort(() => Math.random() - 0.5);
+    let allData: TDataDiversionData = dataRef.current;
+    let staticData = JourneyStaticItemsList[scene] || [];
 
-    const pickCount = Math.min(Number(QueryString.get('count')) || JourneySceneDebug.count, length);
+    if (dataRef.current.back.length === 0 && dataRef.current.front.length === 0) {
+      const currentList = JourneyItemsList[scene];
+      const length = currentList.length;
+      const roadSign = currentList.find((item) => item.name.includes('roadSign'));
 
-    const groupList: TDataDiversionItem[][] = [];
+      const currentListWithoutRoadSign = currentList
+        .filter((item) => !item.name.includes('roadSign'))
+        .sort(() => Math.random() - 0.5);
 
-    for (let i = 0; i < currentListWithoutRoadSign.length; i += pickCount) {
-      const group: TDataDiversionItem[] = currentListWithoutRoadSign
-        .slice(i, i + pickCount)
-        .map((item) => ({ ...item, clicked: false }));
-      while (group.length < pickCount)
-        group.push({ name: '', path: '', top: 0, left: 0, clicked: true, dissociation: 'back' });
-      groupList.push(group);
+      const pickCount = Math.min(
+        Number(QueryString.get('count')) || JourneySceneDebug.count,
+        length,
+      );
+      const groupList: TDataDiversionItem[][] = [];
+
+      for (let i = 0; i < currentListWithoutRoadSign.length; i += pickCount) {
+        const group: TDataDiversionItem[] = currentListWithoutRoadSign
+          .slice(i, i + pickCount)
+          .map((item) => ({ ...item, clicked: false }));
+        while (group.length < pickCount)
+          group.push({ name: '', path: '', top: 0, left: 0, clicked: true, dissociation: 'back' });
+        groupList.push(group);
+      }
+
+      if (roadSign) {
+        groupList.splice(1, 0, [
+          { ...roadSign, clicked: false },
+          { name: '', path: '', top: 0, left: 0, clicked: true, dissociation: 'back' },
+          { name: '', path: '', top: 0, left: 0, clicked: true, dissociation: 'back' },
+        ]);
+      }
+
+      const allData: TDataDiversionData = groupList.reduce(
+        (acc, group) => {
+          const backGroup: TDataDiversionItem[] = [];
+          const frontGroup: TDataDiversionItem[] = [];
+          group.forEach((item) => {
+            if (item.dissociation === 'back') {
+              backGroup.push(item);
+              frontGroup.push({
+                name: '',
+                path: '',
+                top: 0,
+                left: 0,
+                clicked: true,
+                dissociation: 'front',
+              });
+            } else {
+              frontGroup.push(item);
+              backGroup.push({
+                name: '',
+                path: '',
+                top: 0,
+                left: 0,
+                clicked: true,
+                dissociation: 'back',
+              });
+            }
+          });
+          acc.back.push(backGroup);
+          acc.front.push(frontGroup);
+          return acc;
+        },
+        { back: [], front: [], static: [] } as TDataDiversionData,
+      );
+      dataRef.current = allData;
+
+      // 預載入圖片
+      staticData.forEach((item) => {
+        setURI({ path: item.path, name: item.name });
+      });
+
+      [...allData.front, ...allData.back].flat().forEach((item) => {
+        if (item.name) setURI({ path: item.path, name: item.name });
+      });
     }
-
-    if (roadSign) {
-      groupList.splice(1, 0, [
-        { ...roadSign, clicked: false },
-        { name: '', path: '', top: 0, left: 0, clicked: true, dissociation: 'back' },
-        { name: '', path: '', top: 0, left: 0, clicked: true, dissociation: 'back' },
-      ]);
-    }
-
-    const allData: TDataDiversionData = groupList.reduce(
-      (acc, group) => {
-        const backGroup: TDataDiversionItem[] = [];
-        const frontGroup: TDataDiversionItem[] = [];
-        group.forEach((item) => {
-          if (item.dissociation === 'back') {
-            backGroup.push(item);
-            frontGroup.push({
-              name: '',
-              path: '',
-              top: 0,
-              left: 0,
-              clicked: true,
-              dissociation: 'front',
-            });
-          } else {
-            frontGroup.push(item);
-            backGroup.push({
-              name: '',
-              path: '',
-              top: 0,
-              left: 0,
-              clicked: true,
-              dissociation: 'back',
-            });
-          }
-        });
-        acc.back.push(backGroup);
-        acc.front.push(frontGroup);
-        return acc;
-      },
-      { back: [], front: [], static: [] } as TDataDiversionData,
-    );
-
-    const staticData = JourneyStaticItemsList[scene] || [];
 
     const data = {
       back: allData.back[state.index] || [],
       front: allData.front[state.index] || [],
       static: staticData,
     };
-
-    staticData.forEach((item) => {
-      setURI({ path: item.path, name: item.name });
-    });
-
-    [...data.front, ...data.back].forEach((item) => {
-      if (item.name) setURI({ path: item.path, name: item.name });
-    });
 
     setState((S) => ({ ...S, data }));
   }, [state.scene, state.index]);

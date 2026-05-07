@@ -42,6 +42,7 @@ const Item = memo(({ data, offset, onCenter, onItemSelected }: TItemProps) => {
     <div
       className={twMerge(
         data.name,
+        'relative',
         JourneySceneDebug.enabled ? 'before:pointer-events-auto' : 'before:pointer-events-none',
       )}
       style={{
@@ -49,8 +50,9 @@ const Item = memo(({ data, offset, onCenter, onItemSelected }: TItemProps) => {
         left: `${data.left}%`,
       }}
     >
-      {!data.name.includes('roadSign') && data.name && data.clicked === false && (
-        <div className='marker'>
+      <div className='marker'>
+        {data.name !== '' && <div ref={ref} className='absolute h-10 w-10' />}
+        {!data.name.includes('roadSign') && data.name && data.clicked === false && (
           <Button
             onClick={() => {
               onItemSelected?.(data.name);
@@ -58,11 +60,11 @@ const Item = memo(({ data, offset, onCenter, onItemSelected }: TItemProps) => {
             }}
           >
             <Button.Marker>
-              <div ref={ref} className={`box ${randomPattern.current}`}></div>
+              <div className={`box ${randomPattern.current}`}></div>
             </Button.Marker>
           </Button>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 });
