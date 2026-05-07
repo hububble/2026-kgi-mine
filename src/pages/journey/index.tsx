@@ -15,6 +15,7 @@ import JourneyEventProvider, { JourneyEventsContext, JourneyEventsState } from '
 import './index.less';
 import Scene from './scene';
 import UserData from './userData';
+import EnterFrame from 'lesca-enterframe';
 
 const Journey = memo(() => {
   const [context, setContext] = useContext(Context);
@@ -36,6 +37,8 @@ const Journey = memo(() => {
       if (innerWidthRef.current !== 0 && innerWidthRef.current !== window.innerWidth) {
         if (innerWidthRef.current > window.innerWidth) {
           if (JourneySceneSetting.shouldReloadWhenWindowResized) {
+            EnterFrame.destroy();
+            setState((S) => ({ ...S, loop: -1, step: JourneyStepType.unset }));
             setResetIndex((I) => I + 1);
           }
         }
