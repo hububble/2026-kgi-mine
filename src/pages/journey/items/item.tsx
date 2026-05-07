@@ -40,7 +40,6 @@ const Item = memo(({ data, offset, onCenter, onItemSelected }: TItemProps) => {
 
   return (
     <div
-      ref={ref}
       className={twMerge(data.name)}
       style={{
         transform: `translateY(${data.top}vh)`,
@@ -56,7 +55,7 @@ const Item = memo(({ data, offset, onCenter, onItemSelected }: TItemProps) => {
             }}
           >
             <Button.Marker>
-              <div className={`box ${randomPattern.current}`}></div>
+              <div ref={ref} className={`box ${randomPattern.current}`}></div>
             </Button.Marker>
           </Button>
         </div>

@@ -44,7 +44,7 @@ const characterList: TCharacterName[] = [
 ];
 
 export const UserDataState: TUserDataState = {
-  journey: '月夜雪地',
+  journey: '晴光森林',
   character: characterList[Math.floor(Math.random() * characterList.length)],
 };
 
