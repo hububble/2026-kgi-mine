@@ -60,30 +60,30 @@ const Article = memo(() => {
                     </div>
                   </div>
                 </div>
-                <div className='p-10'>
-                  <div className='w-full rounded-4xl bg-white p-8'>
+                <div className='p-7'>
+                  <div className='w-full rounded-4xl bg-white p-7'>
                     <Heading.H2 className='text-primary-blue font-bold'>
                       「如果你不能在睡覺時賺錢，你將工作到死為止。」 ——華倫・巴菲特 (Warren Buffet)
                     </Heading.H2>
                     <Paragraph>
-                      <Heading.H5 className='text-justify'>
+                      <Heading.H4 className='text-justify'>
                         凱基ETF 直播聊天室
                         為什麼近年『ETF』在投資市場上超級熱門？2025年7月統計ETF受益人數已突破1500萬人，這股風潮背後，其實隱藏著許多人希望擺脫「用時間換取金錢」的渴望。然而，對於許多投資新手來說，ETF
                         可能仍然有些陌生。別擔心！這篇就是你的專屬「ETF懶人包」，我們將帶你用最易懂的方式，搞懂
                         ETF 是什麼，並解答 ETF 怎麼買等基本疑問。
                         很開心能幫助你踏出實現被動收入的第一步！今天要帶你認識 ETF是什麼?白話大解密
                         ETF 的追蹤指標是什麼？ ETF對投資人的好處 ETF可以怎麼買 ETF有哪些風險
-                      </Heading.H5>
+                      </Heading.H4>
                     </Paragraph>
-                    <Heading.H3>「ETF 是什麼？白話文大解密」</Heading.H3>
+                    <Heading.H4>「ETF 是什麼？白話文大解密」</Heading.H4>
                     <Paragraph>
-                      <Heading.H5 className='text-justify'>
+                      <Heading.H4 className='text-justify'>
                         ETF 是什麼？想像你走進一間水果行，想買水果。ETF (Exchange Traded
                         Fund)，也就是指數股票型基金，就好像是水果行老闆事先幫你搭配好的綜合水果籃。
                         這個水果籃裡，有各式各樣的水果，例如蘋果、香蕉、橘子、葡萄等等，而不是只有單一種水果。同樣地，一個
                         ETF
                         基金裡面，也包含了許多不同的股票、債券或其他資產，而不是只有單一一種資產。
-                      </Heading.H5>
+                      </Heading.H4>
                     </Paragraph>
                     <Paragraph>
                       <div className='flex flex-col gap-3 pt-5'>
