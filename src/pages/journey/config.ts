@@ -115,7 +115,7 @@ export const JourneyItemsList = {
     { name: 'lushForest-item-3', path: 'scene-lushForest-item-3.png', top: -0.1, left: 77.5, dissociation: 'back' },
     { name: 'lushForest-item-4', path: 'scene-lushForest-item-4.png', top: -46, left: 71, dissociation: 'back' },
     { name: 'lushForest-item-5', path: 'scene-lushForest-item-5.png', top: -43.5, left: 42.5, dissociation: 'back' },
-    { name: 'lushForest-item-6', path: 'scene-lushForest-item-6.png', top: -39, left: 17, dissociation: 'front' },
+    { name: 'lushForest-item-6', path: 'scene-lushForest-item-6.png', top: -39, left: 18, dissociation: 'front' },
     { name: 'lushForest-item-7', path: 'scene-lushForest-item-7.png', top: -16.8, left: 49, dissociation: 'back' },
   ],
 };
