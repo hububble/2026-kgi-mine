@@ -47,7 +47,7 @@ const InnerCard = memo(({ transition }: { transition: TransitionType }) => {
       <div className='gradient-bottom' />
       <div className='ctx'>
         <div className='head'>
-          <Heading.D3 icon={navBarIcon}>豐盛未來式</Heading.D3>
+          <Heading.H4 icon={navBarIcon}>豐盛未來式</Heading.H4>
           <div className='navBar'>
             {mines?.map((mine) => (
               <div
