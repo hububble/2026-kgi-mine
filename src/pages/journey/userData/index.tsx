@@ -24,11 +24,19 @@ const Icon = memo(() => {
   const [style, setStyle] = useTween({ backgroundPositionY: '0%' });
 
   useEffect(() => {
+    if (offsetIndex <= 0) return;
+
     setStyle(
       { backgroundPositionY: `${offsetIndex * 25}%` },
       {
         duration: 500,
         easing: Bezier.inOutBack,
+        onEnd: () => {
+          if (offsetIndex >= 5) {
+            setOffsetIndex(0);
+            setStyle({ backgroundPositionY: '0%' }, 0);
+          }
+        },
       },
     );
   }, [offsetIndex]);
@@ -37,9 +45,9 @@ const Icon = memo(() => {
     intervalRef.current = setInterval(() => {
       setOffsetIndex((S) => S + 1);
     }, 1000);
-    // return () => {
-    //   if (intervalRef.current) clearInterval(intervalRef.current);
-    // };
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
   }, []);
 
   return <div className='ico' style={style} />;
