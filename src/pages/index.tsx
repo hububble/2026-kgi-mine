@@ -1,8 +1,5 @@
-import Article from '@/components/article';
 import Container from '@/components/container';
 import LoadingProcess from '@/components/loadingProcess';
-import Modal from '@/components/modal';
-import Recent from '@/components/recent';
 import { Debug, PAGE } from '@/settings/config';
 import { Context, DatasetState, InitialState, Reducer } from '@/settings/constant';
 import '@/settings/global.css';
