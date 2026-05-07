@@ -1,3 +1,4 @@
+import QueryString from 'lesca-url-parameters';
 import { createContext, Dispatch, SetStateAction } from 'react';
 
 export enum JourneySceneType {
@@ -110,7 +111,7 @@ export const JourneyItemsList = {
   [JourneySceneType.晴光森林]: [
     { name: 'lushForest-roadSign', path: 'scene-lushForest-roadSign.png', top: 7.4, left: 49, dissociation: 'back' },
     { name: 'lushForest-item-1', path: 'scene-lushForest-item-1.png', top: -11.1, left: 22.3, dissociation: 'back' },
-    { name: 'lushForest-item-2', path: 'scene-lushForest-item-2.png', top: 12.5, left: 7.1, dissociation: 'back' },
+    { name: 'lushForest-item-2', path: 'scene-lushForest-item-2.png', top: 11.5, left: 7.1, dissociation: 'back' },
     { name: 'lushForest-item-3', path: 'scene-lushForest-item-3.png', top: -0.1, left: 77.5, dissociation: 'back' },
     { name: 'lushForest-item-4', path: 'scene-lushForest-item-4.png', top: -46, left: 71, dissociation: 'back' },
     { name: 'lushForest-item-5', path: 'scene-lushForest-item-5.png', top: -43.5, left: 42.5, dissociation: 'back' },
@@ -148,6 +149,6 @@ type JourneySceneDebugType = {
 };
 
 export const JourneySceneDebug: JourneySceneDebugType = {
-  enabled: false,
+  enabled: QueryString.get('debug') === 'true' || false,
   count: 3,
 };

@@ -3,7 +3,7 @@ import { TDataDiversionItem } from '@/hooks/useDataDiversion';
 import { PATTERN_URI_PROPERTIES } from '@/settings/config';
 import { memo, useEffect, useRef, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { JourneySceneSetting } from '../config';
+import { JourneySceneDebug, JourneySceneSetting } from '../config';
 import { checkElementCenterOfScreenWithOffset, checkElementInViewport } from '@/utils';
 
 type TItemProps = {
@@ -40,7 +40,10 @@ const Item = memo(({ data, offset, onCenter, onItemSelected }: TItemProps) => {
 
   return (
     <div
-      className={twMerge(data.name)}
+      className={twMerge(
+        data.name,
+        JourneySceneDebug.enabled ? 'before:pointer-events-auto' : 'before:pointer-events-none',
+      )}
       style={{
         transform: `translateY(${data.top}vh)`,
         left: `${data.left.toFixed(2)}%`,

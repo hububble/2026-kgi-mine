@@ -146,14 +146,14 @@ const Scene = memo(() => {
     window.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowRight') {
         setOffset((S) => {
-          document.title = `${getPercentByViewPx(S + 20, width)}`;
+          document.title = `offset:${getPercentByViewPx(S + 20, width).toFixed(2)}`;
           return S + 50;
         });
         EnterFrame.stop();
       }
       if (e.key === 'ArrowLeft') {
         setOffset((S) => {
-          document.title = `${getPercentByViewPx(S - 20, width)}`;
+          document.title = `offset:${getPercentByViewPx(S - 20, width).toFixed(2)}`;
           return S - 50;
         });
         EnterFrame.stop();

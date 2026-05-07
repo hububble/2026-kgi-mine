@@ -17,6 +17,7 @@ import {
   TSceneViewSizeState,
   TUserDataState,
 } from './type';
+import QueryString from 'lesca-url-parameters';
 
 export const LoadingProcessState: TLoadingProcessState = {
   enabled: false,
@@ -43,8 +44,25 @@ const characterList: TCharacterName[] = [
   'character-gray',
 ];
 
+const journey = QueryString.get('journey');
+const getJourneyName: () => TUserDataState['journey'] = () => {
+  switch (journey) {
+    default:
+    case '1':
+      return '晴光森林';
+    case '2':
+      return '金黃稻浪';
+    case '4':
+      return '花海平原';
+    case '3':
+      return '蔚藍海岸';
+    case '5':
+      return '月夜雪地';
+  }
+};
+
 export const UserDataState: TUserDataState = {
-  journey: '晴光森林',
+  journey: getJourneyName(),
   character: characterList[Math.floor(Math.random() * characterList.length)],
 };
 
@@ -80,7 +98,7 @@ export const ArticleState: TArticleState = {
 };
 
 export const InitialState: IState = {
-  [ActionType.Page]: PAGE.journey,
+  [ActionType.Page]: QueryString.get('page') === '1' ? PAGE.journey : PAGE.home,
   [ActionType.LoadingProcess]: LoadingProcessState,
   [ActionType.Dataset]: DatasetState,
   [ActionType.Sounds]: { track: undefined },
