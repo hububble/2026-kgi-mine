@@ -149,6 +149,6 @@ type JourneySceneDebugType = {
 };
 
 export const JourneySceneDebug: JourneySceneDebugType = {
-  enabled: QueryString.get('debug') === 'true' || false,
+  enabled: QueryString.get('debug') === '1' || false,
   count: 3,
 };
