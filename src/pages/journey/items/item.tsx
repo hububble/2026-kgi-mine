@@ -1,15 +1,10 @@
 import Button from '@/components/button';
 import { TDataDiversionItem } from '@/hooks/useDataDiversion';
 import { PATTERN_URI_PROPERTIES } from '@/settings/config';
-import { memo, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { twMerge } from 'tailwind-merge';
-import {
-  JourneyContext,
-  JourneySceneDebug,
-  JourneySceneSetting,
-  JourneySceneType,
-} from '../config';
 import { checkElementCenterOfScreenWithOffset, checkElementInViewport } from '@/utils';
+import { memo, useEffect, useRef, useState } from 'react';
+import { twMerge } from 'tailwind-merge';
+import { JourneySceneDebug, JourneySceneSetting } from '../config';
 
 type TItemProps = {
   data: TDataDiversionItem;
@@ -20,7 +15,6 @@ type TItemProps = {
 
 const Item = memo(({ data, offset, onCenter, onItemSelected }: TItemProps) => {
   const ref = useRef<HTMLDivElement>(null);
-  const [state] = useContext(JourneyContext);
   const [status, setStatus] = useState({ isCenter: false, isInView: false });
 
   const randomPattern = useRef(

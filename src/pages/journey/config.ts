@@ -69,14 +69,14 @@ export const JourneySceneList = {
 
 export const JourneyItemsList = {
   [JourneySceneType.金黃稻浪]: [
-    { name: 'goldenRiceField-roadSign', path: 'scene-goldenRiceField-roadSign.png', top: 6, left: 56, dissociation: 'back' },
-    { name: 'goldenRiceField-item-1', path: 'scene-goldenRiceField-item-1.png', top: -9.8, left: 72, dissociation: 'back' },
-    { name: 'goldenRiceField-item-2', path: 'scene-goldenRiceField-item-2.png', top: -8.2, left: 34.2, dissociation: 'back' },
-    { name: 'goldenRiceField-item-3', path: 'scene-goldenRiceField-item-3.png', top: 11, left: 7, dissociation: 'back' },
-    { name: 'goldenRiceField-item-4', path: 'scene-goldenRiceField-item-4.png', top: 12, left: 15.2, dissociation: 'back' },
-    { name: 'goldenRiceField-item-5', path: 'scene-goldenRiceField-item-5.png', top: 16, left: 25, dissociation: 'front' },
-    { name: 'goldenRiceField-item-6', path: 'scene-goldenRiceField-item-6.png', top: -8.9, left: 43.3, dissociation: 'back' },
-    { name: 'goldenRiceField-item-7', path: 'scene-goldenRiceField-item-7.png', top: 6.4, left: 78.8, dissociation: 'back' },
+    { name: 'goldenRiceField-roadSign', path: 'scene-goldenRiceField-roadSign.png', top: 6, left: 57, dissociation: 'back' },
+    { name: 'goldenRiceField-item-1', path: 'scene-goldenRiceField-item-1.png', top: -9.3, left: 73, dissociation: 'back' },
+    { name: 'goldenRiceField-item-2', path: 'scene-goldenRiceField-item-2.png', top: -7.9, left: 35.2, dissociation: 'back' },
+    { name: 'goldenRiceField-item-3', path: 'scene-goldenRiceField-item-3.png', top: 11, left: 8, dissociation: 'back' },
+    { name: 'goldenRiceField-item-4', path: 'scene-goldenRiceField-item-4.png', top: 12, left: 16.2, dissociation: 'back' },
+    { name: 'goldenRiceField-item-5', path: 'scene-goldenRiceField-item-5.png', top: 16, left: 26, dissociation: 'front' },
+    { name: 'goldenRiceField-item-6', path: 'scene-goldenRiceField-item-6.png', top: -8.9, left: 44.3, dissociation: 'back' },
+    { name: 'goldenRiceField-item-7', path: 'scene-goldenRiceField-item-7.png', top: 6.4, left: 79.8, dissociation: 'back' },
   ],
   [JourneySceneType.花海平原]: [
     { name: 'flowerSeaPlain-roadSign', path: 'scene-flowerSeaPlain-roadSign.png', top: 7.6, left: 53.9, dissociation: 'back' },
