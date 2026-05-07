@@ -37,9 +37,13 @@ const Journey = memo(() => {
       if (innerWidthRef.current !== 0 && innerWidthRef.current !== window.innerWidth) {
         if (innerWidthRef.current > window.innerWidth) {
           if (JourneySceneSetting.shouldReloadWhenWindowResized) {
+            // reset when window resized to smaller size
             EnterFrame.destroy();
             setState((S) => ({ ...S, loop: -1, step: JourneyStepType.unset }));
             setResetIndex((I) => I + 1);
+            setContext({ type: ActionType.Card, state: { enabled: false } });
+            setContext({ type: ActionType.Questionnaire, state: { enabled: false } });
+            setContext({ type: ActionType.Article, state: { enabled: false } });
           }
         }
       }
