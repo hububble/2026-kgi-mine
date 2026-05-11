@@ -16,6 +16,37 @@
 }
 ```
 
+3. `/api/immersion/miner` (取得題目/旅程/Miner角色 API)
+
+#### `name的細節?`
+
+```json
+{
+  "isSuccess": true,
+  "result": {
+    "tripList": [
+      {
+        "trip": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "name": "string"
+      }
+    ],
+    "quizList": [
+      {
+        "quizId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "name": "string"
+      }
+    ],
+    "minerList": [
+      {
+        "minerId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "name": "string",
+        "image": "string"
+      }
+    ]
+  }
+}
+```
+
 3. 取得任務礦石`/api/member/mine/mission` (獲得任務礦石 API)。
 
 #### `post body要mission id，要如何獲取?`
