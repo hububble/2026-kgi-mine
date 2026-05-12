@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prompt Box</title>
+    <style>
+      :root {
+        --blue: #0089ff;
+        --ink: #2e3140;
+        --muted: #6a6d79;
+        --purple: #5f5a78;
+        --purple-dark: #4b4665;
+        --brown: #452314;
+        --brown-deep: #2f140d;
+        --bg: #f3f4f8;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: radial-gradient(circle at top, #ffffff 0%, var(--bg) 65%);
+        color: var(--ink);
+        font-family: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+        line-height: 1.65;
+      }
+
+      .page {
+        margin: 0 auto;
+        max-width: 640px;
+        width: 100%;
+        background: #fff;
+        box-shadow: 0 12px 34px rgba(26, 36, 62, 0.12);
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 16px;
+        height: 64px;
+        background: #fff;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        color: #0c3f95;
+
+        gap: 10px;
+      }
+
+      .brand .badge {
+        width: 20px;
+        height: 20px;
+        border: 1px solid #d8e4ff;
+        border-radius: 3px;
+        background: linear-gradient(135deg, #0057c8 0 40%, #ffb400 40% 72%, #ffffff 72%);
+      }
+
+      .brand strong {
+        letter-spacing: 0.08em;
+        font-size: 18px;
+      }
+
+      .actions {
+        display: flex;
+        align-items: center;
+
+        gap: 10px;
+      }
+
+      .icon-btn {
+        display: grid;
+        width: 24px;
+        height: 24px;
+        border: 1px solid #c7c8d0;
+        border-radius: 50%;
+        color: #75788a;
+        font-size: 12px;
+
+        place-items: center;
+      }
+
+      .menu-btn {
+        display: grid;
+        width: 24px;
+        height: 18px;
+
+        gap: 3px;
+      }
+
+      .menu-btn span {
+        display: block;
+        height: 2px;
+        background: #444;
+      }
+
+      .hero {
+        position: relative;
+        overflow: hidden;
+        min-height: 250px;
+        background: linear-gradient(180deg, var(--brown) 0%, var(--brown-deep) 100%);
+      }
+
+      .hero::before {
+        position: absolute;
+        height: 220px;
+        background: radial-gradient(circle at 50% 0, rgba(255, 170, 108, 0.22), rgba(0, 0, 0, 0));
+        content: '';
+
+        inset: auto -10% -40% -10%;
+      }
+
+      .chips {
+        position: absolute;
+        top: 14px;
+        left: 50%;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: calc(100% - 24px);
+        transform: translateX(-50%);
+
+        gap: 6px;
+      }
+
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        padding: 7px 12px;
+        border: 1px solid #ddd;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.97);
+        color: #292b35;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 1;
+
+        gap: 6px;
+      }
+
+      .chip.close {
+        justify-content: center;
+        padding: 0;
+        width: 28px;
+        height: 28px;
+        color: #1572cf;
+      }
+
+      .speaker {
+        position: absolute;
+        bottom: -3px;
+        left: 50%;
+        width: 198px;
+        height: 205px;
+        border-top-left-radius: 70px;
+        border-top-right-radius: 70px;
+        border-bottom-right-radius: 20px;
+        border-bottom-left-radius: 20px;
+        background:
+          radial-gradient(circle at 52% 16%, #3b261f 0 16%, transparent 17%),
+          linear-gradient(110deg, #d7d2cd 0 46%, #f6f1ec 46% 52%, #a9a3a1 52% 64%, #d8d5d2 64%),
+          linear-gradient(180deg, #2d1e19, #3f2a23);
+        box-shadow: 0 20px 40px rgba(8, 2, 1, 0.4);
+        transform: translateX(-50%);
+      }
+
+      .speaker::before {
+        position: absolute;
+        top: 65px;
+        left: 35px;
+        width: 16px;
+        height: 82px;
+        border-radius: 10px;
+        background: #2a83e5;
+        content: '';
+        transform: rotate(-15deg);
+      }
+
+      .headline {
+        padding: 18px 22px 22px;
+        border-right: 1px solid rgba(255, 255, 255, 0.2);
+        border-left: 1px solid rgba(255, 255, 255, 0.2);
+        background: linear-gradient(180deg, var(--purple) 0%, var(--purple-dark) 100%);
+        color: #fff;
+      }
+
+      h1 {
+        margin: 0;
+        letter-spacing: 0.02em;
+        font-weight: 900;
+        font-size: 37px;
+        line-height: 1.2;
+      }
+
+      .sub {
+        margin: 12px 0 10px;
+        font-weight: 700;
+        font-size: 28px;
+        line-height: 1.35;
+      }
+
+      .metrics {
+        display: grid;
+        margin-top: 10px;
+
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .metrics.bottom {
+        margin-top: 10px;
+      }
+
+      .metric {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 54px;
+        border: 2px solid rgba(255, 255, 255, 0.65);
+        border-radius: 999px;
+        color: #fff;
+        font-weight: 700;
+        font-size: 27px;
+
+        gap: 8px;
+      }
+
+      .metric.wide {
+        justify-content: flex-start;
+        padding: 0 16px;
+
+        grid-column: span 2;
+      }
+
+      .article {
+        padding: 22px 22px 28px;
+      }
+
+      .article h2 {
+        margin: 0 0 12px;
+        color: #575d66;
+        letter-spacing: 0.02em;
+        font-size: 22px;
+      }
+
+      .article p {
+        margin: 0 0 24px;
+        color: #30343c;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 1.75;
+      }
+
+      .links {
+        margin: 20px 0 14px;
+        color: var(--blue);
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 1.55;
+      }
+
+      .meta {
+        display: flex;
+        justify-content: space-between;
+        padding-top: 14px;
+        border-top: 1px solid #d9dbe2;
+        color: #3f444e;
+        font-size: 18px;
+      }
+
+      @media (max-width: 640px) {
+        h1 {
+          font-size: clamp(31px, 9vw, 37px);
+        }
+
+        .sub {
+          font-size: clamp(22px, 6.8vw, 28px);
+        }
+
+        .metric {
+          height: 46px;
+          font-size: clamp(18px, 5.5vw, 27px);
+        }
+
+        .article h2 {
+          font-size: clamp(18px, 5.4vw, 22px);
+        }
+
+        .article p {
+          font-size: clamp(16px, 4.9vw, 20px);
+        }
+
+        .links {
+          font-size: clamp(15px, 4.4vw, 18px);
+        }
+
+        .meta {
+          font-size: clamp(14px, 4.4vw, 18px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <header class="topbar">
+        <div class="brand">
+          <span class="badge" aria-hidden="true"></span>
+          <strong>凱基投信 MINE</strong>
+        </div>
+        <div class="actions" aria-label="header actions">
+          <span class="icon-btn">◎</span>
+          <span class="icon-btn">◎</span>
+          <span class="icon-btn">◌</span>
+          <span class="menu-btn" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+        </div>
+      </header>
+
+      <section class="hero" aria-label="speaker area">
+        <div class="chips" aria-label="floating controls">
+          <span class="chip close">✕</span>
+          <span class="chip">獲得 🍁 社群讚 1 枚, 🐵 人際讚 1 枚</span>
+        </div>
+        <div class="speaker" aria-hidden="true"></div>
+      </section>
+
+      <section class="headline">
+        <h1>打造自己的享樂人生<br />夏韻芬的「三年享樂理財學」</h1>
+        <p class="sub">從日常積生活的節奏，夏韻芬的「三年享樂理財學」</p>
+
+        <div class="metrics">
+          <div class="metric">♡ <span>367</span></div>
+          <div class="metric">🔖 <span>28</span></div>
+          <div class="metric">↗ <span>14</span></div>
+        </div>
+        <div class="metrics bottom">
+          <div class="metric wide">🍁 <span>社群讚</span> <span>10</span></div>
+          <div class="metric">🐵 <span>5</span></div>
+        </div>
+      </section>
+
+      <article class="article">
+        <h2>文／財經節目主持人 夏韻芬</h2>
+
+        <p>
+          人生像一趟長途旅行，你可以選擇趕行程的打卡團，也可以慢下腳步，細細體驗沿途的風景。「理財的目的，不只是讓你變有錢，而是讓你有選擇的權利。」我在凱基投信去年的「豐盛未來式」全台巡迴講座時常引用這段話開頭。理財的終點不是數字的累積，而是活出自己喜歡的樣子。
+        </p>
+
+        <p>
+          我覺得我的人生像是一趟從「跟團」到「自由行」的旅行演進史。早年，我也曾追求 CP
+          值最高的選擇，精打細算、行程滿檔；但旅行結束後卻常覺得「累而不燃燒」，直到開始自由行、甚至能組團，我才體會到，真正的享樂不在於花多少錢，而在於是否真的感受到生活的豐盛。投資也是一樣，投入不是比誰得快，而是看誰能夠久，短線操作需要市場判斷力與高度風險承擔，而穩健長期更重在紀律與時間的累積。
+        </p>
+
+        <p>
+          若以「棒球賽」比喻投資，想一年賺 30%
+          就像揮出全壘打，固然精彩，但需要掌握球員狀況、市場節奏。相較之下，穩定擊出安打，一步步推進壘包、累積成果。然⽽，多數投資人不是輸在選股，而是輸在心態。若能記⻑，市場上沒有永遠的全壘打，投資的關鍵是找到自己能穩定揮棒的節奏，利用複利效應達成自己設定的目標。
+        </p>
+
+        <p>
+          「理財」是我人生的基石，「享受」則為人生的追求，所以我有我的「三三三法則」二分之一時間用來努力工作，三分之一做自己喜歡的事，三分之一投入公益。
+        </p>
+
+        <p>
+          理財不只是為了退休，更是為了活得精彩，所以，我要花在讓你更好的地方。在我人生五節，拆花不可的錢，分別是旅行體驗、運動健身、學習新知、欣賞藝文，以及請客聯誼，這些支出看似消費，實際上是對人生品質的投資。
+        </p>
+
+        <p>
+          我認為財富是基礎，幸福的感覺卻來自日常的態度。當你願意讓生活更細緻、更溫暖時，幸福自然會增加。對我而言，「享樂」不是放縱，而是對生活的細心經營與長期規劃。從日常積出生活的節奏，同時制定三年目標，讓理財與人生同步前進、持續成長，因為錢不能帶來幸福，但能幫你更接近自己想要的生活。
+        </p>
+
+        <div class="links">
+          豐盛未來式<br />#財富投資 #ETF #豐盛人生<br />#00915 #00926 #00945B #0950B
+        </div>
+
+        <div class="meta">
+          <span>閱覽次數｜1437</span>
+          <span>2024.10.30</span>
+        </div>
+      </article>
+    </main>
+  </body>
+  <script>
+    window.addEventListener('load', function () {
+      // 監聽 HTML 高度改變
+      const resizeObserver = new ResizeObserver(function () {
+        const height = document.documentElement.scrollHeight;
+        window.parent.postMessage({ type: 'iframe-height-changed', height: height }, '*');
+      });
+
+      resizeObserver.observe(document.documentElement);
+    });
+  </script>
+</html>
