@@ -15,7 +15,7 @@
       }
     },
     {
-      "files": ["**/config.ts", "**/config.tsx"],
+      "files": ["**/config.ts", "**/config.tsx", "**/handlers.ts"],
       "options": {
         "printWidth": 200
       }
