@@ -22,7 +22,6 @@ export default defineConfig(async ({ mode }) => {
       rollupOptions: {
         input: {
           index: resolve(__dirname, 'src/pages/index.html'),
-          iframe: resolve(__dirname, 'src/pages/iframe.html'),
         },
         output: { manualChunks: undefined },
       },
@@ -35,7 +34,22 @@ export default defineConfig(async ({ mode }) => {
         },
       },
     },
-    plugins: [react(), cssInjectedByJsPlugin(), createHtmlPlugin({ minify: true }), mkcert()],
+    plugins: [
+      react(),
+      cssInjectedByJsPlugin(),
+      createHtmlPlugin({
+        minify: true,
+        inject: {
+          data: {
+            title: env.VITE_TITLE,
+            description: env.VITE_SUBSCRIPTION,
+            url: env.VITE_URL,
+            facebookID: env.VITE_FACEBOOK_ID,
+          },
+        },
+      }),
+      mkcert(),
+    ],
     resolve: {
       alias: {
         '@': resolve(__dirname, 'src'),
