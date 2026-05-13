@@ -97,12 +97,13 @@ const Scene = memo(() => {
       setStyle(
         { left: getPx(setting.offset, width) },
         {
-          duration: 12000, // duration: (60 / Debug.fps) * 20000,
+          duration: setting.walkFadeInDuration,
           easing: Bezier.easeIn,
           onUpdate: (value: { left: number }) => setOffset(value.left),
           onEnd: (value: { left: number }) => {
             setOffset(value.left);
             setState((S) => ({ ...S, step: JourneyStepType.loop }));
+            document.title = 'fadeIn end';
           },
         },
       );
@@ -163,13 +164,13 @@ const Scene = memo(() => {
 
   return (
     <div className='Scene'>
-      {/* <View offset={offset} depth={SceneDepth.back} image='back' /> */}
+      <View offset={offset} depth={SceneDepth.back} image='back' />
       {state.scene && state.scene === JourneySceneType.月夜雪地 && <Moon />}
       <View offset={offset} depth={SceneDepth.middle} image='middle' />
       <Items offset={offset}>
         <MinerWalker onShowDown={onShowDown} />
       </Items>
-      {/* <View offset={offset} depth={SceneDepth.front} image='front' isAlpha={isAlpha} /> */}
+      <View offset={offset} depth={SceneDepth.front} image='front' isAlpha={isAlpha} />
     </div>
   );
 });
