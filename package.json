@@ -17,6 +17,7 @@
     "lesca-click": "^5.0.1",
     "lesca-enterframe": "^2.1.0",
     "lesca-fetcher": "^2.1.0",
+    "lesca-local-storage": "^2.0.0",
     "lesca-react-onload": "^3.0.0",
     "lesca-url-parameters": "^2.0.8",
     "lesca-use-tween": "^4.0.2",

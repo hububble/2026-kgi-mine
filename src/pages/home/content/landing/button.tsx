@@ -13,7 +13,7 @@ const LoginButton = memo(({ onLogin }: { onLogin: () => void }) => {
   const [, setContext] = useContext(Context);
   const [{ step }] = useContext(HomeContext);
   const [onButtonFadeIn, setOnButtonFadeIn] = useState(false);
-  const [response, getLogin] = useLogin();
+  const [response, getLogin] = useLogin({ auto: true });
 
   useEffect(() => {
     if (response?.isSuccess) onLogin();
@@ -37,13 +37,7 @@ const LoginButton = memo(({ onLogin }: { onLogin: () => void }) => {
         clickOnce
         onClick={() => {
           setContext({ type: ActionType.LoadingProcess, state: { enabled: true } });
-          const sounds = new Sounds({
-            onload: () => {
-              getLogin();
-              sounds.play('bgm', 1, false);
-            },
-          });
-          setContext({ type: ActionType.Sounds, state: { track: sounds } });
+          getLogin();
         }}
         disabled={!onButtonFadeIn}
       >
@@ -54,12 +48,21 @@ const LoginButton = memo(({ onLogin }: { onLogin: () => void }) => {
 });
 
 const StartButton = memo(() => {
+  const [, setContext] = useContext(Context);
   const [onButtonFadeIn, setOnButtonFadeIn] = useState(false);
   const [{ step }, setState] = useContext(HomeContext);
   const [response, getStart] = useStart();
 
   useEffect(() => {
-    if (response?.isSuccess) setState((S) => ({ ...S, step: HomeStepType.landingFadeOut }));
+    if (response) {
+      if (response.isSuccess) setState((S) => ({ ...S, step: HomeStepType.landingFadeOut }));
+      else {
+        setContext({
+          type: ActionType.Modal,
+          state: { enabled: true, body: response.result, title: '發生錯誤' },
+        });
+      }
+    }
   }, [response]);
 
   return (
@@ -76,7 +79,19 @@ const StartButton = memo(() => {
       fadeOutStyle={{ opacity: 0, y: 50 }}
       optionsFadeOut={{ duration: 800 }}
     >
-      <Button clickOnce onClick={() => getStart()} disabled={!onButtonFadeIn}>
+      <Button
+        clickOnce
+        onClick={() => {
+          const sounds = new Sounds({
+            onload: () => {
+              sounds.play('bgm', 1, false);
+              getStart();
+            },
+          });
+          setContext({ type: ActionType.Sounds, state: { track: sounds } });
+        }}
+        disabled={!onButtonFadeIn}
+      >
         <Button.Regular>開始探索</Button.Regular>
       </Button>
     </TweenerProvider>

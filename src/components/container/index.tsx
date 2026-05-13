@@ -20,6 +20,7 @@ const Container = memo(({ children }: IReactProps) => {
     const resize = () => {
       if (ref.current) {
         const { height } = ref.current.getBoundingClientRect();
+
         const width = (height * SceneSize.width) / SceneSize.height;
         const coverPercent = ((window.innerWidth + width) / window.innerWidth) * 100;
         const containPercent = (width / (width - window.innerWidth)) * 100;
@@ -43,7 +44,6 @@ const Container = memo(({ children }: IReactProps) => {
       <div className='bg' />
       <div className='ctx'>
         <div>
-          <NavBar />
           <div ref={ref} className='content'>
             {sceneImageSize && sceneImageSize.width && children}
             <Menu />

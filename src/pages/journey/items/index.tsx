@@ -87,6 +87,7 @@ const Items = memo(({ children, offset }: TItemsProps) => {
   );
 
   const onPushed = useCallback((loop: number) => {
+    if (JourneySceneDebug.enabled) return;
     if (loop === endLoopShouldBe.current) {
       setState((S) => ({ ...S, step: JourneyStepType.fadeOut }));
       setEvent((S) => ({

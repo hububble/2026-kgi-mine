@@ -1,7 +1,6 @@
 import { Context } from '@/settings/constant';
 import { ActionType, IReactProps } from '@/settings/type';
-import { createContext, Dispatch, SetStateAction, useContext } from 'react';
-import { memo, useEffect } from 'react';
+import { createContext, Dispatch, memo, SetStateAction, useContext, useEffect } from 'react';
 import { JourneyContext, JourneySceneType, JourneyStepType } from './config';
 
 export type TJourneyEventsState = {

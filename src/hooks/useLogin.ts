@@ -1,7 +1,7 @@
-import { REST_PATH } from '@/settings/config';
 import { Context } from '@/settings/constant';
 import { ActionType } from '@/settings/type';
-import Fetcher from 'lesca-fetcher';
+import { faker } from '@faker-js/faker';
+import Storage from 'lesca-local-storage';
 import { useContext, useEffect, useState } from 'react';
 
 type ResponseType = { isSuccess: boolean; result: any[] };
@@ -17,10 +17,14 @@ const useLogin = (props?: { auto?: boolean; backgroundAppProcess?: boolean }) =>
     }
 
     let response;
-    try {
-      response = await Fetcher.get(REST_PATH.login);
-    } catch {
-      response = { isSuccess: false, result: [] };
+    const token = Storage.get('token');
+    if (token) {
+      response = { isSuccess: true, result: [{ token }] };
+    } else {
+      // TODO: 這裡的登入邏輯需要根據實際情況修改，以下僅為示例
+      Storage.set('token', { token: faker.string.ulid() });
+      response = { isSuccess: false, result: [{ token: Storage.get('token') }] };
+      // window.location.href = `${window.location.origin}${window.location.pathname}?status=login-success`;
     }
 
     if (!backgroundAppProcess) {
