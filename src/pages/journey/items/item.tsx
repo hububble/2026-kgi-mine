@@ -2,11 +2,9 @@ import Button from '@/components/button';
 import { TDataDiversionItem } from '@/hooks/useDataDiversion';
 import { PATTERN_URI_PROPERTIES } from '@/settings/config';
 import { checkElementCenterOfScreenWithOffset, checkElementInViewport } from '@/utils';
-import { memo, useContext, useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { JourneySceneDebug, JourneySceneSetting } from '../config';
-import { Context } from '@/settings/constant';
-import { ActionType } from '@/settings/type';
 
 type TItemProps = {
   data: TDataDiversionItem;
@@ -16,8 +14,6 @@ type TItemProps = {
 };
 
 const Item = memo(({ data, offset, onCenter, onItemSelected }: TItemProps) => {
-  const [context] = useContext(Context);
-  const { height } = context[ActionType.SceneViewSize]!;
   const ref = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState({ isCenter: false, isInView: false });
 

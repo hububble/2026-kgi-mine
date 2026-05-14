@@ -3,9 +3,9 @@ import useDataDiversion, { TDataDiversionStateData } from '@/hooks/useDataDivers
 import { IReactProps } from '@/settings/type';
 import { memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { JourneyContext, JourneySceneDebug, JourneyStepType } from '../config';
+import { JourneyEventsContext } from '../events';
 import Item from './item';
 
-import { JourneyEventsContext } from '../events';
 import './azureCoast.less';
 import './flowerSeaPlain.less';
 import './goldenRiceField.less';
@@ -42,7 +42,7 @@ const Items = memo(({ children, offset }: TItemsProps) => {
   }, [data, state.loop]);
 
   useEffect(() => {
-    if (data.back.length === 0 && data.front.length === 0 && state.loop !== -1) {
+    if (data.back.length === 0 && data.front.length === 0 && state.loop > 0) {
       endLoopShouldBe.current = state.loop;
     }
   }, [data]);

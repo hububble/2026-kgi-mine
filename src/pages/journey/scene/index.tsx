@@ -35,7 +35,7 @@ const Scene = memo(() => {
   const sounds = context[ActionType.Sounds];
 
   const left = useMemo(
-    () => getPx(setting.offset, width) - setting.walkFadeInDistance * getScreenOffset(),
+    () => getPx(setting.offset, width) - setting.walkFadeInDistance * getScreenOffset(1),
     [],
   );
   const [, setStyle] = useTween({ left });
@@ -101,7 +101,7 @@ const Scene = memo(() => {
       setStyle(
         { left: getPx(setting.offset, width) },
         {
-          duration: setting.walkFadeInDuration * getScreenOffset(),
+          duration: setting.walkFadeInDuration * getScreenOffset(1),
           easing: Bezier.easeIn,
           onUpdate: (value: { left: number }) => setOffset(value.left),
           onEnd: (value: { left: number }) => {

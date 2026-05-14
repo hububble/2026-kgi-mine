@@ -139,7 +139,7 @@ export const JourneySceneSetting = {
   itemsCenterThreshold: 200,
   offset: 100,
   walkFadeInDistance: 100,
-  walkFadeInDuration: 3300,
+  walkFadeInDuration: 7000,
   shouldReloadWhenWindowResized: true,
 };
 

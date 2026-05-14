@@ -6,7 +6,6 @@ import { getViewPxRatio } from '@/utils';
 import { memo, useContext, useEffect, useRef } from 'react';
 import Div100vh from 'react-div-100vh';
 import Menu from '../menu';
-import NavBar from '../navBar';
 import './index.less';
 
 const Container = memo(({ children }: IReactProps) => {
