@@ -38,7 +38,7 @@ const Journey = memo(() => {
   useEffect(() => {
     const resize = () => {
       if (innerWidthRef.current !== 0 && innerWidthRef.current !== window.innerWidth) {
-        if (innerWidthRef.current > window.innerWidth) {
+        if (innerWidthRef.current !== window.innerWidth) {
           if (JourneySceneSetting.shouldReloadWhenWindowResized) {
             // reset when window resized to smaller size
             EnterFrame.destroy();
