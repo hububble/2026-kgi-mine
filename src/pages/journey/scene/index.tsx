@@ -5,7 +5,7 @@ import useURI from '@/hooks/useURI';
 import { PATTERN_URI_PROPERTIES, SceneDepth } from '@/settings/config';
 import { Context } from '@/settings/constant';
 import { ActionType } from '@/settings/type';
-import { getPercentByViewPx, getViewPxByDirection as getPx } from '@/utils';
+import { getPercentByViewPx, getViewPxByDirection as getPx, getScreenOffset } from '@/utils';
 import EnterFrame from 'lesca-enterframe';
 import useTween, { Bezier } from 'lesca-use-tween';
 import { memo, useContext, useEffect, useMemo, useState } from 'react';
@@ -34,7 +34,10 @@ const Scene = memo(() => {
   const { width = window.innerWidth } = context[ActionType.SceneViewSize]!;
   const sounds = context[ActionType.Sounds];
 
-  const left = useMemo(() => getPx(setting.offset, width) - setting.walkFadeInDistance, []);
+  const left = useMemo(
+    () => getPx(setting.offset, width) - setting.walkFadeInDistance * getScreenOffset(),
+    [],
+  );
   const [, setStyle] = useTween({ left });
   const [offset, setOffset] = useState(left);
 
@@ -94,10 +97,11 @@ const Scene = memo(() => {
         EnterFrame.stop();
         return;
       }
+
       setStyle(
         { left: getPx(setting.offset, width) },
         {
-          duration: setting.walkFadeInDuration,
+          duration: setting.walkFadeInDuration * getScreenOffset(),
           easing: Bezier.easeIn,
           onUpdate: (value: { left: number }) => setOffset(value.left),
           onEnd: (value: { left: number }) => {

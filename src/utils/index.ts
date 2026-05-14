@@ -114,13 +114,15 @@ export const getPercentByViewPx = (px: number, width: number) => {
 export const getViewPxRatio = ({ width }: { width: number }) => {
   const basicBackgroundPanOffset = SceneSize.width - window.innerWidth;
   const targetBackgroundPanOffset = width - window.innerWidth;
+  return (targetBackgroundPanOffset / basicBackgroundPanOffset) * getScreenOffset();
+};
 
+export const getScreenOffset = () => {
   // The ratio is calculated based on the difference between the current view width and the original design width, compared to the original background pan offset. This allows for dynamic adjustment of the parallax effect based on the actual view size, ensuring a consistent visual experience across different screen sizes.
   const windowRatio = window.innerWidth / window.innerHeight;
   const expectedRatio = 1680 / 1050;
   const offsetRatio = windowRatio - expectedRatio;
-
-  return (targetBackgroundPanOffset / basicBackgroundPanOffset) * (2 + offsetRatio);
+  return 2 + offsetRatio;
 };
 
 export function shareURL({ onError }: { onError?: () => void }) {
