@@ -21,6 +21,7 @@
       @apply relative h-full w-full;
 
       & > div {
+        @size: 8vh;
         @apply absolute flex h-fit justify-center;
 
         &::before {
@@ -29,13 +30,16 @@
         }
 
         .marker {
-          top: -10vh;
-          @apply pointer-events-auto absolute flex h-20 w-full items-end justify-center;
+          top: -@size - 1vh;
+          height: @size;
+          @apply pointer-events-auto absolute flex w-full items-end justify-center;
 
           .box {
+            width: @size;
+            height: @size;
             filter: drop-shadow(0px 0px 20px #ffffff);
 
-            @apply h-20 w-20 shrink-0 animate-bounce bg-contain bg-center bg-no-repeat;
+            @apply shrink-0 animate-bounce bg-contain bg-center bg-no-repeat;
           }
 
           .pattern-icon-career {
