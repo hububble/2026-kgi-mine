@@ -107,7 +107,6 @@ const Scene = memo(() => {
           onEnd: (value: { left: number }) => {
             setOffset(value.left);
             setState((S) => ({ ...S, step: JourneyStepType.loop }));
-            document.title = 'fadeIn end';
           },
         },
       );
