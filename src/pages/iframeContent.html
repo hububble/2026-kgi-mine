@@ -413,6 +413,6 @@
     setTimeout(() => {
       // 模擬音頻播放事件
       window.parent.postMessage({ type: 'iframe-audio-status', status: 'onend' }, targetOrigin);
-    }, Math.random() * 15000);
+    }, 15000);
   </script>
 </html>
