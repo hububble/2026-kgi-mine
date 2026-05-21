@@ -1,6 +1,5 @@
 import { Context } from '@/settings/constant';
 import { ActionType } from '@/settings/type';
-import { faker } from '@faker-js/faker';
 import Storage from 'lesca-local-storage';
 import QueryString from 'lesca-url-parameters';
 import { useContext, useEffect, useState } from 'react';
@@ -25,21 +24,12 @@ const useLogin = (props?: { auto?: boolean; backgroundAppProcess?: boolean }) =>
 
     let response;
     if (token === false) {
-      response = { isSuccess: false, result: 'not login' };
+      response = { isSuccess: false, result: 'token not found' };
     } else if (typeof token === 'string') {
       response = { isSuccess: true, result: token };
     } else if (typeof token === 'object' && token !== null && 'data' in token) {
       response = { isSuccess: true, result: token.data.token };
     }
-    // const token = Storage.get('token');
-    // if (token) {
-    //   response = { isSuccess: true, result: [{ token }] };
-    // } else {
-    //   // TODO: 這裡的登入邏輯需要根據實際情況修改，以下僅為示例
-    //   Storage.set('token', { token: faker.string.ulid() });
-    //   response = { isSuccess: false, result: [{ token: Storage.get('token') }] };
-    //   // window.location.href = `${window.location.origin}${window.location.pathname}?status=login-success`;
-    // }
 
     if (!backgroundAppProcess) {
       setContext({ type: ActionType.LoadingProcess, state: { enabled: false } });

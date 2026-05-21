@@ -64,7 +64,9 @@ const App = ({ dataset }: { dataset: typeof rooAppDataset }) => {
       <Context.Provider {...{ value }}>
         <Container>{currentPage}</Container>
         {context[ActionType.LoadingProcess]?.enabled && <LoadingProcess />}
-        {page === PAGE.home && context[ActionType.Modal]?.enabled && <Modal />}
+        {(page === PAGE.home || page === PAGE.demo) && context[ActionType.Modal]?.enabled && (
+          <Modal />
+        )}
       </Context.Provider>
     </div>
   );

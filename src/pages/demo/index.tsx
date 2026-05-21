@@ -1,28 +1,25 @@
-import Button from '@/components/button';
-import Heading from '@/components/heading';
-import Paragraph from '@/components/paragraph';
-import useLogin from '@/hooks/useLogin';
-import { memo, useEffect, useMemo } from 'react';
+import { memo, useMemo, useState } from 'react';
+import { DemoContext, DemoPageType, DemoState } from './config';
+import Landing from './landing';
+import Iframe from './iframe';
 
 const Demo = memo(() => {
-  const [response] = useLogin({ auto: true, backgroundAppProcess: true });
+  const value = useState(DemoState);
 
-  useEffect(() => {
-    console.log('response', response);
-  }, [response]);
-
-  const ButtonShouldShow = useMemo(() => {}, [response]);
+  const page = useMemo(() => {
+    switch (value[0].page) {
+      default:
+      case DemoPageType.landing:
+        return <Landing />;
+      case DemoPageType.iframe:
+        return <Iframe />;
+    }
+  }, [value[0].page]);
 
   return (
-    <div className='flex h-full w-full flex-col items-center justify-center'>
-      <Paragraph>
-        <Heading.H1>asd</Heading.H1>
-      </Paragraph>
-
-      <Button>
-        <Button.Regular>註冊/登入</Button.Regular>
-      </Button>
-    </div>
+    <DemoContext.Provider value={value}>
+      <div className='flex h-full w-full flex-col items-center justify-center'>{page}</div>
+    </DemoContext.Provider>
   );
 });
 export default Demo;

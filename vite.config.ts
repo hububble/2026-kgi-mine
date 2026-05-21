@@ -22,6 +22,7 @@ export default defineConfig(async ({ mode }) => {
       rollupOptions: {
         input: {
           index: resolve(__dirname, 'src/pages/index.html'),
+          iframeContent: resolve(__dirname, 'public/iframeContent.html'),
         },
         output: { manualChunks: undefined },
       },
@@ -60,6 +61,9 @@ export default defineConfig(async ({ mode }) => {
       port: 5173,
       proxy: {
         '/api': 'http://localhost:3000',
+      },
+      rewrite: {
+        '^/iframe$': '/iframeContent.html',
       },
     },
   };
