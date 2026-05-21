@@ -97,8 +97,21 @@ export const ArticleState: TArticleState = {
   onClose: () => {},
 };
 
+const getPageByQueryString = (): IState[ActionType.Page] => {
+  const page = QueryString.get('page');
+  switch (page) {
+    default:
+    case '1':
+      return PAGE.home;
+    case '2':
+      return PAGE.journey;
+    case '3':
+      return PAGE.demo;
+  }
+};
+
 export const InitialState: IState = {
-  [ActionType.Page]: QueryString.get('page') === '1' ? PAGE.journey : PAGE.home,
+  [ActionType.Page]: getPageByQueryString(),
   [ActionType.LoadingProcess]: LoadingProcessState,
   [ActionType.Dataset]: DatasetState,
   [ActionType.Sounds]: { track: undefined },

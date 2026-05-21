@@ -12,6 +12,7 @@ import ReactDOM from 'react-dom/client';
 import Home from './home';
 import Journey from './journey';
 import Modal from '@/components/modal';
+import Demo from './demo';
 
 Click.install('#immersive_experience_section');
 
@@ -52,6 +53,9 @@ const App = ({ dataset }: { dataset: typeof rooAppDataset }) => {
 
       case PAGE.journey:
         return <Journey />;
+
+      case PAGE.demo:
+        return <Demo />;
     }
   }, [page]);
 
