@@ -20,6 +20,7 @@ const useLogin = (props?: { auto?: boolean; backgroundAppProcess?: boolean }) =>
       setContext({ type: ActionType.LoadingProcess, state: { enabled: true } });
     }
 
+    // TODO: token 優先從 query 參數取得，若沒有則從 sessionStorage 取得，最後發布後一率由 sessionStorage 取得
     const token = developmentType === 'query' ? QueryString.get('token') : Storage.get('token');
 
     let response;
