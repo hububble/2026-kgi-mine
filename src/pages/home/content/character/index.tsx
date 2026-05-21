@@ -1,11 +1,12 @@
 import Heading from '@/components/heading';
 import TweenerProvider from '@/components/tweenProvider';
+import useAnswer from '@/hooks/useAnswer';
 import { ResponseType } from '@/hooks/useQuestion';
 import useURI from '@/hooks/useURI';
 import { Context } from '@/settings/constant';
 import { ActionType } from '@/settings/type';
 import OnloadProvider from 'lesca-react-onload';
-import { memo, useContext, useEffect } from 'react';
+import { memo, useCallback, useContext, useEffect } from 'react';
 import { HomeContext, HomeStepType } from '../../config';
 import SelectButton from './button';
 import Carousel from './slider';
@@ -15,6 +16,14 @@ const 選擇你的Miner角色 = memo(({ data }: { data?: ResponseType['result'][
   const [state, setState] = useContext(HomeContext);
   const [, setURI] = useURI();
 
+  const [response, fetchAnswer] = useAnswer();
+
+  useEffect(() => {
+    if (response?.isSuccess) {
+      setState((S) => ({ ...S, step: HomeStepType.characterFadeOut }));
+    }
+  }, [response]);
+
   useEffect(() => {
     data &&
       data.forEach((item) => {
@@ -23,6 +32,13 @@ const 選擇你的Miner角色 = memo(({ data }: { data?: ResponseType['result'][
   }, [data]);
 
   if (!data) return null;
+
+  const onSelect = useCallback(() => {
+    const quizList = state.decadeData?.map((item) => item.quizId) || [];
+    const minerId = state.characterData?.minerId || '';
+    const [tripId] = state.journeyData?.map((item) => item.trip) || [''];
+    fetchAnswer({ tripId, quizList, minerId });
+  }, [state]);
 
   return (
     <OnloadProvider
@@ -34,8 +50,8 @@ const 選擇你的Miner角色 = memo(({ data }: { data?: ResponseType['result'][
         setContext({ type: ActionType.LoadingProcess, state: { enabled: false } });
       }}
     >
-      <div className='w-full'>
-        <div className='flex w-full flex-col gap-2 text-center'>
+      <div className='flex w-full flex-col items-center'>
+        <div className='flex w-fit flex-col items-center gap-2 text-center'>
           <TweenerProvider
             initialStyle={{ y: 50, opacity: 0 }}
             tweenTo={{ y: 0, opacity: 1 }}
@@ -62,11 +78,7 @@ const 選擇你的Miner角色 = memo(({ data }: { data?: ResponseType['result'][
         <div className='max-h-[40vh] w-full overflow-hidden'>
           <Carousel data={data} />
         </div>
-        <SelectButton
-          onClick={() => {
-            setState((S) => ({ ...S, step: HomeStepType.characterFadeOut }));
-          }}
-        />
+        <SelectButton onClick={onSelect} />
       </div>
     </OnloadProvider>
   );

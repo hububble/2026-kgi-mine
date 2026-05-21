@@ -12,7 +12,7 @@ const H1 = memo(({ className, children }: IReactProps & { className?: string }) 
 
 const H2 = memo(({ className, children }: IReactProps & { className?: string }) => {
   return (
-    <h1 className={twMerge(`font-noto-sans-tc text-2xl tracking-wide`, className)}>{children}</h1>
+    <h2 className={twMerge(`font-noto-sans-tc text-2xl tracking-wide`, className)}>{children}</h2>
   );
 });
 
@@ -32,10 +32,10 @@ const H3 = memo(
   },
 );
 
-const D3 = memo(
+const H4 = memo(
   ({ className, children, icon }: IReactProps & { className?: string; icon?: React.ReactNode }) => {
     return (
-      <h2
+      <h4
         className={twMerge(
           `font-noto-sans-tc flex flex-row items-center gap-2 text-xl font-light tracking-wide`,
           className,
@@ -43,15 +43,15 @@ const D3 = memo(
       >
         {icon}
         {children}
-      </h2>
+      </h4>
     );
   },
 );
 
-const D4 = memo(
+const H5 = memo(
   ({ className, children, icon }: IReactProps & { className?: string; icon?: React.ReactNode }) => {
     return (
-      <h2
+      <h5
         className={twMerge(
           `font-noto-sans-tc flex flex-row items-center gap-2 text-lg font-light tracking-wide`,
           className,
@@ -59,7 +59,7 @@ const D4 = memo(
       >
         {icon}
         {children}
-      </h2>
+      </h5>
     );
   },
 );
@@ -67,7 +67,7 @@ const D4 = memo(
 Heading.H1 = H1;
 Heading.H2 = H2;
 Heading.H3 = H3;
-Heading.D3 = D3;
-Heading.D4 = D4;
+Heading.H4 = H4;
+Heading.H5 = H5;
 
 export default Heading;

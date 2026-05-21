@@ -19,7 +19,7 @@ export const printCSSAnimation = (radius: number = 20, isBlank: boolean = false)
     const currentX = x + r;
     const rotate = index;
 
-    out += `${Math.round((index / 360) * 100)}%{transform: translateX(${currentX.toFixed(2)}px)}\n`;
+    out += `${Math.round((index / 360) * 100)}%{transform: translateX(${currentX.toFixed(2)}px) translateY(${y.toFixed(2)}px) rotate(${rotate}deg);}\n`;
 
     index += 5;
     if (index <= 360) requestAnimationFrame(render);
@@ -112,9 +112,17 @@ export const getPercentByViewPx = (px: number, width: number) => {
 };
 
 export const getViewPxRatio = ({ width }: { width: number }) => {
-  const basicBackgroundPanOffset = SceneSize.width - 1680;
+  const basicBackgroundPanOffset = SceneSize.width - window.innerWidth;
   const targetBackgroundPanOffset = width - window.innerWidth;
-  return targetBackgroundPanOffset / basicBackgroundPanOffset;
+  return (targetBackgroundPanOffset / basicBackgroundPanOffset) * getScreenOffset();
+};
+
+export const getScreenOffset = (defaultRatio: number = 2) => {
+  // The ratio is calculated based on the difference between the current view width and the original design width, compared to the original background pan offset. This allows for dynamic adjustment of the parallax effect based on the actual view size, ensuring a consistent visual experience across different screen sizes.
+  const windowRatio = window.innerWidth / window.innerHeight;
+  const expectedRatio = 1680 / 1050;
+  const offsetRatio = windowRatio - expectedRatio;
+  return defaultRatio + offsetRatio;
 };
 
 export function shareURL({ onError }: { onError?: () => void }) {

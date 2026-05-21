@@ -2,10 +2,10 @@ import useURI from '@/hooks/useURI';
 import { SceneSize } from '@/settings/config';
 import { Context } from '@/settings/constant';
 import { ActionType, IReactProps } from '@/settings/type';
+import { getViewPxRatio } from '@/utils';
 import { memo, useContext, useEffect, useRef } from 'react';
 import Div100vh from 'react-div-100vh';
 import Menu from '../menu';
-import NavBar from '../navBar';
 import './index.less';
 
 const Container = memo(({ children }: IReactProps) => {
@@ -19,8 +19,18 @@ const Container = memo(({ children }: IReactProps) => {
     const resize = () => {
       if (ref.current) {
         const { height } = ref.current.getBoundingClientRect();
+
         const width = (height * SceneSize.width) / SceneSize.height;
-        setContext({ type: ActionType.SceneViewSize, state: { height, width } });
+        const coverPercent = ((window.innerWidth + width) / window.innerWidth) * 100;
+        const containPercent = (width / (width - window.innerWidth)) * 100;
+        const ratio = getViewPxRatio({ width });
+
+        document.documentElement.style.setProperty(`--current-view-width`, `${width}px`);
+
+        setContext({
+          type: ActionType.SceneViewSize,
+          state: { height, width, coverPercent, containPercent, ratio },
+        });
       }
     };
     resize();
@@ -33,7 +43,6 @@ const Container = memo(({ children }: IReactProps) => {
       <div className='bg' />
       <div className='ctx'>
         <div>
-          <NavBar />
           <div ref={ref} className='content'>
             {sceneImageSize && sceneImageSize.width && children}
             <Menu />

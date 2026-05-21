@@ -1,76 +1,71 @@
 import Button from '@/components/button';
-import useURI from '@/hooks/useURI';
+import { TDataDiversionItem } from '@/hooks/useDataDiversion';
 import { PATTERN_URI_PROPERTIES } from '@/settings/config';
 import { checkElementCenterOfScreenWithOffset, checkElementInViewport } from '@/utils';
 import { memo, useEffect, useRef, useState } from 'react';
-import { JourneySceneSetting } from '../config';
+import { twMerge } from 'tailwind-merge';
+import { JourneySceneDebug, JourneySceneSetting } from '../config';
 
 type TItemProps = {
-  item: { name: string; top: number; left: number; clicked: boolean };
-  y: number;
-  x: number;
-  left: string;
-  onCenter?: () => void;
-  onInView?: () => void;
-  onItemSelected?: (item: string) => void;
-  isStatic?: boolean;
+  data: TDataDiversionItem;
+  offset: number;
+  onCenter?: (name: string) => void;
+  onItemSelected?: (name: string) => void;
 };
 
-const Item = memo(
-  ({ item, y, x, left, onCenter, onInView, onItemSelected, isStatic }: TItemProps) => {
-    const [, setURI] = useURI();
+const Item = memo(({ data, offset, onCenter, onItemSelected }: TItemProps) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [status, setStatus] = useState({ isCenter: false, isInView: false });
 
-    const ref = useRef<HTMLDivElement>(null);
-    const [status, setStatus] = useState({ isCenter: false, isInView: false });
+  const randomPattern = useRef(
+    PATTERN_URI_PROPERTIES[Math.floor(Math.random() * PATTERN_URI_PROPERTIES.length)].name,
+  );
 
-    const randomPattern = useRef(
-      PATTERN_URI_PROPERTIES[Math.floor(Math.random() * PATTERN_URI_PROPERTIES.length)].name,
-    );
+  useEffect(() => {
+    const currentThreshold =
+      JourneySceneSetting.itemsCenterThreshold * (Math.min(window.innerWidth, 640) / 320);
 
-    useEffect(() => {
-      const currentThreshold =
-        JourneySceneSetting.itemsCenterThreshold * (Math.min(window.innerWidth, 640) / 320);
-
-      if (ref.current && left !== '' && !isStatic) {
-        const inCenter = checkElementCenterOfScreenWithOffset(ref.current, currentThreshold);
-        const inView = checkElementInViewport(ref.current);
-        if (inCenter && !status.isCenter) {
-          onCenter?.();
-          setStatus((S) => ({ ...S, isCenter: true }));
-        }
-        if (inView && !status.isInView) {
-          onInView?.();
-          setStatus((S) => ({ ...S, isInView: true }));
-        }
+    if (ref.current) {
+      const inCenter = checkElementCenterOfScreenWithOffset(ref.current, currentThreshold);
+      const inView = checkElementInViewport(ref.current);
+      if (inCenter && !status.isCenter) {
+        onCenter?.(data.name);
+        setStatus((S) => ({ ...S, isCenter: true }));
       }
-    }, [left, status, isStatic]);
+      if (inView && !status.isInView) {
+        setStatus((S) => ({ ...S, isInView: true }));
+      }
+    }
+  }, [offset]);
 
-    return (
-      <div
-        ref={ref}
-        key={item.name}
-        className={item.name}
-        style={{
-          transform: `translateY(${y}vh)`,
-          left: `${x.toFixed(2)}%`,
-        }}
-      >
-        <div className='marker'>
-          {!item.name.includes('roadSign') && !item.clicked && (
-            <Button
-              onClick={() => {
-                setStatus((S) => ({ ...S, isCenter: true, isInView: true }));
-                onItemSelected?.(item.name);
-              }}
-            >
-              <Button.Marker>
-                <div className={`box ${randomPattern.current}`}></div>
-              </Button.Marker>
-            </Button>
-          )}
-        </div>
+  return (
+    <div
+      className={twMerge(
+        data.name,
+        'relative',
+        JourneySceneDebug.enabled ? 'before:pointer-events-auto' : 'before:pointer-events-none',
+      )}
+      style={{
+        top: `${data.top}%`,
+        left: `${data.left}%`,
+      }}
+    >
+      <div className='marker'>
+        {data.name !== '' && <div ref={ref} className='absolute h-10 w-10' />}
+        {!data.name.includes('roadSign') && data.name && data.clicked === false && (
+          <Button
+            onClick={() => {
+              onItemSelected?.(data.name);
+              setStatus((S) => ({ ...S, isCenter: true, isInView: true }));
+            }}
+          >
+            <Button.Marker>
+              <div className={`box ${randomPattern.current}`}></div>
+            </Button.Marker>
+          </Button>
+        )}
       </div>
-    );
-  },
-);
+    </div>
+  );
+});
 export default Item;

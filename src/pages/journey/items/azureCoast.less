@@ -1,0 +1,227 @@
+@import url('@/settings/global.css');
+@import url('@/settings/config.less');
+
+.Items {
+  .scene-azureCoast-view-wave-1 {
+    width: (unit(image-width(@img))) / 3840 * 100%;
+
+    @img: '../../../../public/scene-azureCoast-view-wave-1.png';
+
+    &::before {
+      padding-bottom: (unit(image-height(@img) / unit(image-width(@img))) * 100%);
+      background-image: var(--scene-azureCoast-view-wave-1);
+
+      // @apply bg-primary-blue/30;
+      @apply animate-wave-r30;
+    }
+  }
+
+  .scene-azureCoast-view-wave-2 {
+    width: (unit(image-width(@img))) / 3840 * 100%;
+
+    @img: '../../../../public/scene-azureCoast-view-wave-2.png';
+
+    &::before {
+      padding-bottom: (unit(image-height(@img) / unit(image-width(@img))) * 100%);
+      background-image: var(--scene-azureCoast-view-wave-2);
+      animation-delay: -5s;
+
+      // @apply bg-primary-blue/30;
+      @apply animate-wave-r20;
+    }
+  }
+
+  .scene-azureCoast-view-wave-3 {
+    width: (unit(image-width(@img))) / 3840 * 100%;
+
+    @img: '../../../../public/scene-azureCoast-view-wave-3.png';
+
+    &::before {
+      padding-bottom: (unit(image-height(@img) / unit(image-width(@img))) * 100%);
+      background-image: var(--scene-azureCoast-view-wave-3);
+
+      // @apply bg-primary-blue/30;
+      @apply animate-wave-r10;
+    }
+  }
+
+  .scene-azureCoast-view-wave-4 {
+    width: (unit(image-width(@img))) / 3840 * 100%;
+
+    @img: '../../../../public/scene-azureCoast-view-wave-4.png';
+
+    &::before {
+      padding-bottom: (unit(image-height(@img) / unit(image-width(@img))) * 100%);
+      background-image: var(--scene-azureCoast-view-wave-4);
+      animation-delay: -5s;
+
+      // @apply bg-primary-blue/30;
+      @apply animate-wave-r10;
+    }
+  }
+
+  .scene-azureCoast-view-wave-5 {
+    width: (unit(image-width(@img))) / 3840 * 100%;
+
+    @img: '../../../../public/scene-azureCoast-view-wave-5.png';
+
+    &::before {
+      padding-bottom: (unit(image-height(@img) / unit(image-width(@img))) * 100%);
+      background-image: var(--scene-azureCoast-view-wave-5);
+      animation-delay: -8s;
+
+      // @apply bg-primary-blue/30;
+      @apply animate-wave-r10;
+    }
+  }
+
+  .scene-azureCoast-view-wave-6 {
+    width: (unit(image-width(@img))) / 3840 * 100%;
+
+    @img: '../../../../public/scene-azureCoast-view-wave-6.png';
+
+    &::before {
+      padding-bottom: (unit(image-height(@img) / unit(image-width(@img))) * 100%);
+      background-image: var(--scene-azureCoast-view-wave-6);
+      // animation-delay: -6s;
+
+      // @apply bg-primary-blue/30;
+      @apply animate-wave-r5;
+    }
+  }
+
+  .scene-azureCoast-view-wave-7 {
+    width: (unit(image-width(@img))) / 3840 * 100%;
+
+    @img: '../../../../public/scene-azureCoast-view-wave-7.png';
+
+    &::before {
+      padding-bottom: (unit(image-height(@img) / unit(image-width(@img))) * 100%);
+      background-image: var(--scene-azureCoast-view-wave-7);
+      animation-delay: -5s;
+
+      // @apply bg-primary-blue/30;
+      @apply animate-wave-r10;
+    }
+  }
+
+  .azureCoast-roadSign {
+    width: (unit(image-width(@img))) / 3840 * 100%;
+
+    @img: '../../../../public/scene-azureCoast-roadSign.png';
+
+    &::before {
+      padding-bottom: (unit(image-height(@img) / unit(image-width(@img))) * 100%);
+      background-image: var(--azureCoast-roadSign);
+    }
+
+    .marker > div {
+      margin-left: 0%;
+    }
+  }
+
+  .azureCoast-item-1 {
+    width: (unit(image-width(@img))) / 3840 * 100%;
+
+    @img: '../../../../public/scene-azureCoast-item-1.png';
+
+    &::before {
+      padding-bottom: (unit(image-height(@img) / unit(image-width(@img))) * 100%);
+      background-image: var(--azureCoast-item-1);
+    }
+
+    .marker > div {
+      margin-left: 30%;
+    }
+  }
+
+  .azureCoast-item-2 {
+    width: (unit(image-width(@img))) / 3840 * 100%;
+
+    @img: '../../../../public/scene-azureCoast-item-2.png';
+
+    &::before {
+      padding-bottom: (unit(image-height(@img) / unit(image-width(@img))) * 100%);
+      background-image: var(--azureCoast-item-2);
+    }
+
+    .marker > div {
+      margin-left: 0%;
+    }
+  }
+
+  .azureCoast-item-3 {
+    width: (unit(image-width(@img))) / 3840 * 100%;
+
+    @img: '../../../../public/scene-azureCoast-item-3.png';
+
+    &::before {
+      padding-bottom: (unit(image-height(@img) / unit(image-width(@img))) * 100%);
+      background-image: var(--azureCoast-item-3);
+    }
+
+    .marker > div {
+      margin-left: 0%;
+    }
+  }
+
+  .azureCoast-item-4 {
+    width: (unit(image-width(@img))) / 3840 * 100%;
+
+    @img: '../../../../public/scene-azureCoast-item-4.png';
+
+    &::before {
+      padding-bottom: (unit(image-height(@img) / unit(image-width(@img))) * 100%);
+      background-image: var(--azureCoast-item-4);
+    }
+
+    .marker > div {
+      margin-left: 20%;
+    }
+  }
+
+  .azureCoast-item-5 {
+    width: (unit(image-width(@img))) / 3840 * 100%;
+
+    @img: '../../../../public/scene-azureCoast-item-5.png';
+
+    &::before {
+      padding-bottom: (unit(image-height(@img) / unit(image-width(@img))) * 100%);
+      background-image: var(--azureCoast-item-5);
+    }
+
+    .marker > div {
+      margin-left: 0%;
+    }
+  }
+
+  .azureCoast-item-6 {
+    width: (unit(image-width(@img))) / 3840 * 100%;
+
+    @img: '../../../../public/scene-azureCoast-item-6.png';
+
+    &::before {
+      padding-bottom: (unit(image-height(@img) / unit(image-width(@img))) * 100%);
+      background-image: var(--azureCoast-item-6);
+    }
+
+    .marker > div {
+      margin-left: 20%;
+    }
+  }
+
+  .azureCoast-item-7 {
+    width: (unit(image-width(@img))) / 3840 * 100%;
+
+    @img: '../../../../public/scene-azureCoast-item-7.png';
+
+    &::before {
+      padding-bottom: (unit(image-height(@img) / unit(image-width(@img))) * 100%);
+      background-image: var(--azureCoast-item-7);
+    }
+
+    .marker > div {
+      margin-left: 0%;
+    }
+  }
+}

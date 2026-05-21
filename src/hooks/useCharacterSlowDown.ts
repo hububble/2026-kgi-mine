@@ -18,7 +18,7 @@ const useCharacterSlowDown = () => {
       MINER_SPRITE_FRAME_COUNT +
       (frame < MINER_SPRITE_STOP_FRAME ? MINER_SPRITE_STOP_FRAME - frame : maxFrame);
 
-    const duration = (stepShouldGo / MINER_SPRITE_FRAME_COUNT) * 700;
+    const duration = (stepShouldGo / MINER_SPRITE_FRAME_COUNT) * 1400;
 
     setFrame(
       { top: frame },

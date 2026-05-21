@@ -2,17 +2,12 @@
 @import url('@/settings/config.less');
 
 .Navbar {
-  @apply bg-font-white-light relative z-10 flex h-20 w-full flex-col items-center justify-end md:h-24 md:justify-center;
+  height: 9vh;
+  @apply bg-font-white-light relative z-10 flex w-full flex-col items-center justify-end md:justify-center;
 
   @media only screen and (max-width: @XS) {
     & {
-      height: 19vw;
-    }
-  }
-
-  @media only screen and (max-width: @XXS) {
-    & {
-      height: 60px;
+      height: 9vh;
     }
   }
 }

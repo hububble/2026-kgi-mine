@@ -27,9 +27,6 @@ export type TJourneyState = {
   step: JourneyStepType;
   scene: JourneySceneType;
   loop: number;
-  selectedItem?: string;
-  dialog: { enabled: boolean; type: JourneyDialogType };
-  view: { direction: 'left' | 'right' | 'unset'; index: number };
 };
 
 export type TJourneyContext = [TJourneyState, Dispatch<SetStateAction<TJourneyState>>];
@@ -37,9 +34,7 @@ export type TJourneyContext = [TJourneyState, Dispatch<SetStateAction<TJourneySt
 export const JourneyState: TJourneyState = {
   step: JourneyStepType.unset,
   scene: JourneySceneType.晴光森林,
-  loop: 0,
-  dialog: { enabled: false, type: JourneyDialogType.wish },
-  view: { direction: 'unset', index: -1 },
+  loop: -1,
 };
 
 export const JourneyContext = createContext<TJourneyContext>([JourneyState, () => {}]);
@@ -74,54 +69,53 @@ export const JourneySceneList = {
 
 export const JourneyItemsList = {
   [JourneySceneType.金黃稻浪]: [
-    { name: 'goldenRiceField-roadSign', path: 'scene-goldenRiceField-roadSign.png', top: -4, left: 2130 },
-    { name: 'goldenRiceField-item-1', path: 'scene-goldenRiceField-item-1.png', top: -20.7, left: 2739 },
-    { name: 'goldenRiceField-item-2', path: 'scene-goldenRiceField-item-2.png', top: -18.4, left: 1320 },
-    { name: 'goldenRiceField-item-3', path: 'scene-goldenRiceField-item-3.png', top: 1, left: 235 },
-    { name: 'goldenRiceField-item-4', path: 'scene-goldenRiceField-item-4.png', top: 10, left: 535 },
-    { name: 'goldenRiceField-item-5', path: 'scene-goldenRiceField-item-5.png', top: -6, left: 835 },
-    { name: 'goldenRiceField-item-6', path: 'scene-goldenRiceField-item-6.png', top: -19.5, left: 1685 },
-    { name: 'goldenRiceField-item-7', path: 'scene-goldenRiceField-item-7.png', top: -5.6, left: 3050 },
+    { name: 'goldenRiceField-roadSign', path: 'scene-goldenRiceField-roadSign.png', top: 58, left: 57, dissociation: 'back' },
+    { name: 'goldenRiceField-item-1', path: 'scene-goldenRiceField-item-1.png', top: 40, left: 73, dissociation: 'back' },
+    { name: 'goldenRiceField-item-2', path: 'scene-goldenRiceField-item-2.png', top: 40.1, left: 35, dissociation: 'back' },
+    { name: 'goldenRiceField-item-3', path: 'scene-goldenRiceField-item-3.png', top: 61, left: 8, dissociation: 'back' },
+    { name: 'goldenRiceField-item-4', path: 'scene-goldenRiceField-item-4.png', top: 63, left: 16.2, dissociation: 'back' },
+    { name: 'goldenRiceField-item-5', path: 'scene-goldenRiceField-item-5.png', top: 66, left: 26, dissociation: 'front' },
+    { name: 'goldenRiceField-item-6', path: 'scene-goldenRiceField-item-6.png', top: 39.5, left: 43.7, dissociation: 'back' },
+    { name: 'goldenRiceField-item-7', path: 'scene-goldenRiceField-item-7.png', top: 55.5, left: 79.8, dissociation: 'back' },
   ],
   [JourneySceneType.花海平原]: [
-    { name: 'flowerSeaPlain-roadSign', path: 'scene-flowerSeaPlain-roadSign.png', top: -4.5, left: 2035 },
-    { name: 'flowerSeaPlain-item-1', path: 'scene-flowerSeaPlain-item-1.png', top: -15.7, left: 1750 },
-    { name: 'flowerSeaPlain-item-2', path: 'scene-flowerSeaPlain-item-2.png', top: -10.3, left: 2990 },
-    { name: 'flowerSeaPlain-item-3', path: 'scene-flowerSeaPlain-item-3.png', top: -14, left: 670 },
-    { name: 'flowerSeaPlain-item-4', path: 'scene-flowerSeaPlain-item-4.png', top: -19.3, left: 2780 },
-    { name: 'flowerSeaPlain-item-5', path: 'scene-flowerSeaPlain-item-5.png', top: -11.9, left: 1180 },
-    { name: 'flowerSeaPlain-item-6', path: 'scene-flowerSeaPlain-item-6.png', top: -17.2, left: 2630 },
-    { name: 'flowerSeaPlain-item-7', path: 'scene-flowerSeaPlain-item-7.png', top: -22.7, left: 1495 },
+    { name: 'flowerSeaPlain-roadSign', path: 'scene-flowerSeaPlain-roadSign.png', top: 58.4, left: 53.9, dissociation: 'back' },
+    { name: 'flowerSeaPlain-item-1', path: 'scene-flowerSeaPlain-item-1.png', top: 44.2, left: 45.6, dissociation: 'back' },
+    { name: 'flowerSeaPlain-item-2', path: 'scene-flowerSeaPlain-item-2.png', top: 49.9, left: 77.6, dissociation: 'back' },
+    { name: 'flowerSeaPlain-item-3', path: 'scene-flowerSeaPlain-item-3.png', top: 46.2, left: 17.3, dissociation: 'back' },
+    { name: 'flowerSeaPlain-item-4', path: 'scene-flowerSeaPlain-item-4.png', top: 39.9, left: 72.5, dissociation: 'back' },
+    { name: 'flowerSeaPlain-item-5', path: 'scene-flowerSeaPlain-item-5.png', top: 48.9, left: 30.4, dissociation: 'back' },
+    { name: 'flowerSeaPlain-item-6', path: 'scene-flowerSeaPlain-item-6.png', top: 43.2, left: 68.2, dissociation: 'back' },
+    { name: 'flowerSeaPlain-item-7', path: 'scene-flowerSeaPlain-item-7.png', top: 36.8, left: 39.1, dissociation: 'back' },
   ],
   [JourneySceneType.蔚藍海岸]: [
-    { name: 'azureCoast-roadSign', path: 'scene-azureCoast-roadSign.png', top: -5, left: 2140 },
-    { name: 'azureCoast-item-1', path: 'scene-azureCoast-item-1.png', top: 10, left: 2680 },
-    { name: 'azureCoast-item-2', path: 'scene-azureCoast-item-2.png', top: -31.5, left: 1040 },
-    { name: 'azureCoast-item-3', path: 'scene-azureCoast-item-3.png', top: -28.1, left: 2000 },
-    { name: 'azureCoast-item-4', path: 'scene-azureCoast-item-4.png', top: -29.6, left: 3000 },
-    { name: 'azureCoast-item-5', path: 'scene-azureCoast-item-5.png', top: -31.6, left: 550 },
-    { name: 'azureCoast-item-6', path: 'scene-azureCoast-item-6.png', top: -31, left: 60 },
-    { name: 'azureCoast-item-7', path: 'scene-azureCoast-item-7.png', top: 4, left: 550 },
+    { name: 'azureCoast-roadSign', path: 'scene-azureCoast-roadSign.png', top: 59, left: 55.8, dissociation: 'back' },
+    { name: 'azureCoast-item-1', path: 'scene-azureCoast-item-1.png', top: 62.5, left: 65, dissociation: 'back' },
+    { name: 'azureCoast-item-2', path: 'scene-azureCoast-item-2.png', top: 25.4, left: 27.3, dissociation: 'back' },
+    { name: 'azureCoast-item-3', path: 'scene-azureCoast-item-3.png', top: 29.8, left: 62, dissociation: 'back' },
+    { name: 'azureCoast-item-4', path: 'scene-azureCoast-item-4.png', top: 28.6, left: 76.8, dissociation: 'back' },
+    { name: 'azureCoast-item-5', path: 'scene-azureCoast-item-5.png', top: 26, left: 13.7, dissociation: 'back' },
+    { name: 'azureCoast-item-6', path: 'scene-azureCoast-item-6.png', top: 25.4, left: 1.6, dissociation: 'back' },
+    { name: 'azureCoast-item-7', path: 'scene-azureCoast-item-7.png', top: 71, left: 13, dissociation: 'front' },
   ],
   [JourneySceneType.月夜雪地]: [
-    { name: 'moonlitSnowfield-roadSign', path: 'scene-moonlitSnowfield-roadSign.png', top: -6.8, left: 2116 },
-    // { name: 'moonlitSnowfield-item-1', path: 'scene-moonlitSnowfield-item-1.png', top: -40, left: 1930 },
-    { name: 'moonlitSnowfield-item-2', path: 'scene-moonlitSnowfield-item-2.png', top: -18, left: 1290 },
-    { name: 'moonlitSnowfield-item-3', path: 'scene-moonlitSnowfield-item-3.png', top: -28, left: 690 },
-    { name: 'moonlitSnowfield-item-4', path: 'scene-moonlitSnowfield-item-4.png', top: -27, left: 2220 },
-    { name: 'moonlitSnowfield-item-5', path: 'scene-moonlitSnowfield-item-5.png', top: -18, left: 2816 },
-    { name: 'moonlitSnowfield-item-6', path: 'scene-moonlitSnowfield-item-6.png', top: -8, left: 326 },
-    { name: 'moonlitSnowfield-item-7', path: 'scene-moonlitSnowfield-item-7.png', top: -1, left: 2656 },
+    { name: 'moonlitSnowfield-roadSign', path: 'scene-moonlitSnowfield-roadSign.png', top: 53, left: 54.1, dissociation: 'back' },
+    { name: 'moonlitSnowfield-item-2', path: 'scene-moonlitSnowfield-item-2.png', top: 38.5, left: 33.8, dissociation: 'back' },
+    { name: 'moonlitSnowfield-item-3', path: 'scene-moonlitSnowfield-item-3.png', top: 30, left: 17.4, dissociation: 'back' },
+    { name: 'moonlitSnowfield-item-4', path: 'scene-moonlitSnowfield-item-4.png', top: 32, left: 58.6, dissociation: 'back' },
+    { name: 'moonlitSnowfield-item-5', path: 'scene-moonlitSnowfield-item-5.png', top: 40.6, left: 73, dissociation: 'back' },
+    { name: 'moonlitSnowfield-item-6', path: 'scene-moonlitSnowfield-item-6.png', top: 54.4, left: 9.1, dissociation: 'back' },
+    { name: 'moonlitSnowfield-item-7', path: 'scene-moonlitSnowfield-item-7.png', top: 60, left: 69, dissociation: 'back' },
   ],
   [JourneySceneType.晴光森林]: [
-    { name: 'lushForest-roadSign', path: 'scene-lushForest-roadSign.png', top: -3.5, left: 1880 },
-    { name: 'lushForest-item-1', path: 'scene-lushForest-item-1.png', top: -22, left: 860 },
-    { name: 'lushForest-item-2', path: 'scene-lushForest-item-2.png', top: 7, left: 260 },
-    { name: 'lushForest-item-3', path: 'scene-lushForest-item-3.png', top: -11, left: 2970 },
-    { name: 'lushForest-item-4', path: 'scene-lushForest-item-4.png', top: -57.2, left: 2740 },
-    { name: 'lushForest-item-5', path: 'scene-lushForest-item-5.png', top: -54, left: 1630 },
-    { name: 'lushForest-item-6', path: 'scene-lushForest-item-6.png', top: -57, left: 630 },
-    { name: 'lushForest-item-7', path: 'scene-lushForest-item-7.png', top: -27.5, left: 1880 },
+    { name: 'lushForest-roadSign', path: 'scene-lushForest-roadSign.png', top: 59.2, left: 49, dissociation: 'back' },
+    { name: 'lushForest-item-1', path: 'scene-lushForest-item-1.png', top: 36.9, left: 22.9, dissociation: 'back' },
+    { name: 'lushForest-item-2', path: 'scene-lushForest-item-2.png', top: 65.1, left: 7.1, dissociation: 'front' },
+    { name: 'lushForest-item-3', path: 'scene-lushForest-item-3.png', top: 49.3, left: 77.2, dissociation: 'back' },
+    { name: 'lushForest-item-4', path: 'scene-lushForest-item-4.png', top: 0, left: 71, dissociation: 'back' },
+    { name: 'lushForest-item-5', path: 'scene-lushForest-item-5.png', top: 1.4, left: 43.2, dissociation: 'back' },
+    { name: 'lushForest-item-6', path: 'scene-lushForest-item-6.png', top: 2, left: 17.6, dissociation: 'front' },
+    { name: 'lushForest-item-7', path: 'scene-lushForest-item-7.png', top: 31, left: 48.8, dissociation: 'back' },
   ],
 };
 
@@ -129,13 +123,13 @@ export const JourneyStaticItemsList = {
   [JourneySceneType.金黃稻浪]: [],
   [JourneySceneType.花海平原]: [],
   [JourneySceneType.蔚藍海岸]: [
-    { name: 'scene-azureCoast-view-wave-1', path: 'scene-azureCoast-view-wave-1.png', top: -10, left: 20 },
-    { name: 'scene-azureCoast-view-wave-2', path: 'scene-azureCoast-view-wave-2.png', top: -12.8, left: 1920 },
-    { name: 'scene-azureCoast-view-wave-3', path: 'scene-azureCoast-view-wave-3.png', top: -18.8, left: 2380 },
-    { name: 'scene-azureCoast-view-wave-4', path: 'scene-azureCoast-view-wave-4.png', top: -21.2, left: 3010 },
-    { name: 'scene-azureCoast-view-wave-5', path: 'scene-azureCoast-view-wave-5.png', top: -17, left: 810 },
-    { name: 'scene-azureCoast-view-wave-6', path: 'scene-azureCoast-view-wave-6.png', top: -20.4, left: 560 },
-    { name: 'scene-azureCoast-view-wave-7', path: 'scene-azureCoast-view-wave-7.png', top: -14, left: 30 },
+    { name: 'scene-azureCoast-view-wave-1', path: 'scene-azureCoast-view-wave-1.png', top: 53, left: 0.2, dissociation: 'back' },
+    { name: 'scene-azureCoast-view-wave-2', path: 'scene-azureCoast-view-wave-2.png', top: 47.8, left: 49.7, dissociation: 'back' },
+    { name: 'scene-azureCoast-view-wave-3', path: 'scene-azureCoast-view-wave-3.png', top: 42, left: 61.9, dissociation: 'back' },
+    { name: 'scene-azureCoast-view-wave-4', path: 'scene-azureCoast-view-wave-4.png', top: 39.4, left: 78.2, dissociation: 'back' },
+    { name: 'scene-azureCoast-view-wave-5', path: 'scene-azureCoast-view-wave-5.png', top: 43.9, left: 20.8, dissociation: 'back' },
+    { name: 'scene-azureCoast-view-wave-6', path: 'scene-azureCoast-view-wave-6.png', top: 39.9, left: 14.4, dissociation: 'back' },
+    { name: 'scene-azureCoast-view-wave-7', path: 'scene-azureCoast-view-wave-7.png', top: 42.4, left: 1.1, dissociation: 'back' },
   ],
   [JourneySceneType.月夜雪地]: [],
   [JourneySceneType.晴光森林]: [],
@@ -143,17 +137,18 @@ export const JourneyStaticItemsList = {
 
 export const JourneySceneSetting = {
   itemsCenterThreshold: 200,
-  // offset: 100,
-  offset: 14,
-  shouldReloadWhenWindowResized: false,
+  offset: 100,
+  walkFadeInDistance: 100,
+  walkFadeInDuration: 7000,
+  shouldReloadWhenWindowResized: true,
 };
 
 type JourneySceneDebugType = {
   enabled: boolean;
-  count: number | 'max';
+  count: number;
 };
 
 export const JourneySceneDebug: JourneySceneDebugType = {
-  enabled: false,
-  count: QueryString.get('count') === 'max' ? 'max' : Number(QueryString.get('count')) || 1,
+  enabled: QueryString.get('debug') === '1' || false,
+  count: 3,
 };

@@ -1,8 +1,17 @@
 import { REST_PATH } from '@/settings/config';
+import { faker } from '@faker-js/faker';
 import { mergePath } from 'lesca-fetcher';
 import { HttpResponse, http } from 'msw';
 
 export const handlers = [
+  http.get(mergePath(REST_PATH.login), () => {
+    return HttpResponse.json({
+      isSuccess: true,
+      account: faker.string.uuid(),
+      credential: faker.string.nanoid(),
+    });
+  }),
+
   http.get(mergePath(REST_PATH.start), () => {
     return HttpResponse.json({
       isSuccess: true,
@@ -34,38 +43,21 @@ export const handlers = [
           { quizId: 'b1cf6277-1fc8-4f59-ab52-fd1e28b50ed9', name: '自我成長' },
         ],
         minerList: [
-          {
-            minerId: 'aeea6169-d040-4496-a3e9-3fa0240a896f',
-            name: 'character-peach',
-            image: 'character-peach.png',
-          },
-          {
-            minerId: 'f29335bc-a29a-4815-9cfb-f431fdbc4aec',
-            name: 'character-green',
-            image: 'character-green.png',
-          },
-          {
-            minerId: 'b0fca377-8347-4d08-b137-466c6ed6f2f9',
-            name: 'character-blue',
-            image: 'character-blue.png',
-          },
-          {
-            minerId: '8febd1e2-f527-4677-bfae-154afbdbf805',
-            name: 'character-orange',
-            image: 'character-orange.png',
-          },
-          {
-            minerId: 'a1b2c3d4-e5f6-4g7h-8i9j-k0l1m2n3o4p5',
-            name: 'character-gray',
-            image: 'character-gray.png',
-          },
-          {
-            minerId: 'c3d4e5f6-a7b8-4h9i-8j0k-l1m2n3o4p5q6',
-            name: 'character-yellow',
-            image: 'character-yellow.png',
-          },
+          { minerId: 'aeea6169-d040-4496-a3e9-3fa0240a896f', name: 'character-peach', image: 'character-peach.png' },
+          { minerId: 'f29335bc-a29a-4815-9cfb-f431fdbc4aec', name: 'character-green', image: 'character-green.png' },
+          { minerId: 'b0fca377-8347-4d08-b137-466c6ed6f2f9', name: 'character-blue', image: 'character-blue.png' },
+          { minerId: '8febd1e2-f527-4677-bfae-154afbdbf805', name: 'character-orange', image: 'character-orange.png' },
+          { minerId: 'a1b2c3d4-e5f6-4g7h-8i9j-k0l1m2n3o4p5', name: 'character-gray', image: 'character-gray.png' },
+          { minerId: 'c3d4e5f6-a7b8-4h9i-8j0k-l1m2n3o4p5q6', name: 'character-yellow', image: 'character-yellow.png' },
         ],
       },
+    });
+  }),
+
+  http.post(mergePath(REST_PATH.answer), () => {
+    return HttpResponse.json({
+      isSuccess: true,
+      result: true,
     });
   }),
 

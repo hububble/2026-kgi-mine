@@ -1,7 +1,6 @@
 import Heading from '@/components/heading';
 import Paragraph from '@/components/paragraph';
 import TweenerProvider from '@/components/tweenProvider';
-import useStart from '@/hooks/useStart';
 import { Bezier } from 'lesca-use-tween';
 import { memo, useContext } from 'react';
 import { HomeContext, HomeStepType } from '../../config';
@@ -19,7 +18,6 @@ const animationSetting = {
 
 const 歡迎踏上豐盛之旅 = memo(() => {
   const [{ step }] = useContext(HomeContext);
-  const [response, getStart] = useStart();
 
   return (
     <>
@@ -101,7 +99,7 @@ const 歡迎踏上豐盛之旅 = memo(() => {
         </TweenerProvider>
       </Paragraph>
       <Character />
-      <Buttons getStart={getStart} type={response?.isSuccess ? 'entry' : 'login'} />
+      <Buttons />
     </>
   );
 });

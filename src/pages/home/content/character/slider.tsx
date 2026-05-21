@@ -1,4 +1,4 @@
-import Blockquote from '@/components/article';
+import Blockquote from '@/components/blockquote';
 import Button from '@/components/button';
 import TweenerProvider from '@/components/tweenProvider';
 import { ResponseType } from '@/hooks/useQuestion';
@@ -84,6 +84,7 @@ const SliderContainer = memo(({ data }: SliderContainerProps) => {
     >
       <div className='slider-container'>
         <Swiper
+          allowTouchMove={window.innerWidth < 768 ? true : false}
           loop
           spaceBetween={0}
           slidesPerView={3}
@@ -133,11 +134,9 @@ type CarouselProps = {
   data?: ResponseType['result']['minerList'];
 };
 
-const Carousel = memo(({ data }: CarouselProps) => {
-  return (
-    <Blockquote className='w-full lg:max-w-5xl xl:max-w-7xl'>
-      <SliderContainer data={data} />
-    </Blockquote>
-  );
-});
+const Carousel = memo(({ data }: CarouselProps) => (
+  <Blockquote className='w-full lg:max-w-5xl xl:max-w-7xl'>
+    <SliderContainer data={data} />
+  </Blockquote>
+));
 export default Carousel;

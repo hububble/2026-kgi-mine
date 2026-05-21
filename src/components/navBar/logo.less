@@ -3,7 +3,7 @@
 
 .Navbar {
   .navbar-logo {
-    width: 222px;
+    width: 286px;
 
     @img: '../../../public/navbar-logo.svg';
     @apply relative flex cursor-pointer;
@@ -18,18 +18,22 @@
 
     @media only screen and (max-width: @MD) {
       & {
-        width: 150px;
+        margin-bottom: 10px;
+        width: 250px;
+
+        @img: '../../../public/navbar-logo-m.svg';
+
+        &::before {
+          padding-bottom: (unit(image-height(@img) / unit(image-width(@img))) * 100%);
+          background-image: var(--navbar-logo-m);
+        }
       }
     }
 
     @media only screen and (max-width: @XS) {
       & {
-        width: 36vw;
+        width: 60vw;
       }
-    }
-
-    @media only screen and (max-width: @XXS) {
-      width: 115px;
     }
   }
 }

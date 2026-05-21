@@ -5,7 +5,9 @@ import {
   IAction,
   IState,
   LoadingProcessType,
+  TArticleState,
   TCardState,
+  TCharacterName,
   TContext,
   TDatasetState,
   TLoadingProcessState,
@@ -15,6 +17,7 @@ import {
   TSceneViewSizeState,
   TUserDataState,
 } from './type';
+import QueryString from 'lesca-url-parameters';
 
 export const LoadingProcessState: TLoadingProcessState = {
   enabled: false,
@@ -32,9 +35,35 @@ export const ModalState: TModalState = {
   enabled: false,
 };
 
+const characterList: TCharacterName[] = [
+  'character-blue',
+  'character-green',
+  'character-orange',
+  'character-yellow',
+  'character-peach',
+  'character-gray',
+];
+
+const journey = QueryString.get('journey');
+const getJourneyName: () => TUserDataState['journey'] = () => {
+  switch (journey) {
+    default:
+    case '1':
+      return '晴光森林';
+    case '2':
+      return '金黃稻浪';
+    case '4':
+      return '花海平原';
+    case '3':
+      return '蔚藍海岸';
+    case '5':
+      return '月夜雪地';
+  }
+};
+
 export const UserDataState: TUserDataState = {
-  journey: '蔚藍海岸',
-  character: undefined,
+  journey: getJourneyName(),
+  character: characterList[Math.floor(Math.random() * characterList.length)],
 };
 
 export const SceneViewSizeState: TSceneViewSizeState = {
@@ -52,6 +81,7 @@ export const CardState: TCardState = {
 export const QuestionnaireState: TQuestionnaireState = {
   enabled: false,
   question: QuestionnaireDemoData,
+  onClose: () => {},
 };
 
 // 最近活動
@@ -60,8 +90,28 @@ export const RecentState: TRecentState = {
   title: '探索更多活動',
 };
 
+// 文章
+export const ArticleState: TArticleState = {
+  enabled: false,
+  type: 'article',
+  onClose: () => {},
+};
+
+const getPageByQueryString = (): IState[ActionType.Page] => {
+  const page = QueryString.get('page');
+  switch (page) {
+    default:
+    case '1':
+      return PAGE.home;
+    case '2':
+      return PAGE.journey;
+    case '3':
+      return PAGE.demo;
+  }
+};
+
 export const InitialState: IState = {
-  [ActionType.Page]: PAGE.journey,
+  [ActionType.Page]: getPageByQueryString(),
   [ActionType.LoadingProcess]: LoadingProcessState,
   [ActionType.Dataset]: DatasetState,
   [ActionType.Sounds]: { track: undefined },
@@ -71,6 +121,7 @@ export const InitialState: IState = {
   [ActionType.Card]: CardState,
   [ActionType.Questionnaire]: QuestionnaireState,
   [ActionType.Recent]: RecentState,
+  [ActionType.Article]: ArticleState,
 };
 
 export const Context = createContext<TContext>([InitialState, () => {}]);

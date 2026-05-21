@@ -3,24 +3,28 @@ import Questionnaire from '@/components/questionnaire';
 import { Context } from '@/settings/constant';
 import { ActionType } from '@/settings/type';
 import OnloadProvider from 'lesca-react-onload';
-import { memo, useCallback, useContext, useEffect, useState } from 'react';
+import { memo, useContext, useEffect, useRef, useState } from 'react';
 import {
   JourneyContext,
-  JourneySceneDebug,
   JourneySceneSetting,
   JourneySceneType,
   JourneyState,
   JourneyStepType,
 } from './config';
-import Dialog from './dialog';
+import JourneyEventProvider, { JourneyEventsContext, JourneyEventsState } from './events';
 import './index.less';
 import Scene from './scene';
 import UserData from './userData';
+import EnterFrame from 'lesca-enterframe';
+import Article from '@/components/article';
+import Modal from '@/components/modal';
+import Recent from '@/components/recent';
 
 const Journey = memo(() => {
   const [context, setContext] = useContext(Context);
   const journey = context[ActionType.UserData]?.journey;
   const [resetIndex, setResetIndex] = useState(0);
+  const innerWidthRef = useRef<number>(0);
 
   const [state, setState] = useState({
     ...JourneyState,
@@ -29,83 +33,57 @@ const Journey = memo(() => {
       : JourneyState.scene,
   });
 
-  const onLooped = useCallback((loop: number) => {
-    if (loop < 0) return;
-    // setContext({ type: ActionType.Questionnaire, state: { enabled: true } });
-  }, []);
-
-  const onEnd = useCallback(() => {
-    if (JourneySceneDebug.enabled) return;
-    setContext({ type: ActionType.Questionnaire, state: { enabled: true } });
-  }, []);
-
-  const onItemSelected = useCallback((item: string) => {
-    console.log(item);
-  }, []);
+  const value = useState(JourneyEventsState);
 
   useEffect(() => {
-    if (JourneySceneSetting.shouldReloadWhenWindowResized) {
-      window.addEventListener('resize', () => {
-        setResetIndex((index) => index + 1);
-      });
-    }
-  }, []);
-
-  const onEncounteringRoadSign = useCallback(() => {
-    setContext({
-      type: ActionType.Modal,
-      state: {
-        enabled: true,
-        body: '是否探索一條新的路線?',
-        label: ['好的', '暫時不要'],
-        onConfirm: (label) => {
-          if (label === '好的') {
-            setState((S) => {
-              const scenes = Object.values(JourneySceneType).filter((scene) => scene !== S.scene);
-              return {
-                ...S,
-                loop: 0,
-                scene: scenes[Math.floor(Math.random() * scenes.length)],
-                step: JourneyStepType.unset,
-              };
-            });
-          } else {
-            setState((S) => ({ ...S, step: JourneyStepType.resume }));
+    const resize = () => {
+      if (innerWidthRef.current !== 0 && innerWidthRef.current !== window.innerWidth) {
+        if (innerWidthRef.current !== window.innerWidth) {
+          if (JourneySceneSetting.shouldReloadWhenWindowResized) {
+            // reset when window resized to smaller size
+            EnterFrame.destroy();
+            setState((S) => ({ ...S, loop: -1, step: JourneyStepType.unset }));
+            setResetIndex((I) => I + 1);
+            setContext({ type: ActionType.Card, state: { enabled: false } });
+            setContext({ type: ActionType.Questionnaire, state: { enabled: false } });
+            setContext({ type: ActionType.Article, state: { enabled: false } });
           }
-        },
-        onClose: () => {
-          setState((S) => ({ ...S, step: JourneyStepType.resume }));
-        },
-      },
-    });
+        }
+      }
+      innerWidthRef.current = window.innerWidth;
+    };
+    resize();
+    window.addEventListener('resize', resize);
+    return () => window.removeEventListener('resize', resize);
   }, []);
 
   return (
     <JourneyContext.Provider value={[state, setState]}>
-      <OnloadProvider
-        key={`${state.scene}-${resetIndex}`}
-        onStart={() => {
-          setState((S) => ({ ...S, step: JourneyStepType.unset }));
-          setContext({ type: ActionType.LoadingProcess, state: { enabled: true } });
-        }}
-        onload={() => {
-          setState((S) => ({ ...S, step: JourneyStepType.fadeIn }));
-          setContext({ type: ActionType.LoadingProcess, state: { enabled: false } });
-        }}
-      >
-        <div className='Journey'>
-          <Scene
-            onEnd={onEnd}
-            onLooped={onLooped}
-            onItemSelected={onItemSelected}
-            onEncounteringRoadSign={onEncounteringRoadSign}
-          />
-          <UserData />
-          {state.dialog.enabled && <Dialog />}
-          {context[ActionType.Card]?.enabled && <Card />}
-          {context[ActionType.Questionnaire]?.enabled && <Questionnaire />}
-        </div>
-      </OnloadProvider>
+      <JourneyEventsContext.Provider value={value}>
+        <OnloadProvider
+          key={`${state.scene}-${resetIndex}`}
+          onStart={() => {
+            setState((S) => ({ ...S, step: JourneyStepType.unset }));
+            setContext({ type: ActionType.LoadingProcess, state: { enabled: true } });
+          }}
+          onload={() => {
+            setState((S) => ({ ...S, step: JourneyStepType.fadeIn }));
+            setContext({ type: ActionType.LoadingProcess, state: { enabled: false } });
+          }}
+        >
+          <div className='Journey'>
+            <JourneyEventProvider>
+              <Scene />
+              <UserData />
+              {context[ActionType.Card]?.enabled && <Card />}
+              {context[ActionType.Questionnaire]?.enabled && <Questionnaire />}
+              {context[ActionType.Article]?.enabled && <Article />}
+              {context[ActionType.Modal]?.enabled && <Modal />}
+              {context[ActionType.Recent]?.enabled && <Recent />}
+            </JourneyEventProvider>
+          </div>
+        </OnloadProvider>
+      </JourneyEventsContext.Provider>
     </JourneyContext.Provider>
   );
 });

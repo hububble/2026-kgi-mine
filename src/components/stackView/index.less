@@ -1,0 +1,73 @@
+@import url('@/settings/global.css');
+
+.StackView {
+  @apply pointer-events-none absolute top-0 h-full w-full;
+
+  .odd {
+    @apply bg-green-500/5;
+  }
+
+  .even {
+    @apply bg-blue-500/5;
+  }
+
+  .stack {
+    margin-left: 100vw;
+    width: var(--current-view-width);
+    font-size: 50px;
+    @apply absolute top-0 flex h-full items-center justify-center text-center;
+
+    & > div {
+      @apply relative h-full w-full;
+
+      & > div {
+        @size: 8vh;
+        @apply absolute flex h-fit justify-center;
+
+        &::before {
+          content: '';
+          @apply absolute top-0 w-full bg-contain bg-center bg-no-repeat;
+        }
+
+        .marker {
+          top: -@size - 1vh;
+          height: @size;
+          @apply pointer-events-auto absolute flex w-full items-end justify-center;
+
+          .box {
+            width: @size;
+            height: @size;
+            filter: drop-shadow(0px 0px 20px #ffffff);
+
+            @apply shrink-0 animate-bounce bg-contain bg-center bg-no-repeat;
+          }
+
+          .pattern-icon-career {
+            background-image: var(--pattern-icon-career);
+            animation-delay: 0.5s;
+          }
+
+          .pattern-icon-finance {
+            background-image: var(--pattern-icon-finance);
+            animation-delay: -0.9s;
+          }
+
+          .pattern-icon-health {
+            background-image: var(--pattern-icon-health);
+            animation-delay: -0.5s;
+          }
+
+          .pattern-icon-relations {
+            background-image: var(--pattern-icon-relations);
+            animation-delay: -0.3s;
+          }
+
+          .pattern-icon-society {
+            background-image: var(--pattern-icon-society);
+            animation-delay: 0s;
+          }
+        }
+      }
+    }
+  }
+}

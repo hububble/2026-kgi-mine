@@ -1,6 +1,5 @@
 import Container from '@/components/container';
 import LoadingProcess from '@/components/loadingProcess';
-import Modal from '@/components/modal';
 import { Debug, PAGE } from '@/settings/config';
 import { Context, DatasetState, InitialState, Reducer } from '@/settings/constant';
 import '@/settings/global.css';
@@ -12,7 +11,8 @@ import { useEffect, useMemo, useReducer } from 'react';
 import ReactDOM from 'react-dom/client';
 import Home from './home';
 import Journey from './journey';
-import Recent from '@/components/recent';
+import Modal from '@/components/modal';
+import Demo from './demo';
 
 Click.install('#immersive_experience_section');
 
@@ -53,6 +53,9 @@ const App = ({ dataset }: { dataset: typeof rooAppDataset }) => {
 
       case PAGE.journey:
         return <Journey />;
+
+      case PAGE.demo:
+        return <Demo />;
     }
   }, [page]);
 
@@ -61,8 +64,9 @@ const App = ({ dataset }: { dataset: typeof rooAppDataset }) => {
       <Context.Provider {...{ value }}>
         <Container>{currentPage}</Container>
         {context[ActionType.LoadingProcess]?.enabled && <LoadingProcess />}
-        {context[ActionType.Modal]?.enabled && <Modal />}
-        {context[ActionType.Recent]?.enabled && <Recent />}
+        {(page === PAGE.home || page === PAGE.demo) && context[ActionType.Modal]?.enabled && (
+          <Modal />
+        )}
       </Context.Provider>
     </div>
   );

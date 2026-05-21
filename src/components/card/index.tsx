@@ -6,7 +6,7 @@ import OnloadProvider from 'lesca-react-onload';
 import useTween from 'lesca-use-tween';
 import { memo, useContext, useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
-import Blockquote from '../article';
+import Blockquote from '../blockquote';
 import Button from '../button';
 import Heading from '../heading';
 import { URI } from './config';
@@ -47,7 +47,7 @@ const InnerCard = memo(({ transition }: { transition: TransitionType }) => {
       <div className='gradient-bottom' />
       <div className='ctx'>
         <div className='head'>
-          <Heading.D3 icon={navBarIcon}>豐盛未來式</Heading.D3>
+          <Heading.H4 icon={navBarIcon}>豐盛未來式</Heading.H4>
           <div className='navBar'>
             {mines?.map((mine) => (
               <div
@@ -59,7 +59,21 @@ const InnerCard = memo(({ transition }: { transition: TransitionType }) => {
           </div>
         </div>
         <div className='foot'>
-          <Button className='w-fit'>
+          <Button
+            className='w-fit'
+            onClick={() => {
+              setContext({
+                type: ActionType.Article,
+                state: {
+                  enabled: true,
+                  onClose: () => {
+                    setState((S) => ({ ...S, step: JourneyStepType.resume }));
+                  },
+                },
+              });
+              setContext({ type: ActionType.Card, state: { enabled: false } });
+            }}
+          >
             <Button.Soft>點我觀看</Button.Soft>
           </Button>
           <Button className='w-fit'>
@@ -94,6 +108,7 @@ const Card = memo(() => {
 
   return (
     <OnloadProvider
+      hideBeforeLoaded
       onStart={() => {
         setContext({ type: ActionType.LoadingProcess, state: { enabled: true } });
       }}
@@ -103,9 +118,9 @@ const Card = memo(() => {
       }}
     >
       <div className='Card'>
-        <Blockquote className='max-w-md' scroll>
-          <div className='inner'>
-            <div className='inner-contain'>
+        <Blockquote className='flex w-full justify-center' scroll>
+          <div className='inner max-w-md px-5'>
+            <div className='inner-contain animate-fadeInPy'>
               <div
                 className={twMerge(
                   'round',

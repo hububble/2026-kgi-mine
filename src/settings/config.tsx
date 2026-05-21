@@ -3,11 +3,14 @@ import { TCardState, TQuestionnaireOption } from './type';
 export const PAGE = {
   home: 'home',
   journey: 'journey',
+  demo: 'demo',
 };
 
 export const REST_PATH = {
+  login: 'admin/login',
   start: 'immersion/content',
   questions: 'immersion/miner',
+  answer: 'immersion/miner',
 };
 
 export const Debug = {

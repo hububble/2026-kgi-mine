@@ -2,7 +2,8 @@ import Miner from '@/components/miner';
 import { CharacterFrame } from '@/hooks/useCharacterSlowDown';
 import useTween, { Bezier } from 'lesca-use-tween';
 import { memo, useContext, useEffect, useRef } from 'react';
-import { JourneyContext, JourneySceneDebug, JourneyStepType } from '../config';
+import { JourneyContext, JourneySceneDebug, JourneySceneSetting, JourneyStepType } from '../config';
+import { getScreenOffset } from '@/utils';
 
 type MinerWalkerProps = {
   onShowDown?: (frame: CharacterFrame) => void;
@@ -27,7 +28,11 @@ const MinerWalker = memo(({ onShowDown }: MinerWalkerProps) => {
       if (JourneySceneDebug.enabled) return;
       setStyle(
         { x: 0 },
-        { duration: 10000, easing: Bezier.easeIn, onStart: () => ref.current?.play() },
+        {
+          duration: JourneySceneSetting.walkFadeInDuration * getScreenOffset(),
+          easing: Bezier.easeIn,
+          onStart: () => ref.current?.play(),
+        },
       );
     } else if (state.step === JourneyStepType.fadeOut) {
       ref.current?.slowDown();

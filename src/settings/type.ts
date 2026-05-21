@@ -12,6 +12,7 @@ export enum ActionType {
   Card = 'card',
   Questionnaire = 'questionnaire',
   Recent = 'recent',
+  Article = 'article',
 }
 
 export enum LoadingProcessType {
@@ -56,12 +57,26 @@ export type TModalState = {
   onClose?: () => void;
 };
 
+export type TCharacterName =
+  | 'character-blue'
+  | 'character-green'
+  | 'character-orange'
+  | 'character-yellow'
+  | 'character-peach'
+  | 'character-gray';
+
 export type TUserDataState = {
   journey?: '金黃稻浪' | '花海平原' | '蔚藍海岸' | '月夜雪地' | '晴光森林';
-  character?: string;
+  character?: TCharacterName;
 };
 
-export type TSceneViewSizeState = { height?: number; width?: number };
+export type TSceneViewSizeState = {
+  height?: number;
+  width?: number;
+  coverPercent?: number;
+  containPercent?: number;
+  ratio?: number;
+};
 
 export type TCardState = {
   enabled?: boolean;
@@ -83,12 +98,19 @@ export type TQuestionnaireOption = {
 export type TQuestionnaireState = {
   enabled?: boolean;
   question?: TQuestionnaireOption[];
+  onClose?: () => void;
 };
 
 export type TRecentState = {
   enabled?: boolean;
   title?: ReactNode;
   onClick?: () => void;
+};
+
+export type TArticleState = {
+  enabled?: boolean;
+  type?: 'article' | 'video' | 'audio';
+  onClose?: () => void;
 };
 
 export interface IState {
@@ -102,6 +124,7 @@ export interface IState {
   [ActionType.Card]: TCardState;
   [ActionType.Questionnaire]: TQuestionnaireState;
   [ActionType.Recent]: TRecentState;
+  [ActionType.Article]: TArticleState;
 }
 
 export interface IAction {

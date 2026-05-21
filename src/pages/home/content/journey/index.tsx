@@ -1,4 +1,4 @@
-import Blockquote from '@/components/article';
+import Blockquote from '@/components/blockquote';
 import Button from '@/components/button';
 import Heading from '@/components/heading';
 import TweenerProvider from '@/components/tweenProvider';
@@ -57,7 +57,7 @@ const 你想要哪一場理想旅程呢 = memo(({ data }: { data?: ResponseType[
             fadeOutStyle={{ opacity: 0, y: -200 }}
             optionsFadeOut={{ duration: 1200, easing: Bezier.inQuart }}
           >
-            <Heading.H3>你想要的下一個十年是?</Heading.H3>
+            <Heading.H3>你想要哪一場理想旅程呢？</Heading.H3>
           </TweenerProvider>
           <div className='w-full px-10 pt-16 md:px-44'>
             <div className='grid w-full grid-cols-1 gap-5 md:gap-8'>

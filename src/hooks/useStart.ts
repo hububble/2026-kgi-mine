@@ -4,7 +4,7 @@ import { ActionType } from '@/settings/type';
 import Fetcher from 'lesca-fetcher';
 import { useContext, useEffect, useState } from 'react';
 
-type ResponseType = { isSuccess: boolean; result: any[] };
+type ResponseType = { isSuccess: boolean; result: any };
 
 const useStart = (props?: { auto?: boolean; backgroundAppProcess?: boolean }) => {
   const { auto = false, backgroundAppProcess = false } = props || {};
@@ -19,8 +19,8 @@ const useStart = (props?: { auto?: boolean; backgroundAppProcess?: boolean }) =>
     let response;
     try {
       response = await Fetcher.get(REST_PATH.start);
-    } catch {
-      response = { isSuccess: false, result: [] };
+    } catch (error) {
+      response = { isSuccess: false, result: String(error) };
     }
 
     if (!backgroundAppProcess) {

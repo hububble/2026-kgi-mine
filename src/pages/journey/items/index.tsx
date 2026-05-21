@@ -1,132 +1,156 @@
-import ParallaxView from '@/components/parallaxView';
-import useURI from '@/hooks/useURI';
-import { Context } from '@/settings/constant';
-import { ActionType } from '@/settings/type';
-import { memo, useCallback, useContext, useEffect, useState } from 'react';
-import { JourneyContext, JourneyItemsList, JourneyStepType } from '../config';
-import './index.less';
-import './static.less';
+import StackView from '@/components/stackView';
+import useDataDiversion, { TDataDiversionStateData } from '@/hooks/useDataDiversion';
+import { IReactProps } from '@/settings/type';
+import { memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { JourneyContext, JourneySceneDebug, JourneyStepType } from '../config';
+import { JourneyEventsContext } from '../events';
 import Item from './item';
 
-type TJourneyItemsProps = {
+import './azureCoast.less';
+import './flowerSeaPlain.less';
+import './goldenRiceField.less';
+import './index.less';
+import './lushForest.less';
+import './moonlitSnowfield.less';
+
+type TItemsProps = IReactProps & {
   offset: number;
-  items: ({
-    name: string;
-    top: number;
-    left: number;
-    clicked: boolean;
-    dissociation: 'back' | 'front';
-  } | null)[];
-  staticItems?: { name: string; top: number; left: number; clicked: boolean }[];
-  onCenter?: (item: string) => void;
-  onItemSelected?: (item: string) => void;
-  loop?: boolean;
-  dissociation: 'back' | 'front';
 };
 
-const Items = memo((props: TJourneyItemsProps) => {
-  const { offset, items, staticItems, onCenter, onItemSelected, loop, dissociation } = props;
-
-  const [, setContext] = useContext(Context);
+const Items = memo(({ children, offset }: TItemsProps) => {
   const [state, setState] = useContext(JourneyContext);
-  const [currentItems, setCurrentItems] = useState(items);
-  const [left, setLeft] = useState('');
-  const [, setURI] = useURI();
+  const [, setEvent] = useContext(JourneyEventsContext);
+
+  const [itemData, updateStep] = useDataDiversion({ index: -1, scene: state.scene });
+  const { data } = useMemo(() => itemData, [itemData]);
+  const endLoopShouldBe = useRef(Infinity);
+
+  const [odd, setOdd] = useState<TDataDiversionStateData>({ back: [], front: [], static: [] });
+  const [even, setEven] = useState<TDataDiversionStateData>({ back: [], front: [], static: [] });
 
   useEffect(() => {
-    const { scene } = state;
-    const items = JourneyItemsList[scene];
-    items.forEach((item) => setURI({ path: item.path, name: item.name }));
-  }, [state.scene]);
+    updateStep({ step: state.loop });
+    setEvent((S) => ({ ...S, onLoopChange: { loop: state.loop } }));
+  }, [state.loop]);
 
-  const onSelected = useCallback(
-    (item: string) => {
-      setCurrentItems((items) =>
-        items.map((i) => (i && i.name === item ? { ...i, clicked: true } : i)),
-      );
-      setContext({ type: ActionType.Card, state: { enabled: true } });
+  useEffect(() => {
+    if (state.loop === -1) {
+      setOdd((S) => ({ ...S, static: data.static }));
+      setEven((S) => ({ ...S, static: data.static }));
+    } else if (state.loop % 2 === 1) setEven(data);
+    else setOdd(data);
+  }, [data, state.loop]);
+
+  useEffect(() => {
+    if (data.back.length === 0 && data.front.length === 0 && state.loop > 0) {
+      endLoopShouldBe.current = state.loop;
+    }
+  }, [data]);
+
+  const onCenter = useMemo(
+    () => (name: string) => {
+      if (JourneySceneDebug.enabled) return;
       setState((S) => ({ ...S, step: JourneyStepType.fadeOut }));
-      onItemSelected?.(item);
+      const isRoadSign = name.includes('roadSign');
+      if (isRoadSign) {
+        setEvent((S) => ({
+          ...S,
+          onEncounteringRoadSign: {
+            ...S.onEncounteringRoadSign,
+            index: S.onEncounteringRoadSign.index + 1,
+          },
+        }));
+      }
     },
-    [setState, setContext],
+    [],
   );
 
+  const onItemSelected = useMemo(
+    () => (name: string) => {
+      setState((S) => ({ ...S, step: JourneyStepType.fadeOut }));
+      setEvent((S) => ({
+        ...S,
+        onItemSelected: { ...S.onItemSelected, index: S.onItemSelected.index + 1 },
+      }));
+      setOdd((S) => ({
+        ...S,
+        back: S.back.map((item) => (item.name === name ? { ...item, clicked: true } : item)),
+        front: S.front.map((item) => (item.name === name ? { ...item, clicked: true } : item)),
+      }));
+      setEven((S) => ({
+        ...S,
+        back: S.back.map((item) => (item.name === name ? { ...item, clicked: true } : item)),
+        front: S.front.map((item) => (item.name === name ? { ...item, clicked: true } : item)),
+      }));
+    },
+    [],
+  );
+
+  const onPushed = useCallback((loop: number) => {
+    if (JourneySceneDebug.enabled) return;
+    if (loop === endLoopShouldBe.current) {
+      setState((S) => ({ ...S, step: JourneyStepType.fadeOut }));
+      setEvent((S) => ({
+        ...S,
+        onJourneyEnd: { ...S.onJourneyEnd, index: S.onJourneyEnd.index + 1 },
+      }));
+    }
+  }, []);
+
   return (
-    <ParallaxView
-      className='Item'
-      offset={offset}
-      loop={loop}
-      onLeftChange={setLeft}
-      onDirectionChange={(direction) => {
-        setState((S) => {
-          return {
-            ...S,
-            view: {
-              direction,
-              index:
-                S.view.direction !== direction && S.view.direction !== 'unset'
-                  ? S.view.index + 1
-                  : S.view.index,
-            },
-          };
-        });
-      }}
-      staticNode={staticItems?.map(
-        (item) =>
-          item && (
-            <Item
-              key={item.name}
-              item={item}
-              y={item.top + 5.5}
-              x={(item.left / 3840) * 100}
-              left={left}
-              onCenter={() => onCenter?.(item.name)}
-              onItemSelected={() => onSelected?.(item.name)}
-              isStatic
-            />
-          ),
-      )}
-      leftNode={
-        state.view.direction === 'left' &&
-        currentItems
-          .filter((_, index) => state.view.index === index)
-          .filter((item) => item?.dissociation === dissociation)
-          .map(
-            (item) =>
-              item && (
-                <Item
-                  key={item.name}
-                  item={item}
-                  y={item.top + 5.5}
-                  x={(item.left / 3840) * 100}
-                  left={left}
-                  onCenter={() => onCenter?.(item.name)}
-                  onItemSelected={() => onSelected?.(item.name)}
-                />
-              ),
-          )
-      }
-      rightNode={
-        state.view.direction === 'right' &&
-        currentItems
-          .filter((_, index) => state.view.index === index)
-          .filter((item) => item?.dissociation === dissociation)
-          .map(
-            (item) =>
-              item && (
-                <Item
-                  key={item.name}
-                  item={item}
-                  y={item.top + 5.5}
-                  x={(item.left / 3840) * 100}
-                  left={left}
-                  onCenter={() => onCenter?.(item.name)}
-                  onItemSelected={() => onSelected?.(item.name)}
-                />
-              ),
-          )
-      }
-    />
+    <div className='Items'>
+      <StackView offset={offset} type='odd' onPushed={onPushed}>
+        {odd.static.map((item, idx) => (
+          <Item key={`${item.name}-${idx}-odd-static`} data={item} offset={offset} />
+        ))}
+        {odd.back.map((item, idx) => (
+          <Item
+            key={`${item.name}-${idx}-odd-back`}
+            data={item}
+            offset={offset}
+            onCenter={onCenter}
+            onItemSelected={onItemSelected}
+          />
+        ))}
+      </StackView>
+      <StackView offset={offset} type='even'>
+        {even.static.map((item, idx) => (
+          <Item key={`${item.name}-${idx}-even-static`} data={item} offset={offset} />
+        ))}
+        {even.back.map((item, idx) => (
+          <Item
+            key={`${item.name}-${idx}-even-back`}
+            data={item}
+            offset={offset}
+            onCenter={onCenter}
+            onItemSelected={onItemSelected}
+          />
+        ))}
+      </StackView>
+      {children}
+      <StackView offset={offset} type='odd'>
+        {odd.front.map((item, idx) => (
+          <Item
+            key={`${item.name}-${idx}-odd-front`}
+            data={item}
+            offset={offset}
+            onCenter={onCenter}
+            onItemSelected={onItemSelected}
+          />
+        ))}
+      </StackView>
+      <StackView offset={offset} type='even'>
+        {even.front.map((item, idx) => (
+          <Item
+            key={`${item.name}-${idx}-even-front`}
+            data={item}
+            offset={offset}
+            onCenter={onCenter}
+            onItemSelected={onItemSelected}
+          />
+        ))}
+      </StackView>
+    </div>
   );
 });
 export default Items;

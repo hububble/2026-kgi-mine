@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div class="min-h-screen w-full bg-amber-500">
+      <script>
+        window.addEventListener('message', (event) => {
+          if (event.data?.type === 'iframe-height-changed') {
+            console.log(event.data.height);
+            document.querySelector('iframe').style.height = `${event.data.height}px`;
+          }
+        });
+      </script>
+      <iframe src="./iframeContent.html" style="width: 100%; border: none"></iframe>
+    </div>
+  </body>
+</html>
