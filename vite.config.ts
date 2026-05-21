@@ -22,7 +22,7 @@ export default defineConfig(async ({ mode }) => {
       rollupOptions: {
         input: {
           index: resolve(__dirname, 'src/pages/index.html'),
-          iframeContent: resolve(__dirname, 'public/iframeContent.html'),
+          iframeContent: resolve(__dirname, 'src/pages/iframeContent.html'),
         },
         output: { manualChunks: undefined },
       },
