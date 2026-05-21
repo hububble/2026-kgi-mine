@@ -8,21 +8,60 @@ const Iframe = memo(() => {
   const [height, setHeight] = useState(0);
 
   useEffect(() => {
-    // 偵測 iframe 的高度變化，並更新子組件的狀態
     window.addEventListener('message', (event) => {
-      if (event.data?.type === 'iframe-height-changed') {
-        setHeight(event.data.height);
+      switch (event.data?.type) {
+        // 偵測 iframe 的高度變化，並更新子組件的狀態
+        case 'iframe-height-changed':
+          setHeight(event.data.height);
+          // 提醒更新子組件的狀態，顯示新的高度，發佈後會移除
+          setContext({
+            type: ActionType.Modal,
+            state: {
+              enabled: true,
+              title: 'Iframe 改變高度',
+              body: `iframe height changed to ${event.data.height}px`,
+              label: ['GOT IT'],
+            },
+          });
+          break;
 
-        // 提醒更新子組件的狀態，顯示新的高度，發佈後會移除
-        setContext({
-          type: ActionType.Modal,
-          state: {
-            enabled: true,
-            title: 'Iframe Height Changed',
-            body: `iframe height changed to ${event.data.height}px`,
-            label: ['GOT IT'],
-          },
-        });
+        // 偵測 iframe 的video變化
+        case 'iframe-video-status':
+          setContext({
+            type: ActionType.Modal,
+            state: {
+              enabled: true,
+              title: 'Iframe Video 狀態',
+              body: `video status changed to ${event.data.status}，將會更新礦石狀態`,
+              label: ['GOT IT'],
+            },
+          });
+          break;
+
+        // 偵測 iframe 的podcast變化
+        case 'iframe-podcast-status':
+          setContext({
+            type: ActionType.Modal,
+            state: {
+              enabled: true,
+              title: 'Iframe Podcast 狀態',
+              body: `podcast status changed to ${event.data.status}，將會更新礦石狀態`,
+              label: ['GOT IT'],
+            },
+          });
+          break;
+
+        // 偵測 iframe 的audio變化
+        case 'iframe-audio-status':
+          setContext({
+            type: ActionType.Modal,
+            state: {
+              enabled: true,
+              title: 'Iframe Audio 狀態',
+              body: `audio status changed to ${event.data.status}，將會更新礦石狀態`,
+              label: ['GOT IT'],
+            },
+          });
       }
     });
   }, []);
