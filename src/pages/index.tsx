@@ -1,5 +1,6 @@
 import Container from '@/components/container';
 import LoadingProcess from '@/components/loadingProcess';
+import Modal from '@/components/modal';
 import { Debug, PAGE } from '@/settings/config';
 import { Context, DatasetState, InitialState, Reducer } from '@/settings/constant';
 import '@/settings/global.css';
@@ -9,10 +10,9 @@ import EnterFrame from 'lesca-enterframe';
 import Fetcher, { contentType, formatType } from 'lesca-fetcher';
 import { useEffect, useMemo, useReducer } from 'react';
 import ReactDOM from 'react-dom/client';
+import Demo from './demo';
 import Home from './home';
 import Journey from './journey';
-import Modal from '@/components/modal';
-import Demo from './demo';
 
 Click.install('#immersive_experience_section');
 

@@ -13,10 +13,7 @@ const useURI = (props?: { path: string; name: string }) => {
     if (!path || !name) return;
 
     const fullPath = `${baseUri}${path}`;
-    document.documentElement.style.setProperty(
-      `--${currentProps.name}`,
-      `url("${currentProps.path}")`,
-    );
+    document.documentElement.style.setProperty(`--${currentProps.name}`, `url("${fullPath}")`);
     setState(fullPath);
   };
 
