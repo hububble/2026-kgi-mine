@@ -5,19 +5,14 @@ import useLogin from '@/hooks/useLogin';
 import useStart from '@/hooks/useStart';
 import { Context } from '@/settings/constant';
 import { ActionType } from '@/settings/type';
+import { faker } from '@faker-js/faker';
 import { Bezier } from 'lesca-use-tween';
-import { memo, useCallback, useContext, useEffect, useState } from 'react';
+import { memo, useContext, useEffect, useState } from 'react';
 import { HomeContext, HomeStepType } from '../../config';
 
-const LoginButton = memo(({ onLogin }: { onLogin: () => void }) => {
-  const [, setContext] = useContext(Context);
+const LoginButton = memo(({ getLogin }: { getLogin: () => Promise<void> }) => {
   const [{ step }] = useContext(HomeContext);
   const [onButtonFadeIn, setOnButtonFadeIn] = useState(false);
-  const [response, getLogin] = useLogin({ auto: true });
-
-  useEffect(() => {
-    if (response?.isSuccess) onLogin();
-  }, [response]);
 
   return (
     <TweenerProvider
@@ -36,7 +31,7 @@ const LoginButton = memo(({ onLogin }: { onLogin: () => void }) => {
       <Button
         clickOnce
         onClick={() => {
-          setContext({ type: ActionType.LoadingProcess, state: { enabled: true } });
+          window.location.href = `${window.location.origin}${window.location.pathname}?token=${faker.string.ulid()}`;
           getLogin();
         }}
         disabled={!onButtonFadeIn}
@@ -99,15 +94,11 @@ const StartButton = memo(() => {
 });
 
 const Buttons = memo(() => {
-  const [isLogin, setIsLogin] = useState(false);
-
-  const onLogin = useCallback(() => {
-    setIsLogin(true);
-  }, []);
+  const [response, getLogin] = useLogin({ auto: true });
 
   return (
     <div className='my-5 flex w-full flex-col items-center justify-center gap-5 md:flex-row'>
-      {isLogin ? <StartButton /> : <LoginButton onLogin={onLogin} />}
+      {response?.isSuccess ? <StartButton /> : <LoginButton getLogin={getLogin} />}
     </div>
   );
 });
