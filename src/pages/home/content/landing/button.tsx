@@ -31,6 +31,7 @@ const LoginButton = memo(({ getLogin }: { getLogin: () => Promise<void> }) => {
       <Button
         clickOnce
         onClick={() => {
+          // TODO: 這裡的 token 生成方式只是為了模擬登入流程，實際應用中應該使用安全的認證方法。
           window.location.href = `${window.location.origin}${window.location.pathname}?token=${faker.string.ulid()}`;
           getLogin();
         }}
