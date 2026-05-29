@@ -1,7 +1,7 @@
 import { memo, useContext, useEffect, useState } from 'react';
 import Blockquote from '@/components/blockquote';
 import { Context } from '@/settings/constant';
-import { ActionType } from '@/settings/type';
+import { ActionType, PostMessageList } from '@/settings/type';
 
 const Iframe = memo(() => {
   const [, setContext] = useContext(Context);
@@ -11,7 +11,7 @@ const Iframe = memo(() => {
     window.addEventListener('message', (event) => {
       switch (event.data?.type) {
         // 偵測 iframe 的高度變化，並更新子組件的狀態
-        case 'iframe-height-changed':
+        case PostMessageList['iframe-height-change']:
           setHeight(event.data.height);
           // 提醒更新子組件的狀態，顯示新的高度，發佈後會移除
           setContext({
@@ -26,7 +26,7 @@ const Iframe = memo(() => {
           break;
 
         // 偵測 iframe 的video變化
-        case 'iframe-video-status':
+        case PostMessageList['iframe-video-complete']:
           setContext({
             type: ActionType.Modal,
             state: {
@@ -38,21 +38,8 @@ const Iframe = memo(() => {
           });
           break;
 
-        // 偵測 iframe 的podcast變化
-        case 'iframe-podcast-status':
-          setContext({
-            type: ActionType.Modal,
-            state: {
-              enabled: true,
-              title: 'Iframe Podcast 狀態',
-              body: `podcast status changed to ${event.data.status}，將會更新礦石狀態`,
-              label: ['GOT IT'],
-            },
-          });
-          break;
-
         // 偵測 iframe 的audio變化
-        case 'iframe-audio-status':
+        case PostMessageList['iframe-audio-complete']:
           setContext({
             type: ActionType.Modal,
             state: {
@@ -62,6 +49,7 @@ const Iframe = memo(() => {
               label: ['GOT IT'],
             },
           });
+          break;
       }
     });
   }, []);

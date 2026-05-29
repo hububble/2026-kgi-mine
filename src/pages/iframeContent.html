@@ -402,17 +402,17 @@
 
     setTimeout(() => {
       // 模擬影片播放事件
-      window.parent.postMessage({ type: 'iframe-video-status', status: 'onend' }, targetOrigin);
+      window.parent.postMessage({ type: 'iframe-video-complete', status: 'onend' }, targetOrigin);
     }, 5000);
 
     setTimeout(() => {
       // 模擬影片播放事件
-      window.parent.postMessage({ type: 'iframe-podcast-status', status: 'onend' }, targetOrigin);
+      window.parent.postMessage({ type: 'iframe-video-complete', status: 'onend' }, targetOrigin);
     }, 10000);
 
     setTimeout(() => {
       // 模擬音頻播放事件
-      window.parent.postMessage({ type: 'iframe-audio-status', status: 'onend' }, targetOrigin);
+      window.parent.postMessage({ type: 'iframe-audio-complete', status: 'onend' }, targetOrigin);
     }, 15000);
   </script>
 </html>

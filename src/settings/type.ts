@@ -65,6 +65,12 @@ export type TCharacterName =
   | 'character-peach'
   | 'character-gray';
 
+export enum PostMessageList {
+  'iframe-height-change' = 'iframe-height-change',
+  'iframe-video-complete' = 'iframe-video-complete',
+  'iframe-audio-complete' = 'iframe-audio-complete',
+}
+
 export type TUserDataState = {
   journey?: '金黃稻浪' | '花海平原' | '蔚藍海岸' | '月夜雪地' | '晴光森林';
   character?: TCharacterName;
