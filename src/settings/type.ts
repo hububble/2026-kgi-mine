@@ -69,8 +69,8 @@ export enum PostMessageList {
   'iframe-height-change' = 'iframe-height-change',
   'iframe-video-complete' = 'iframe-video-complete',
   'iframe-audio-complete' = 'iframe-audio-complete',
-  'iframe-first-bookmark' = 'iframe-first-bookmark',
-  'iframe-first-favorite' = 'iframe-first-favorite',
+  'iframe-first-addBookmark' = 'iframe-first-addBookmark',
+  'iframe-first-addFavorite' = 'iframe-first-addFavorite',
 }
 
 export type TUserDataState = {
