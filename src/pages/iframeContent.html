@@ -415,5 +415,19 @@
         targetOrigin,
       );
     }, 15000);
+
+    const onAddBookmark = () => {
+      window.parent.postMessage(
+        { type: 'iframe-first-addBookmark', status: 'onComplete' },
+        targetOrigin,
+      );
+    };
+
+    const onAddFavorite = () => {
+      window.parent.postMessage(
+        { type: 'iframe-first-addFavorite', status: 'onComplete' },
+        targetOrigin,
+      );
+    };
   </script>
 </html>
