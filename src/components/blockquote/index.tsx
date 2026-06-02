@@ -1,5 +1,5 @@
 import { IReactProps } from '@/settings/type';
-import { memo, useEffect, useId, useRef } from 'react';
+import { memo, useEffect, useId, useRef, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import './index.less';
 import Click from 'lesca-click';
@@ -13,6 +13,7 @@ type TBlockquoteProps = IReactProps & {
 const Blockquote = memo(({ children, className, scroll, onScrollBottom }: TBlockquoteProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const id = useId();
+  const [isScrollBottom, setIsScrollBottom] = useState(false);
 
   useEffect(() => {
     if (scroll) Click.addPreventExcept(`#${id}`);
@@ -22,16 +23,18 @@ const Blockquote = memo(({ children, className, scroll, onScrollBottom }: TBlock
     if (!scroll) return;
 
     const onScroll = (e: Event) => {
+      if (isScrollBottom) return;
       const target = e.target as HTMLElement;
       const isScrolledToBottom =
-        Math.abs(target.scrollHeight - target.clientHeight - target.scrollTop) < 1;
+        Math.abs(target.scrollHeight - target.clientHeight - target.scrollTop) < 50;
+      setIsScrollBottom(isScrolledToBottom);
       if (isScrolledToBottom) onScrollBottom?.();
     };
     ref.current?.addEventListener('scroll', onScroll);
     return () => {
       ref.current?.removeEventListener('scroll', onScroll);
     };
-  }, [scroll, onScrollBottom]);
+  }, [scroll, onScrollBottom, isScrollBottom]);
 
   return (
     <article id={id} className='Blockquote'>
