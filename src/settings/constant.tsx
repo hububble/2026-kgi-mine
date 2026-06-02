@@ -27,7 +27,7 @@ export const LoadingProcessState: TLoadingProcessState = {
 
 export const DatasetState: TDatasetState = {
   dataset: {
-    baseUri: window.location.origin,
+    baseUri: window.location.origin + '/',
   },
 };
 
@@ -61,9 +61,28 @@ const getJourneyName: () => TUserDataState['journey'] = () => {
   }
 };
 
+const getCharacterName: () => TUserDataState['character'] = () => {
+  const character = QueryString.get('character');
+  switch (character) {
+    default:
+    case '1':
+      return characterList[0];
+    case '2':
+      return characterList[1];
+    case '3':
+      return characterList[2];
+    case '4':
+      return characterList[3];
+    case '5':
+      return characterList[4];
+    case '6':
+      return characterList[5];
+  }
+};
+
 export const UserDataState: TUserDataState = {
   journey: getJourneyName(),
-  character: characterList[Math.floor(Math.random() * characterList.length)],
+  character: getCharacterName(), //characterList[Math.floor(Math.random() * characterList.length)],
 };
 
 export const SceneViewSizeState: TSceneViewSizeState = {
