@@ -13,6 +13,7 @@ export enum ActionType {
   Questionnaire = 'questionnaire',
   Recent = 'recent',
   Article = 'article',
+  Alert = 'alert',
 }
 
 export enum LoadingProcessType {
@@ -121,6 +122,13 @@ export type TArticleState = {
   onClose?: () => void;
 };
 
+export type TAlertState = {
+  enabled?: boolean;
+  message?: ReactNode;
+  aliveDuration?: number;
+  onClose?: () => void;
+};
+
 export interface IState {
   [ActionType.Page]: string;
   [ActionType.LoadingProcess]: TLoadingProcessState;
@@ -133,6 +141,7 @@ export interface IState {
   [ActionType.Questionnaire]: TQuestionnaireState;
   [ActionType.Recent]: TRecentState;
   [ActionType.Article]: TArticleState;
+  [ActionType.Alert]: TAlertState;
 }
 
 export interface IAction {

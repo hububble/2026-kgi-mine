@@ -55,7 +55,7 @@ const StartButton = memo(() => {
       else {
         setContext({
           type: ActionType.Modal,
-          state: { enabled: true, body: response.result, title: '發生錯誤' },
+          state: { enabled: true, body: response.result, message: '發生錯誤' },
         });
       }
     }

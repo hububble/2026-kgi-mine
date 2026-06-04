@@ -19,6 +19,7 @@ import EnterFrame from 'lesca-enterframe';
 import Article from '@/components/article';
 import Modal from '@/components/modal';
 import Recent from '@/components/recent';
+import Alert from '@/components/alert';
 
 const Journey = memo(() => {
   const [context, setContext] = useContext(Context);
@@ -80,6 +81,7 @@ const Journey = memo(() => {
               {context[ActionType.Article]?.enabled && <Article />}
               {context[ActionType.Modal]?.enabled && <Modal />}
               {context[ActionType.Recent]?.enabled && <Recent />}
+              {context[ActionType.Alert]?.enabled && <Alert />}
             </JourneyEventProvider>
           </div>
         </OnloadProvider>

@@ -39,6 +39,7 @@
   --animate-wave-r10: wave_r10 5s linear infinite;
   --animate-wave-r5: wave_r5 5s linear infinite;
 
-  --animate-fadeIn: fadeIn 0.3s ease-in-out forwards;
-  --animate-fadeInPy: fadeInPy 0.3s ease-in-out forwards;
+  --animate-fadeIn: fadeIn 0.3s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  --animate-fadeInPy: fadeInPy 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  --animate-fadeInPx: fadeInPx 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }

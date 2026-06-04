@@ -18,7 +18,7 @@ const Iframe = memo(() => {
             type: ActionType.Modal,
             state: {
               enabled: true,
-              title: 'Iframe 改變高度',
+              message: 'Iframe 改變高度',
               body: `iframe height changed to ${event.data.height}px`,
               label: ['GOT IT'],
             },
@@ -31,7 +31,7 @@ const Iframe = memo(() => {
             type: ActionType.Modal,
             state: {
               enabled: true,
-              title: 'Iframe Video 狀態',
+              message: 'Iframe Video 狀態',
               body: `video status changed to ${event.data.status}，將會更新礦石狀態`,
               label: ['GOT IT'],
             },
@@ -44,7 +44,7 @@ const Iframe = memo(() => {
             type: ActionType.Modal,
             state: {
               enabled: true,
-              title: 'Iframe Audio 狀態',
+              message: 'Iframe Audio 狀態',
               body: `audio status changed to ${event.data.status}，將會更新礦石狀態`,
               label: ['GOT IT'],
             },
@@ -65,7 +65,7 @@ const Iframe = memo(() => {
             type: ActionType.Modal,
             state: {
               enabled: true,
-              title: 'scroll to bottom',
+              message: 'scroll to bottom',
               body: `You have scrolled to the bottom of the Blockquote component.`,
               label: ['GOT IT'],
             },

@@ -5,6 +5,7 @@ import {
   IAction,
   IState,
   LoadingProcessType,
+  TAlertState,
   TArticleState,
   TCardState,
   TCharacterName,
@@ -129,6 +130,21 @@ const getPageByQueryString = (): IState[ActionType.Page] => {
   }
 };
 
+export const AlertState: TAlertState = {
+  enabled: true,
+  aliveDuration: 0,
+  message: (
+    <>
+      獲得
+      <div className='icon icon-career' />
+      社群礦 1 枚、
+      <div className='icon icon-relations' />
+      人際礦 1 枚
+    </>
+  ),
+  onClose: () => {},
+};
+
 export const InitialState: IState = {
   [ActionType.Page]: getPageByQueryString(),
   [ActionType.LoadingProcess]: LoadingProcessState,
@@ -141,6 +157,7 @@ export const InitialState: IState = {
   [ActionType.Questionnaire]: QuestionnaireState,
   [ActionType.Recent]: RecentState,
   [ActionType.Article]: ArticleState,
+  [ActionType.Alert]: AlertState,
 };
 
 export const Context = createContext<TContext>([InitialState, () => {}]);

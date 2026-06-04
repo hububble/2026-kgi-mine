@@ -11,6 +11,7 @@ import Regular from './regular';
 import SliderArrow from './sliderArray';
 import Card from './card';
 import Soft from './soft';
+import AlertClose from './alertClose';
 
 type TRegularProps = IReactProps & {
   active?: boolean;
@@ -78,5 +79,6 @@ Button.Marker = Marker;
 Button.Menu = Menu;
 Button.Card = Card;
 Button.Soft = Soft;
+Button.AlertClose = AlertClose;
 
 export default Button;

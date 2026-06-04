@@ -66,7 +66,7 @@ const Questionnaire = memo(() => {
         type: ActionType.Recent,
         state: {
           enabled: true,
-          title: currentQuestion.headline,
+          message: currentQuestion.headline,
           onClick: () => {
             setContext({ type: ActionType.Recent, state: { enabled: false } });
             if (index < QuestionnaireDemoData.length - 1) {
