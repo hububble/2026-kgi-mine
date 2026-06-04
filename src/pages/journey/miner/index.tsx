@@ -30,7 +30,7 @@ const MinerWalker = memo(({ onShowDown }: MinerWalkerProps) => {
         { x: 0 },
         {
           duration: JourneySceneSetting.walkFadeInDuration * getScreenOffset(),
-          easing: Bezier.inSine,
+          easing: Bezier.easeIn,
           onStart: () => ref.current?.play(),
         },
       );
