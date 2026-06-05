@@ -7,7 +7,7 @@ const AlertClose = memo(() => (
       <path
         d='M0.5 10.5L10.2901 0.500148M0.709908 0.5L10.5 10.4999'
         stroke='#00367C'
-        stroke-linecap='round'
+        strokeLinecap='round'
       />
     </svg>
   </div>

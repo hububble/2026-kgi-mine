@@ -137,9 +137,9 @@ export const JourneyStaticItemsList = {
 
 export const JourneySceneSetting = {
   itemsCenterThreshold: 200,
-  offset: 100,
+  offset: 90,
   walkFadeInDistance: 100,
-  walkFadeInDuration: 8000,
+  walkFadeInDuration: 7000,
   shouldReloadWhenWindowResized: true,
 };
 

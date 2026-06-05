@@ -131,7 +131,7 @@ const getPageByQueryString = (): IState[ActionType.Page] => {
 };
 
 export const AlertState: TAlertState = {
-  enabled: true,
+  enabled: false,
   aliveDuration: 0,
   message: (
     <>
