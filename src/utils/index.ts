@@ -54,7 +54,7 @@ export const checkElementCenterOfScreenWithOffset = (el: HTMLElement, offset: nu
   return rect.left < 0 ? false : rect.left <= (window.innerWidth + offset) / 2;
 };
 
-export const mergePath = (file: String) => {
+export const mergePath = (file: string) => {
   const host = window.KGI_MINE_BASE_URI || location.origin;
   const currentApiWithSlash = file.slice(0, 1) === '/' ? file : `/${file}`;
   const currentHostWithoutSlash = host.slice(-1) === '/' ? host.slice(0, -1) : host;
