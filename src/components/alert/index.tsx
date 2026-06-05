@@ -10,8 +10,8 @@ import useTween, { Bezier } from 'lesca-use-tween';
 const CloseButton = memo(() => {
   const [context, setContext] = useContext(Context);
   const { onClose, aliveDuration } = context[ActionType.Alert]!;
-
   const [style, setStyle] = useTween({ opacity: 0, scale: 0, rotate: 360 });
+
   useEffect(() => {
     setStyle(
       { opacity: 1, scale: 1, rotate: 0 },
@@ -26,7 +26,6 @@ const CloseButton = memo(() => {
 
   useEffect(() => {
     if (!aliveDuration) return;
-
     if (aliveDuration > 0) {
       const timer = setTimeout(() => onClick(), aliveDuration);
       return () => clearTimeout(timer);
@@ -52,7 +51,7 @@ const Alert = memo(() => {
         <Contain className='p-0 md:p-3.5'>
           <div className='mt-10'>
             <div className='py-5'>
-              <div className='content animate-fadeInPx'>
+              <div className='content'>
                 <CloseButton />
                 {message}
               </div>

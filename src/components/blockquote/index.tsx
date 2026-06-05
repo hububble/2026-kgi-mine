@@ -30,10 +30,9 @@ const Blockquote = memo(({ children, className, scroll, onScrollBottom }: TBlock
       setIsScrollBottom(isScrolledToBottom);
       if (isScrolledToBottom) onScrollBottom?.();
     };
+
     ref.current?.addEventListener('scroll', onScroll);
-    return () => {
-      ref.current?.removeEventListener('scroll', onScroll);
-    };
+    return () => ref.current?.removeEventListener('scroll', onScroll);
   }, [scroll, onScrollBottom, isScrollBottom]);
 
   return (
