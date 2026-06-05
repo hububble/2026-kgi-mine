@@ -7,12 +7,14 @@
   .content {
     box-shadow: 0px 2px 8px 0px #00000026;
 
-    @apply bg-bg-white-light pointer-events-auto relative flex flex-row flex-nowrap items-center justify-center rounded-l-full rounded-r-full px-5 py-1 text-base;
+    padding-block: calc(var(--spacing) * 0.5);
+    @apply bg-bg-white-light pointer-events-auto relative flex flex-row flex-nowrap items-center justify-center rounded-l-full rounded-r-full px-5 text-base;
 
     &::after {
-      right: -9px;
+      right: -8px;
+      margin-top: -3%;
       content: url('data:image/svg+xml;utf8,<svg width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M12 6.92822L0 13.8564L0 1.90258e-05L12 6.92822Z" fill="white"/> </svg>');
-      @apply absolute top-1/2 -translate-y-1/2;
+      @apply absolute top-1/2;
     }
 
     .icon {

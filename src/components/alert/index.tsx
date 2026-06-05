@@ -34,7 +34,7 @@ const CloseButton = memo(() => {
   }, [aliveDuration, onClick]);
 
   return (
-    <div className='absolute -top-2 -left-3' style={style}>
+    <div className='absolute -top-1 -left-3' style={style}>
       <Button className='h-6 w-6' clickOnce onClick={onClick}>
         <Button.AlertClose />
       </Button>
