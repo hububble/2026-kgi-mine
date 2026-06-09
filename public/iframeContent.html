@@ -394,7 +394,7 @@
       // 監聽 HTML 高度改變
       const resizeObserver = new ResizeObserver(function () {
         const height = document.documentElement.scrollHeight;
-        window.parent.postMessage({ type: 'iframe-height-changed', height: height }, targetOrigin);
+        window.parent.postMessage({ type: 'iframe-height-change', height: height }, targetOrigin);
       });
 
       resizeObserver.observe(document.documentElement);
@@ -402,17 +402,26 @@
 
     setTimeout(() => {
       // 模擬影片播放事件
-      window.parent.postMessage({ type: 'iframe-video-status', status: 'onend' }, targetOrigin);
+      window.parent.postMessage(
+        { type: 'iframe-video-complete', status: 'onComplete' },
+        targetOrigin,
+      );
     }, 5000);
 
     setTimeout(() => {
       // 模擬影片播放事件
-      window.parent.postMessage({ type: 'iframe-podcast-status', status: 'onend' }, targetOrigin);
+      window.parent.postMessage(
+        { type: 'iframe-podcast-complete', status: 'onComplete' },
+        targetOrigin,
+      );
     }, 10000);
 
     setTimeout(() => {
       // 模擬音頻播放事件
-      window.parent.postMessage({ type: 'iframe-audio-status', status: 'onend' }, targetOrigin);
+      window.parent.postMessage(
+        { type: 'iframe-audio-complete', status: 'onComplete' },
+        targetOrigin,
+      );
     }, Math.random() * 15000);
   </script>
 </html>

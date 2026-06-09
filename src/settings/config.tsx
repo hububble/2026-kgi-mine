@@ -7,6 +7,7 @@ export const PAGE = {
 };
 
 export const REST_PATH = {
+  signIn: 'member/sign-in',
   login: 'admin/login',
   start: 'immersion/content',
   questions: 'immersion/miner',

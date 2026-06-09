@@ -18,7 +18,7 @@ Click.install('#immersive_experience_section');
 
 Fetcher.install({
   hostUrl: import.meta.env.VITE_API_PATH || './api',
-  contentType: contentType.URL_ENCODED,
+  contentType: contentType.JSON,
   formatType: formatType.JSON,
 });
 

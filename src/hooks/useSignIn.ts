@@ -1,0 +1,47 @@
+import { REST_PATH } from '@/settings/config';
+import { Context } from '@/settings/constant';
+import { ActionType } from '@/settings/type';
+import Fetcher from 'lesca-fetcher';
+import { useContext, useState } from 'react';
+
+type ResponseType = {
+  isSuccess: boolean;
+  result: {
+    memberId: string;
+    memberInfoDto: any;
+    token: string;
+  };
+};
+
+type SignInParams = {
+  credential: string;
+  email: string;
+};
+
+const useSignIn = (props?: { backgroundAppProcess?: boolean }) => {
+  const { backgroundAppProcess = false } = props || {};
+
+  const [, setContext] = useContext(Context);
+  const [state, setState] = useState<ResponseType>();
+  const fetch = async (params: SignInParams) => {
+    if (!backgroundAppProcess) {
+      setContext({ type: ActionType.LoadingProcess, state: { enabled: true } });
+    }
+
+    let response;
+    try {
+      response = await Fetcher.post(REST_PATH.signIn, params);
+    } catch {
+      response = { isSuccess: false, result: { memberId: [], memberInfoDto: [], token: '' } };
+    }
+
+    if (!backgroundAppProcess) {
+      setContext({ type: ActionType.LoadingProcess, state: { enabled: false } });
+    }
+
+    setState(response as ResponseType);
+  };
+
+  return [state, fetch] as const;
+};
+export default useSignIn;
