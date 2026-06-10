@@ -1,15 +1,13 @@
 import Alert from '@/components/alert';
 import Article from '@/components/article';
-import { SESSION_KEY } from '@/components/auth/config';
 import Card from '@/components/card';
 import Modal from '@/components/modal';
 import Questionnaire from '@/components/questionnaire';
 import Recent from '@/components/recent';
+import useContent from '@/hooks/useContent';
 import { Context } from '@/settings/constant';
 import { ActionType } from '@/settings/type';
 import EnterFrame from 'lesca-enterframe';
-import Fetcher from 'lesca-fetcher';
-import Storage from 'lesca-local-storage';
 import OnloadProvider from 'lesca-react-onload';
 import { memo, useContext, useEffect, useRef, useState } from 'react';
 import {
@@ -29,6 +27,8 @@ const Journey = memo(() => {
   const journey = context[ActionType.UserData]?.journey;
   const [resetIndex, setResetIndex] = useState(0);
   const innerWidthRef = useRef<number>(0);
+
+  const [response, getContent] = useContent();
 
   const [state, setState] = useState({
     ...JourneyState,
@@ -61,6 +61,14 @@ const Journey = memo(() => {
     return () => window.removeEventListener('resize', resize);
   }, []);
 
+  useEffect(() => {
+    if (response) {
+      console.log(response);
+      setState((S) => ({ ...S, step: JourneyStepType.fadeIn }));
+      setContext({ type: ActionType.LoadingProcess, state: { enabled: false } });
+    }
+  }, [response]);
+
   return (
     <JourneyContext.Provider value={[state, setState]}>
       <JourneyEventsContext.Provider value={value}>
@@ -71,12 +79,7 @@ const Journey = memo(() => {
             setContext({ type: ActionType.LoadingProcess, state: { enabled: true } });
           }}
           onload={() => {
-            setState((S) => ({ ...S, step: JourneyStepType.fadeIn }));
-            setContext({ type: ActionType.LoadingProcess, state: { enabled: false } });
-            const auth = Storage.get(SESSION_KEY);
-            if (auth && auth.data.token) {
-              Fetcher.setJWT(auth.data.token);
-            }
+            getContent();
           }}
         >
           <div className='Journey'>
