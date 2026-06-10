@@ -37,12 +37,12 @@ export const ModalState: TModalState = {
 };
 
 const characterList: TCharacterName[] = [
-  'character-blue',
-  'character-green',
-  'character-orange',
-  'character-yellow',
-  'character-peach',
-  'character-gray',
+  '小桃_正_灰底',
+  '小綠_正_灰底',
+  '小藍_正_灰底',
+  '小橘_正_灰底',
+  '小灰_正_灰底',
+  '小黃_正_灰底',
 ];
 
 const journey = QueryString.get('journey');
@@ -62,10 +62,9 @@ const getJourneyName: () => TUserDataState['journey'] = () => {
   }
 };
 
-const getCharacterName: () => TUserDataState['character'] = () => {
+const getCharacterName: () => TUserDataState['character'] | null = () => {
   const character = QueryString.get('character');
   switch (character) {
-    default:
     case '1':
       return characterList[0];
     case '2':
@@ -78,13 +77,18 @@ const getCharacterName: () => TUserDataState['character'] = () => {
       return characterList[4];
     case '6':
       return characterList[5];
+
+    default:
+      return null;
   }
 };
 
 export const UserDataState: TUserDataState = {
   journey: getJourneyName(),
-  character: getCharacterName(), //characterList[Math.floor(Math.random() * characterList.length)],
+  character: getCharacterName() || characterList[Math.floor(Math.random() * characterList.length)],
 };
+
+console.log(UserDataState);
 
 export const SceneViewSizeState: TSceneViewSizeState = {
   height: undefined,

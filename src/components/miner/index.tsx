@@ -14,6 +14,7 @@ import { MINER_SIZE, MINER_SPRITE_FRAME_COUNT } from './config';
 import './index.less';
 import { Context } from '@/settings/constant';
 import { ActionType } from '@/settings/type';
+import { CharacterURIList } from '@/settings/config';
 
 type MinerProps = {
   height?: string;
@@ -35,9 +36,11 @@ const Miner = forwardRef(({ height, className, autoplay, onShowDown }: MinerProp
   const [, setURI] = useURI();
 
   useEffect(() => {
-    console.log(character);
+    const dat =
+      CharacterURIList[character as keyof typeof CharacterURIList] ||
+      CharacterURIList['小藍_正_灰底'];
 
-    setURI({ path: `${character}-sprite-sheet.png`, name: 'minerSprite' });
+    if (dat) setURI({ path: `${dat.name}-sprite-sheet.png`, name: 'minerSprite' });
   }, [character]);
 
   useEffect(() => {
@@ -105,7 +108,7 @@ const Miner = forwardRef(({ height, className, autoplay, onShowDown }: MinerProp
   return (
     <div ref={containerRef} className={`Miner ${className}`} style={{ height }}>
       <div
-        className={`sprite sprite-MINER_WALK_01_${String(spriteName).padStart(5, '0')}`}
+        className={`sprite sprite-MINER_WALK_${String(spriteName).padStart(5, '0')}`}
         style={{ transform: `scale(${scale})` }}
       />
     </div>

@@ -8,10 +8,10 @@ import { EffectCoverflow } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { twMerge } from 'tailwind-merge';
 import { HomeContext, HomeStepType } from '../../config';
-import { URIList } from './config';
 
 import 'swiper/swiper.css';
 import './slider.less';
+import { CharacterURIList } from '@/settings/config';
 
 type SlideProps = {
   item: ResponseType['result']['minerList'][number];
@@ -25,7 +25,7 @@ const Slide = ({ item, index, idx }: SlideProps) => {
       <div className={twMerge(index === idx ? 'active scale-100' : 'scale-75')}>
         <div
           style={{
-            backgroundImage: `var(--${URIList[item.name as keyof typeof URIList]?.name || URIList['小藍_正_灰底'].name})`,
+            backgroundImage: `var(--${CharacterURIList[item.name as keyof typeof CharacterURIList]?.name || CharacterURIList['小藍_正_灰底'].name})`,
           }}
         />
       </div>

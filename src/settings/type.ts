@@ -59,12 +59,12 @@ export type TModalState = {
 };
 
 export type TCharacterName =
-  | 'character-blue'
-  | 'character-green'
-  | 'character-orange'
-  | 'character-yellow'
-  | 'character-peach'
-  | 'character-gray';
+  | '小桃_正_灰底'
+  | '小綠_正_灰底'
+  | '小藍_正_灰底'
+  | '小橘_正_灰底'
+  | '小灰_正_灰底'
+  | '小黃_正_灰底';
 
 export enum PostMessageList {
   'iframe-height-change' = 'iframe-height-change',
