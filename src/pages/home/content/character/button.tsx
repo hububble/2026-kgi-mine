@@ -29,7 +29,7 @@ const SelectButton = memo(({ onClick }: { onClick: () => void }) => {
       }}
     >
       <div className='flex w-full justify-center'>
-        <Button onClick={onClick}>
+        <Button onClick={onClick} key={JSON.stringify(state.characterData)}>
           <Button.Regular>選擇角色</Button.Regular>
         </Button>
       </div>
