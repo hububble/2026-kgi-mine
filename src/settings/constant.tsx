@@ -88,8 +88,6 @@ export const UserDataState: TUserDataState = {
   character: getCharacterName() || characterList[Math.floor(Math.random() * characterList.length)],
 };
 
-console.log(UserDataState);
-
 export const SceneViewSizeState: TSceneViewSizeState = {
   height: undefined,
   width: undefined,
