@@ -16,12 +16,17 @@ export type ResponseType = {
 const useQuestion = (props?: { auto?: boolean; backgroundAppProcess?: boolean }) => {
   const { auto = false, backgroundAppProcess = false } = props || {};
 
-  const [, setContext] = useContext(Context);
+  const [context, setContext] = useContext(Context);
+  const { token } = context[ActionType.UserData]!;
+
   const [state, setState] = useState<ResponseType>();
+
   const fetch = async () => {
     if (!backgroundAppProcess) {
       setContext({ type: ActionType.LoadingProcess, state: { enabled: true } });
     }
+
+    if (!token) return;
 
     let response;
     try {

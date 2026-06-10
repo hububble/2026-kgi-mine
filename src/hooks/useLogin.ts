@@ -1,3 +1,4 @@
+import { SESSION_KEY } from '@/components/auth/config';
 import { Context } from '@/settings/constant';
 import { ActionType } from '@/settings/type';
 import Storage from 'lesca-local-storage';
@@ -21,7 +22,7 @@ const useLogin = (props?: { auto?: boolean; backgroundAppProcess?: boolean }) =>
     }
 
     // TODO: token 優先從 query 參數取得，若沒有則從 sessionStorage 取得，最後發布後一率由 sessionStorage 取得
-    const token = developmentType === 'query' ? QueryString.get('token') : Storage.get('token');
+    const token = developmentType === 'query' ? QueryString.get('token') : Storage.get(SESSION_KEY);
 
     let response;
     if (token === false) {

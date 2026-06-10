@@ -1,7 +1,15 @@
+import Alert from '@/components/alert';
+import Article from '@/components/article';
+import { SESSION_KEY } from '@/components/auth/config';
 import Card from '@/components/card';
+import Modal from '@/components/modal';
 import Questionnaire from '@/components/questionnaire';
+import Recent from '@/components/recent';
 import { Context } from '@/settings/constant';
 import { ActionType } from '@/settings/type';
+import EnterFrame from 'lesca-enterframe';
+import Fetcher from 'lesca-fetcher';
+import Storage from 'lesca-local-storage';
 import OnloadProvider from 'lesca-react-onload';
 import { memo, useContext, useEffect, useRef, useState } from 'react';
 import {
@@ -15,11 +23,6 @@ import JourneyEventProvider, { JourneyEventsContext, JourneyEventsState } from '
 import './index.less';
 import Scene from './scene';
 import UserData from './userData';
-import EnterFrame from 'lesca-enterframe';
-import Article from '@/components/article';
-import Modal from '@/components/modal';
-import Recent from '@/components/recent';
-import Alert from '@/components/alert';
 
 const Journey = memo(() => {
   const [context, setContext] = useContext(Context);
@@ -70,6 +73,10 @@ const Journey = memo(() => {
           onload={() => {
             setState((S) => ({ ...S, step: JourneyStepType.fadeIn }));
             setContext({ type: ActionType.LoadingProcess, state: { enabled: false } });
+            const auth = Storage.get(SESSION_KEY);
+            if (auth && auth.data.token) {
+              Fetcher.setJWT(auth.data.token);
+            }
           }}
         >
           <div className='Journey'>

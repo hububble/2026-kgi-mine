@@ -1,3 +1,4 @@
+import Auth from '@/components/auth';
 import Container from '@/components/container';
 import LoadingProcess from '@/components/loadingProcess';
 import Modal from '@/components/modal';
@@ -62,11 +63,13 @@ const App = ({ dataset }: { dataset: typeof rooAppDataset }) => {
   return (
     <div className='App'>
       <Context.Provider {...{ value }}>
-        <Container>{currentPage}</Container>
-        {context[ActionType.LoadingProcess]?.enabled && <LoadingProcess />}
-        {(page === PAGE.home || page === PAGE.demo) && context[ActionType.Modal]?.enabled && (
-          <Modal />
-        )}
+        <Auth>
+          <Container>{currentPage}</Container>
+          {context[ActionType.LoadingProcess]?.enabled && <LoadingProcess />}
+          {(page === PAGE.home || page === PAGE.demo) && context[ActionType.Modal]?.enabled && (
+            <Modal />
+          )}
+        </Auth>
       </Context.Provider>
     </div>
   );

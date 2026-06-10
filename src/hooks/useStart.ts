@@ -23,6 +23,8 @@ const useStart = (props?: { auto?: boolean; backgroundAppProcess?: boolean }) =>
       response = { isSuccess: false, result: String(error) };
     }
 
+    console.log(response);
+
     if (!backgroundAppProcess) {
       setContext({ type: ActionType.LoadingProcess, state: { enabled: false } });
     }

@@ -2,13 +2,12 @@ import Button from '@/components/button';
 import Sounds from '@/components/sounds';
 import TweenerProvider from '@/components/tweenProvider';
 import useSignIn, { SignInParams } from '@/hooks/useSignIn';
-import useStart from '@/hooks/useStart';
 import { Context } from '@/settings/constant';
 import { ActionType } from '@/settings/type';
+import Fetcher from 'lesca-fetcher';
 import { Bezier } from 'lesca-use-tween';
 import { memo, useContext, useEffect, useState } from 'react';
 import { HomeContext, HomeStepType } from '../../config';
-import Fetcher from 'lesca-fetcher';
 
 const LoginButton = memo(({ signIn }: { signIn: (params: SignInParams) => Promise<void> }) => {
   const [{ step }] = useContext(HomeContext);
@@ -45,19 +44,6 @@ const StartButton = memo(() => {
   const [, setContext] = useContext(Context);
   const [onButtonFadeIn, setOnButtonFadeIn] = useState(false);
   const [{ step }, setState] = useContext(HomeContext);
-  const [response, getStart] = useStart();
-
-  useEffect(() => {
-    if (response) {
-      if (response.isSuccess) setState((S) => ({ ...S, step: HomeStepType.landingFadeOut }));
-      else {
-        setContext({
-          type: ActionType.Modal,
-          state: { enabled: true, body: response.result, message: '發生錯誤' },
-        });
-      }
-    }
-  }, [response]);
 
   return (
     <TweenerProvider
@@ -79,7 +65,7 @@ const StartButton = memo(() => {
           const sounds = new Sounds({
             onload: () => {
               sounds.play('bgm', 1, false);
-              getStart();
+              setState((S) => ({ ...S, step: HomeStepType.landingFadeOut }));
             },
           });
           setContext({ type: ActionType.Sounds, state: { track: sounds } });
