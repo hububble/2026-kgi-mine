@@ -29,8 +29,8 @@ const 選擇你的Miner角色 = memo(({ data }: { data?: ResponseType['result'][
     if (data) {
       setState((S) => ({ ...S, characterData: data[0] }));
       data.forEach((item) => {
-        if (item.order < 1 || item.order > URIList.length) return;
-        setURI({ path: URIList[item.order - 1].path, name: URIList[item.order - 1].name });
+        const dat = URIList[item.name as keyof typeof URIList];
+        if (dat) setURI({ path: dat.path, name: dat.name });
       });
     }
   }, [data]);

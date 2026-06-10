@@ -25,6 +25,7 @@ type MinerProps = {
 const Miner = forwardRef(({ height, className, autoplay, onShowDown }: MinerProps, ref) => {
   const [context] = useContext(Context);
   const { character } = context[ActionType.UserData]!;
+
   const containerRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(0);
   const [spriteName, setSpriteName] = useState(0);
@@ -34,6 +35,8 @@ const Miner = forwardRef(({ height, className, autoplay, onShowDown }: MinerProp
   const [, setURI] = useURI();
 
   useEffect(() => {
+    console.log(character);
+
     setURI({ path: `${character}-sprite-sheet.png`, name: 'minerSprite' });
   }, [character]);
 
