@@ -1,20 +1,25 @@
 import useQuestion from '@/hooks/useQuestion';
+import { Context } from '@/settings/constant';
+import { ActionType } from '@/settings/type';
 import { memo, useContext, useEffect, useMemo } from 'react';
-import { HomeContext, HomePageType, HomeStepType } from '../config';
+import { HomeContext, HomePageType } from '../config';
 import 選擇你的Miner角色 from './character';
 import 你想要的下一個十年是 from './decade';
 import 你想要哪一場理想旅程呢 from './journey';
 import 歡迎踏上豐盛之旅 from './landing';
 
 const Content = memo(() => {
+  const [context] = useContext(Context);
+  const { token } = context[ActionType.UserData]!;
+
   const [state] = useContext(HomeContext);
   const [questionResponse, getQuestions] = useQuestion({ auto: false, backgroundAppProcess: true });
 
   useEffect(() => {
-    if (state.step === HomeStepType.landingLogin) {
+    if (token) {
       getQuestions();
     }
-  }, [state.step]);
+  }, [token]);
 
   const page = useMemo(() => {
     switch (state.page) {

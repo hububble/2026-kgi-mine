@@ -11,6 +11,7 @@ import { HomeContext, HomeStepType } from '../../config';
 
 import 'swiper/swiper.css';
 import './slider.less';
+import { URIList } from './config';
 
 type SlideProps = {
   item: ResponseType['result']['minerList'][number];
@@ -22,7 +23,7 @@ const Slide = ({ item, index, idx }: SlideProps) => {
   return (
     <div className='character'>
       <div className={twMerge(index === idx ? 'active scale-100' : 'scale-75')}>
-        <div style={{ backgroundImage: `var(--${item.name})` }} />
+        <div style={{ backgroundImage: `var(--${URIList[item.order - 1].name})` }} />
       </div>
     </div>
   );

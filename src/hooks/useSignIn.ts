@@ -35,6 +35,8 @@ const useSignIn = (props?: { backgroundAppProcess?: boolean }) => {
       response = { isSuccess: false, result: { memberId: [], memberInfoDto: [], token: '' } };
     }
 
+    console.log(response);
+
     if (!backgroundAppProcess) {
       setContext({ type: ActionType.LoadingProcess, state: { enabled: false } });
     }

@@ -93,13 +93,20 @@ const StartButton = memo(() => {
 });
 
 const Buttons = memo(() => {
-  const [, setState] = useContext(HomeContext);
+  const [, setContext] = useContext(Context);
   const [response, signIn] = useSignIn();
 
   useEffect(() => {
     if (response) {
       Fetcher.setJWT(response.result.token);
-      setState((S) => ({ ...S, step: HomeStepType.landingLogin }));
+      setContext({
+        type: ActionType.UserData,
+        state: {
+          memberId: response.result.memberId,
+          memberInfoDto: response.result.memberInfoDto,
+          token: response.result.token,
+        },
+      });
     }
   }, [response]);
 

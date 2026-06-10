@@ -4,7 +4,6 @@ import { createContext, Dispatch, SetStateAction } from 'react';
 export enum HomeStepType {
   unset,
   landingFadeIn,
-  landingLogin,
   landingFadeOut,
   decadeFadeIn,
   decadeFadeOut,
