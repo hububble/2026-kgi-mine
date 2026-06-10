@@ -9,7 +9,7 @@ export type ResponseType = {
   result: {
     tripList: { trip: string; name: string }[];
     quizList: { quizId: string; name: string }[];
-    minerList: { minerId: string; name: string; image: string }[];
+    minerList: { minerId: string; name: string; image: string; order: number }[];
   };
 };
 
@@ -29,6 +29,8 @@ const useQuestion = (props?: { auto?: boolean; backgroundAppProcess?: boolean })
     } catch {
       response = { isSuccess: false, result: { tripList: [], quizList: [], minerList: [] } };
     }
+
+    console.log(response);
 
     if (!backgroundAppProcess) {
       setContext({ type: ActionType.LoadingProcess, state: { enabled: false } });

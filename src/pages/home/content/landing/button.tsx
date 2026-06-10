@@ -1,16 +1,16 @@
 import Button from '@/components/button';
 import Sounds from '@/components/sounds';
 import TweenerProvider from '@/components/tweenProvider';
-import useLogin from '@/hooks/useLogin';
+import useSignIn, { SignInParams } from '@/hooks/useSignIn';
 import useStart from '@/hooks/useStart';
 import { Context } from '@/settings/constant';
 import { ActionType } from '@/settings/type';
-import { faker } from '@faker-js/faker';
 import { Bezier } from 'lesca-use-tween';
 import { memo, useContext, useEffect, useState } from 'react';
 import { HomeContext, HomeStepType } from '../../config';
+import Fetcher from 'lesca-fetcher';
 
-const LoginButton = memo(({ getLogin }: { getLogin: () => Promise<void> }) => {
+const LoginButton = memo(({ signIn }: { signIn: (params: SignInParams) => Promise<void> }) => {
   const [{ step }] = useContext(HomeContext);
   const [onButtonFadeIn, setOnButtonFadeIn] = useState(false);
 
@@ -31,9 +31,7 @@ const LoginButton = memo(({ getLogin }: { getLogin: () => Promise<void> }) => {
       <Button
         clickOnce
         onClick={() => {
-          // TODO: 這裡的 token 生成方式只是為了模擬登入流程，實際應用中應該使用安全的認證方法。
-          window.location.href = `${window.location.origin}${window.location.pathname}?token=${faker.string.ulid()}`;
-          getLogin();
+          signIn({ credential: 'Ab123456789', email: 'test@test.com' });
         }}
         disabled={!onButtonFadeIn}
       >
@@ -95,11 +93,19 @@ const StartButton = memo(() => {
 });
 
 const Buttons = memo(() => {
-  const [response, getLogin] = useLogin({ auto: true });
+  const [, setState] = useContext(HomeContext);
+  const [response, signIn] = useSignIn();
+
+  useEffect(() => {
+    if (response) {
+      Fetcher.setJWT(response.result.token);
+      setState((S) => ({ ...S, step: HomeStepType.landingLogin }));
+    }
+  }, [response]);
 
   return (
     <div className='my-5 flex w-full flex-col items-center justify-center gap-5 md:flex-row'>
-      {response?.isSuccess ? <StartButton /> : <LoginButton getLogin={getLogin} />}
+      {response?.isSuccess ? <StartButton /> : <LoginButton signIn={signIn} />}
     </div>
   );
 });

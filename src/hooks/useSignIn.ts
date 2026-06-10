@@ -13,7 +13,7 @@ type ResponseType = {
   };
 };
 
-type SignInParams = {
+export type SignInParams = {
   credential: string;
   email: string;
 };

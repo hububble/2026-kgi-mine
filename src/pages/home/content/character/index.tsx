@@ -10,6 +10,7 @@ import { memo, useCallback, useContext, useEffect } from 'react';
 import { HomeContext, HomeStepType } from '../../config';
 import SelectButton from './button';
 import Carousel from './slider';
+import { URIList } from './config';
 
 const 選擇你的Miner角色 = memo(({ data }: { data?: ResponseType['result']['minerList'] }) => {
   const [, setContext] = useContext(Context);
@@ -25,10 +26,12 @@ const 選擇你的Miner角色 = memo(({ data }: { data?: ResponseType['result'][
   }, [response]);
 
   useEffect(() => {
-    data &&
+    if (data) {
       data.forEach((item) => {
-        setURI({ path: item.image, name: item.name });
+        if (item.order < 1 || item.order > URIList.length) return;
+        setURI({ path: URIList[item.order - 1].path, name: item.name });
       });
+    }
   }, [data]);
 
   if (!data) return null;

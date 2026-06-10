@@ -11,7 +11,7 @@ const Content = memo(() => {
   const [questionResponse, getQuestions] = useQuestion({ auto: false, backgroundAppProcess: true });
 
   useEffect(() => {
-    if (state.step === HomeStepType.landingFadeIn) {
+    if (state.step === HomeStepType.landingLogin) {
       getQuestions();
     }
   }, [state.step]);
