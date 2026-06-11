@@ -26,8 +26,6 @@ const useAnswer = (props?: { backgroundAppProcess?: boolean }) => {
       response = { isSuccess: false, result: { tripList: [], quizList: [], minerList: [] } };
     }
 
-    console.log(response);
-
     if (!backgroundAppProcess) {
       setContext({ type: ActionType.LoadingProcess, state: { enabled: false } });
     }

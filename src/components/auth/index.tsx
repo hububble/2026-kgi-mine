@@ -19,12 +19,10 @@ const Auth = memo(({ children }: IReactProps) => {
       if (token) {
         setContext({ type: ActionType.UserData, state: { token } });
         Fetcher.setJWT(token);
-        console.log('sessionToken', token);
       }
     } else if (queryToken) {
       setContext({ type: ActionType.UserData, state: { token: queryToken } });
       Fetcher.setJWT(queryToken);
-      console.log('queryToken', queryToken);
     }
   }, []);
   return <>{children}</>;

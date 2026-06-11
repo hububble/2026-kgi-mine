@@ -26,8 +26,6 @@ const useContent = (props?: { auto?: boolean; backgroundAppProcess?: boolean }) 
       response = { isSuccess: false, result: [] as TUserDataContent[] };
     }
 
-    console.log(response);
-
     if (!backgroundAppProcess) {
       setContext({ type: ActionType.LoadingProcess, state: { enabled: false } });
     }

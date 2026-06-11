@@ -4,8 +4,10 @@ import {
   JourneySceneType,
   JourneyStaticItemsList,
 } from '@/pages/journey/config';
+import { Context } from '@/settings/constant';
+import { ActionType } from '@/settings/type';
 import QueryString from 'lesca-url-parameters';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import useURI from './useURI';
 
 export type TDataDiversionItem = {
@@ -36,6 +38,9 @@ type TDataDiversionState = {
 };
 
 const useDataDiversion = ({ index = 0, scene }: { index: number; scene: JourneySceneType }) => {
+  const [context] = useContext(Context);
+  const { contents } = context[ActionType.UserData]!;
+
   const [state, setState] = useState<TDataDiversionState>({
     index,
     scene,
@@ -54,11 +59,14 @@ const useDataDiversion = ({ index = 0, scene }: { index: number; scene: JourneyS
   useEffect(() => {
     const { scene } = state;
     if (!scene) return;
+    if (contents.length === 0) return;
 
     let allData: TDataDiversionData = dataRef.current;
     let staticData = JourneyStaticItemsList[scene] || [];
 
     if (dataRef.current.back.length === 0 && dataRef.current.front.length === 0) {
+      console.log(contents);
+
       const currentList = JourneyItemsList[scene];
       const length = currentList.length;
       const roadSign = currentList.find((item) => item.name.includes('roadSign'));
@@ -142,7 +150,7 @@ const useDataDiversion = ({ index = 0, scene }: { index: number; scene: JourneyS
     };
 
     setState((S) => ({ ...S, data }));
-  }, [state.scene, state.index]);
+  }, [state.scene, state.index, contents]);
 
   const updateStep = ({ step, scene }: { step?: number; scene?: JourneySceneType }) => {
     setState((S) => ({
