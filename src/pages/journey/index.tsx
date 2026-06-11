@@ -63,7 +63,7 @@ const Journey = memo(() => {
 
   useEffect(() => {
     if (response) {
-      console.log(response);
+      setContext({ type: ActionType.UserData, state: { contents: response.result } });
       setState((S) => ({ ...S, step: JourneyStepType.fadeIn }));
       setContext({ type: ActionType.LoadingProcess, state: { enabled: false } });
     }

@@ -74,12 +74,49 @@ export enum PostMessageList {
   'iframe-first-addFavorite' = 'iframe-first-addFavorite',
 }
 
+export type TUserDataContent = {
+  baseRequirement: number;
+  baseReward: number;
+  careerRequirement: number;
+  careerReward: number;
+  contentId: number;
+  financeRequirement: number;
+  financeReward: number;
+  healthRequirement: number;
+  healthReward: number;
+  hubSpot_AuthorAvatar: string;
+  hubSpot_AuthorBio: string;
+  hubSpot_AuthorDisplayName: string;
+  hubSpot_AuthorFullName: string;
+  hubSpot_AuthorId: string;
+  hubSpot_AuthorName: string;
+  hubSpot_FeaturedImage: string;
+  hubSpot_HtmlTitle: string;
+  hubSpot_Id: string;
+  hubSpot_Name: string;
+  hubSpot_PostBody: string;
+  hubSpot_Post_Subtitle: string;
+  hubSpot_Post_Title: string;
+  hubSpot_PrimaryTag: string;
+  hubSpot_SecondaryTag: string;
+  hubSpot_Url: string;
+  isFavorited: boolean;
+  isLiked: boolean;
+  isUnlockRequired: boolean;
+  minerCount: number;
+  relationsRequirement: number;
+  relationsReward: number;
+  societyRequirement: number;
+  societyReward: number;
+};
+
 export type TUserDataState = {
   journey?: '金黃稻浪' | '花海平原' | '蔚藍海岸' | '月夜雪地' | '晴光森林';
   character?: TCharacterName;
   memberId?: string;
   memberInfoDto?: Record<string, string>;
   token?: string;
+  contents: TUserDataContent[];
 };
 
 export type TSceneViewSizeState = {

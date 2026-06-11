@@ -86,6 +86,7 @@ const getCharacterName: () => TUserDataState['character'] | null = () => {
 export const UserDataState: TUserDataState = {
   journey: getJourneyName(),
   character: getCharacterName() || characterList[Math.floor(Math.random() * characterList.length)],
+  contents: [],
 };
 
 export const SceneViewSizeState: TSceneViewSizeState = {
