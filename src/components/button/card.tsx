@@ -1,9 +1,9 @@
 import { memo } from 'react';
 import './card.less';
 
-const Card = memo(({ type }: { type: 'Card' | 'Bookmark' }) => (
+const Card = memo(({ type }: { type: 'Favorite' | 'Like' }) => (
   <div className='card'>
-    {type === 'Card' ? (
+    {type === 'Like' ? (
       <svg
         width='24'
         height='24'

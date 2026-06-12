@@ -12,7 +12,7 @@ import Heading from '../heading';
 import { URI } from './config';
 import './index.less';
 
-const Topic = ({ topic, transition }: { topic: string; transition: TransitionType }) => {
+const Topic = ({ count, transition }: { count: number; transition: TransitionType }) => {
   const [style, setStyle] = useTween({ opacity: 0, y: 30 });
 
   useEffect(() => {
@@ -23,7 +23,7 @@ const Topic = ({ topic, transition }: { topic: string; transition: TransitionTyp
 
   return (
     <div className='topic' style={style}>
-      {topic}
+      {`已有 ${count} 名Miner探索此礦藏`}
     </div>
   );
 };
@@ -96,7 +96,7 @@ const InnerCard = memo(({ transition }: { transition: TransitionType }) => {
 
 const Card = memo(() => {
   const [context, setContext] = useContext(Context);
-  const { cardURI, headline, navigator, topic, data } = context[ActionType.Card]!;
+  const { cardURI, topic, data } = context[ActionType.Card]!;
 
   console.log(data);
 
@@ -110,7 +110,6 @@ const Card = memo(() => {
 
   return (
     <OnloadProvider
-      hideBeforeLoaded
       onStart={() => {
         setContext({ type: ActionType.LoadingProcess, state: { enabled: true } });
       }}
@@ -122,7 +121,12 @@ const Card = memo(() => {
       <div className='Card'>
         <Blockquote className='flex w-full justify-center' scroll>
           <div className='inner max-w-md px-5'>
-            <div className='inner-contain animate-fadeInPy'>
+            <div
+              className={twMerge(
+                'inner-contain',
+                transition === TransitionType.FadeIn && 'animate-fadeInPy',
+              )}
+            >
               <div
                 className={twMerge(
                   'round',
@@ -130,24 +134,24 @@ const Card = memo(() => {
                 )}
               >
                 <div className='head'>
-                  <Heading.H2>{headline}</Heading.H2>
+                  <Heading.H2>{data?.hubSpot_HtmlTitle || 'hubSpot_HtmlTitle'}</Heading.H2>
                   <div className='navBar'>
-                    <Button className='h-6 w-6'>
-                      <Button.Card type='Card' />
+                    <Button className='h-6 w-6' active={data?.isLiked}>
+                      <Button.Card type='Like' />
                     </Button>
-                    <Button className='h-6 w-6'>
-                      <Button.Card type='Bookmark' />
+                    <Button className='h-6 w-6' active={data?.isFavorited}>
+                      <Button.Card type='Favorite' />
                     </Button>
                   </div>
                 </div>
                 <div className='sub'>
                   <Heading.H3>導航員</Heading.H3>
                   <div className='hr' />
-                  <Heading.H3>{navigator}</Heading.H3>
+                  <Heading.H3>{data?.hubSpot_AuthorName || 'hubSpot_AuthorName'}</Heading.H3>
                 </div>
                 <InnerCard transition={transition} />
               </div>
-              {topic && <Topic topic={topic} transition={transition} />}
+              {topic && <Topic count={data?.minerCount || 0} transition={transition} />}
             </div>
           </div>
         </Blockquote>

@@ -8,12 +8,21 @@
 
   &:hover {
     .card {
+      @apply bg-bg-gray-dark/20;
     }
   }
 
   &:active {
     .card {
-      @apply bg-bg-gray-dark/50;
+      @apply bg-bg-gray-light/50;
+    }
+  }
+}
+
+.button-active {
+  .card {
+    path {
+      @apply fill-primary-blue;
     }
   }
 }

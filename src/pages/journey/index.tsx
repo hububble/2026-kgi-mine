@@ -65,7 +65,12 @@ const Journey = memo(() => {
   useEffect(() => {
     if (response) {
       if (response.isSuccess) {
-        setContext({ type: ActionType.UserData, state: { contents: response.result } });
+        // TODO
+        const currentResult = response.result
+          .filter((content) => content.contentId)
+          .filter((content) => content.hubSpot_Id);
+
+        setContext({ type: ActionType.UserData, state: { contents: currentResult } });
         setContext({ type: ActionType.LoadingProcess, state: { enabled: false } });
         setState((S) => ({ ...S, step: JourneyStepType.fadeIn }));
       } else {
