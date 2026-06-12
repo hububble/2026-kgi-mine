@@ -25,7 +25,7 @@ const 你想要的下一個十年是 = memo(({ data }: { data?: ResponseType['re
         const isDatasetExist = clone.decadeData?.find((d) => d.name === dataset?.name);
         const nextDecadeData = isDatasetExist
           ? clone.decadeData?.filter((d) => d.name !== dataset?.name)
-          : [...(clone.decadeData || []), dataset || {}];
+          : [...(clone.decadeData || []), (dataset || {}) as { quizId: string; name: string }];
         if (nextDecadeData && nextDecadeData.length > 3) return S;
         clone.decadeData = nextDecadeData;
         return clone;
@@ -94,8 +94,9 @@ const 你想要的下一個十年是 = memo(({ data }: { data?: ResponseType['re
                     easing: Bezier.inQuart,
                     onEnd: () => {
                       setTimeout(() => {
-                        index === currentData.length - 1 &&
+                        if (index === currentData.length - 1) {
                           setState((S) => ({ ...S, page: HomePageType.journey }));
+                        }
                       }, 2000);
                     },
                   }}
