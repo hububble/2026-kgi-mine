@@ -135,6 +135,7 @@ export type TCardState = {
   navBarIcon?: ReactNode;
   mines?: { type: 'career' | 'finance' | 'health' | 'relations' | 'society'; count: number }[];
   topic?: string;
+  data?: TUserDataContent;
 };
 
 export type TQuestionnaireOption = {

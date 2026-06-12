@@ -96,7 +96,9 @@ const InnerCard = memo(({ transition }: { transition: TransitionType }) => {
 
 const Card = memo(() => {
   const [context, setContext] = useContext(Context);
-  const { cardURI, headline, navigator, topic } = context[ActionType.Card]!;
+  const { cardURI, headline, navigator, topic, data } = context[ActionType.Card]!;
+
+  console.log(data);
 
   const [, setURI] = useURI();
   const [transition, setTransition] = useState(TransitionType.Unset);
