@@ -24,9 +24,9 @@ const 你想要哪一場理想旅程呢 = memo(({ data }: { data?: ResponseType[
         const isDatasetExist = clone.journeyData?.find((d) => d.name === dataset?.name);
         const whichJourneyData = isDatasetExist
           ? clone.journeyData?.filter((d) => d.name !== dataset?.name)
-          : [...(clone.journeyData || []), dataset || {}];
+          : [...(clone.journeyData || []), (dataset as { trip: string; name: string }) || {}];
         if (whichJourneyData && whichJourneyData.length > 1) return S;
-        clone.journeyData = whichJourneyData;
+        clone.journeyData = whichJourneyData as { trip: string; name: string }[];
         return clone;
       });
     },
