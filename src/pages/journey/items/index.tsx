@@ -67,11 +67,7 @@ const Items = memo(({ children, offset }: TItemsProps) => {
 
   const onItemSelected = useMemo(
     () => (name: string, index?: number) => {
-      console.log(name, index);
-      console.log(index);
-
       setState((S) => ({ ...S, step: JourneyStepType.fadeOut }));
-
       setEvent((S) => ({
         ...S,
         onItemSelected: { ...S.onItemSelected, index: index || 0 },

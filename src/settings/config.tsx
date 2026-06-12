@@ -123,5 +123,4 @@ export const CardDemoData: Omit<TCardState, 'enabled'> = {
     { type: 'career', count: 1 },
     { type: 'relations', count: 1 },
   ],
-  topic: '已有352名Miner探索此礦藏',
 };

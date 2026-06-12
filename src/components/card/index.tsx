@@ -96,9 +96,7 @@ const InnerCard = memo(({ transition }: { transition: TransitionType }) => {
 
 const Card = memo(() => {
   const [context, setContext] = useContext(Context);
-  const { cardURI, topic, data } = context[ActionType.Card]!;
-
-  console.log(data);
+  const { cardURI, data } = context[ActionType.Card]!;
 
   const [, setURI] = useURI();
   const [transition, setTransition] = useState(TransitionType.Unset);
@@ -123,8 +121,8 @@ const Card = memo(() => {
           <div className='inner max-w-md px-5'>
             <div
               className={twMerge(
-                'inner-contain',
-                transition === TransitionType.FadeIn && 'animate-fadeInPy',
+                'inner-contain hidden',
+                transition === TransitionType.FadeIn && 'animate-fadeInPy block',
               )}
             >
               <div
@@ -151,7 +149,7 @@ const Card = memo(() => {
                 </div>
                 <InnerCard transition={transition} />
               </div>
-              {topic && <Topic count={data?.minerCount || 0} transition={transition} />}
+              <Topic count={data?.minerCount || 0} transition={transition} />
             </div>
           </div>
         </Blockquote>

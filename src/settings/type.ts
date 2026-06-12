@@ -132,7 +132,6 @@ export type TCardState = {
   cardURI?: { path: string; name: string }[];
   navBarIcon?: ReactNode;
   mines?: { type: 'career' | 'finance' | 'health' | 'relations' | 'society'; count: number }[];
-  topic?: string;
   data?: TUserDataContent;
 };
 
