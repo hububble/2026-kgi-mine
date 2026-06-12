@@ -53,6 +53,7 @@ const useDataDiversion = ({ index = 0, scene }: { index: number; scene: JourneyS
 
   useEffect(() => {
     const { scene } = state;
+
     if (!scene) return;
     if (contents.length === 0) return;
 

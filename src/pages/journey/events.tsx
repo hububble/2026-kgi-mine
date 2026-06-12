@@ -44,7 +44,9 @@ export const JourneyEventsContext = createContext<TJourneyEventsContext>([
 ]);
 
 export const JourneyEventProvider = memo(({ children }: IReactProps) => {
-  const [, setContext] = useContext(Context);
+  const [context, setContext] = useContext(Context);
+  const { contents } = context[ActionType.UserData]!;
+
   const [, setState] = useContext(JourneyContext);
   const [eventState] = useContext(JourneyEventsContext);
 
@@ -52,9 +54,15 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
     if (!eventState.isCharacterStopped) return;
     if (eventState.onItemSelected.index !== eventState.onItemSelected.prev) {
       setContext({ type: ActionType.Card, state: { enabled: true } });
-      eventState.onItemSelected.prev = eventState.onItemSelected.index;
+
+      // 根據選擇的項目索引，更新卡片內容
+      const { index } = eventState.onItemSelected;
+      const currentContent = contents[index];
+      console.log(currentContent);
+
+      eventState.onItemSelected.prev = index;
     }
-  }, [eventState.onItemSelected, eventState.isCharacterStopped]);
+  }, [eventState.onItemSelected, eventState.isCharacterStopped, contents]);
 
   useEffect(() => {
     if (!eventState.isCharacterStopped) return;

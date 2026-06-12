@@ -66,17 +66,23 @@ const Items = memo(({ children, offset }: TItemsProps) => {
   );
 
   const onItemSelected = useMemo(
-    () => (name: string) => {
+    () => (name: string, index?: number) => {
+      console.log(name, index);
+      console.log(index);
+
       setState((S) => ({ ...S, step: JourneyStepType.fadeOut }));
+
       setEvent((S) => ({
         ...S,
-        onItemSelected: { ...S.onItemSelected, index: S.onItemSelected.index + 1 },
+        onItemSelected: { ...S.onItemSelected, index: index || 0 },
       }));
+
       setOdd((S) => ({
         ...S,
         back: S.back.map((item) => (item.name === name ? { ...item, clicked: true } : item)),
         front: S.front.map((item) => (item.name === name ? { ...item, clicked: true } : item)),
       }));
+
       setEven((S) => ({
         ...S,
         back: S.back.map((item) => (item.name === name ? { ...item, clicked: true } : item)),

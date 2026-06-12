@@ -21,6 +21,7 @@ import JourneyEventProvider, { JourneyEventsContext, JourneyEventsState } from '
 import './index.less';
 import Scene from './scene';
 import UserData from './userData';
+import QueryString from 'lesca-url-parameters';
 
 const Journey = memo(() => {
   const [context, setContext] = useContext(Context);
@@ -63,9 +64,13 @@ const Journey = memo(() => {
 
   useEffect(() => {
     if (response) {
-      setContext({ type: ActionType.UserData, state: { contents: response.result } });
-      setContext({ type: ActionType.LoadingProcess, state: { enabled: false } });
-      setState((S) => ({ ...S, step: JourneyStepType.fadeIn }));
+      if (response.isSuccess) {
+        setContext({ type: ActionType.UserData, state: { contents: response.result } });
+        setContext({ type: ActionType.LoadingProcess, state: { enabled: false } });
+        setState((S) => ({ ...S, step: JourneyStepType.fadeIn }));
+      } else {
+        window.location.href = QueryString.root();
+      }
     }
   }, [response]);
 

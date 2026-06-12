@@ -10,7 +10,7 @@ type TItemProps = {
   data: TDataDiversionItem;
   offset: number;
   onCenter?: (name: string) => void;
-  onItemSelected?: (name: string) => void;
+  onItemSelected?: (name: string, index?: number) => void;
 };
 
 const Item = memo(({ data, offset, onCenter, onItemSelected }: TItemProps) => {
@@ -55,7 +55,7 @@ const Item = memo(({ data, offset, onCenter, onItemSelected }: TItemProps) => {
         {!data.name.includes('roadSign') && data.name && data.clicked === false && (
           <Button
             onClick={() => {
-              onItemSelected?.(data.name);
+              onItemSelected?.(data.name, data.index);
               setStatus((S) => ({ ...S, isCenter: true, isInView: true }));
             }}
           >
