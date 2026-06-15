@@ -1,6 +1,7 @@
 import TweenerProvider from '@/components/tweenProvider';
 import useURI from '@/hooks/useURI';
-import { faker } from '@faker-js/faker';
+import { Context } from '@/settings/constant';
+import { ActionType } from '@/settings/type';
 import useTween, { Bezier } from 'lesca-use-tween';
 import { memo, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { JourneyContext, JourneyStepType } from '../config';
@@ -54,6 +55,10 @@ const Icon = memo(() => {
 });
 
 const UserData = memo(() => {
+  const [context] = useContext(Context);
+
+  const { memberInfoDto } = context[ActionType.UserData]!;
+
   const [state] = useContext(JourneyContext);
   const [, setURI] = useURI();
 
@@ -62,11 +67,18 @@ const UserData = memo(() => {
     setURI({ path: 'userData-flap-patterns.svg', name: 'userData-flap-patterns' });
   }, []);
 
-  const currentRandomScene = useMemo(() => {
-    return UserDataURIList.map(() => Math.floor(Math.random() * 100));
-  }, []);
-
-  const firstName = useMemo(() => faker.person.firstName(), []);
+  const firstName = useMemo(() => memberInfoDto?.name, [memberInfoDto]);
+  const counts = useMemo(() => {
+    const mines = [
+      'baseNum',
+      'careerNum',
+      'financeNum',
+      'healthNum',
+      'relationsNum',
+      'communityNum',
+    ] as const;
+    return mines.map((mine) => memberInfoDto?.[mine] || 0);
+  }, [memberInfoDto]);
 
   return (
     <div className='UserData'>
@@ -88,7 +100,7 @@ const UserData = memo(() => {
             return (
               <div key={uri.name}>
                 <div className={uri.name} />
-                <TweenNumber number={currentRandomScene[index]} />
+                <TweenNumber number={counts[index]} />
               </div>
             );
           })}

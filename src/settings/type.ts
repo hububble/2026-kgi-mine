@@ -114,7 +114,30 @@ export type TUserDataState = {
   journey?: '金黃稻浪' | '花海平原' | '蔚藍海岸' | '月夜雪地' | '晴光森林';
   character?: TCharacterName;
   memberId?: string;
-  memberInfoDto?: Record<string, string>;
+  memberInfoDto?: {
+    allowEDM?: boolean;
+    baseNum?: number;
+    birthday?: any | null;
+    birthdayUpdatedAt?: any | null;
+    careerNum?: number;
+    communityNum?: number;
+    email?: string;
+    favoriteContentList?: any[];
+    financeNum?: number;
+    gender?: string;
+    hasCheckedIn?: boolean;
+    healthNum?: number;
+    image?: string;
+    isBirthdayEditable?: boolean;
+    likeContentList?: any[];
+    name?: string;
+    nickName?: string;
+    phone?: string;
+    relationsNum?: number;
+    tripId?: string;
+    unlockContentList?: any[];
+    unlockEventList?: any[];
+  };
   token?: string;
   contents: TUserDataContent[];
 };
@@ -130,7 +153,6 @@ export type TSceneViewSizeState = {
 export type TCardState = {
   enabled?: boolean;
   navBarIcon?: ReactNode;
-  mines?: { type: 'career' | 'finance' | 'health' | 'relations' | 'society'; count: number }[];
   data?: TUserDataContent;
 };
 

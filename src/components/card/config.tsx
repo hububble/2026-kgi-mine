@@ -17,19 +17,19 @@ export const findPrimarySecondaryTag = (data?: TUserDataContent) => {
 
   switch (currentPrimaryTag.toLowerCase()) {
     case 'career':
-      primaryCount = data?.careerRequirement || 0;
+      primaryCount = data?.careerReward || 0;
       break;
     case 'finance':
-      primaryCount = data?.financeRequirement || 0;
+      primaryCount = data?.financeReward || 0;
       break;
     case 'health':
-      primaryCount = data?.healthRequirement || 0;
+      primaryCount = data?.healthReward || 0;
       break;
     case 'relations':
-      primaryCount = data?.relationsRequirement || 0;
+      primaryCount = data?.relationsReward || 0;
       break;
     case 'community':
-      primaryCount = data?.societyRequirement || 0;
+      primaryCount = data?.societyReward || 0;
       break;
     case 'none':
       primaryCount = 0;
@@ -38,19 +38,19 @@ export const findPrimarySecondaryTag = (data?: TUserDataContent) => {
 
   switch (currentSecondaryTag.toLowerCase()) {
     case 'career':
-      secondaryCount = data?.careerRequirement || 0;
+      secondaryCount = data?.careerReward || 0;
       break;
     case 'finance':
-      secondaryCount = data?.financeRequirement || 0;
+      secondaryCount = data?.financeReward || 0;
       break;
     case 'health':
-      secondaryCount = data?.healthRequirement || 0;
+      secondaryCount = data?.healthReward || 0;
       break;
     case 'relations':
-      secondaryCount = data?.relationsRequirement || 0;
+      secondaryCount = data?.relationsReward || 0;
       break;
     case 'community':
-      secondaryCount = data?.societyRequirement || 0;
+      secondaryCount = data?.societyReward || 0;
       break;
     case 'none':
       secondaryCount = 0;

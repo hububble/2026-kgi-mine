@@ -44,6 +44,7 @@ const useSignIn = (props?: { backgroundAppProcess?: boolean }) => {
           if (response?.isSuccess) {
             const { token } = response.result;
             Storage.set(SESSION_KEY, { token });
+            console.log(response.result);
           }
         }
       } catch {

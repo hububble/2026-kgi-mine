@@ -11,7 +11,7 @@ import { findPrimarySecondaryTag } from './config';
 const Inner = memo(({ transition }: { transition: TransitionType }) => {
   const [style, setStyle] = useTween({ opacity: 0, y: 30 });
   const [context, setContext] = useContext(Context);
-  const { data, navBarIcon, mines } = context[ActionType.Card]!;
+  const { data, navBarIcon } = context[ActionType.Card]!;
 
   const [, setState] = useContext(JourneyContext);
 
@@ -70,9 +70,11 @@ const Inner = memo(({ transition }: { transition: TransitionType }) => {
           >
             <Button.Soft>點我觀看</Button.Soft>
           </Button>
-          <Button className='w-fit'>
-            <Button.Soft>收藏內容</Button.Soft>
-          </Button>
+          {!data?.isFavorited && (
+            <Button className='w-fit'>
+              <Button.Soft>收藏內容</Button.Soft>
+            </Button>
+          )}
           <Button
             className='w-fit'
             onClick={() => {
