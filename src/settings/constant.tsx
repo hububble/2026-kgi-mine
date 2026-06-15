@@ -127,7 +127,7 @@ export const RecentState: TRecentState = {
 // 文章
 export const ArticleState: TArticleState = {
   enabled: false,
-  type: 'article',
+  url: 'https://mine.kgifund.com.tw/tisa-fund-guide',
   onClose: () => {},
 };
 

@@ -14,6 +14,8 @@ export const REST_PATH = {
   answer: 'immersion/miner',
   favorite: 'content/favorite',
   unfavorite: 'content/unfavorite',
+  like: 'content/like',
+  unlike: 'content/unlike',
 };
 
 export const CharacterURIList = {

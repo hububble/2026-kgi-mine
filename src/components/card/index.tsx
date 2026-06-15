@@ -12,22 +12,37 @@ import { URI } from './config';
 import './index.less';
 import Inner from './inner';
 import Topic from './topic';
+import useLikeSwitcher from '@/hooks/useLikeSwitcher';
 
 const Card = memo(() => {
   const [context, setContext] = useContext(Context);
   const { data } = context[ActionType.Card]!;
 
   const [isFavorited, setIsFavorited] = useState(data?.isFavorited || false);
+  const [isLiked, setIsLiked] = useState(data?.isLiked || false);
 
-  const [response, favoriteSwitcher] = useFavoriteSwitcher({
+  const [favoriteResponse, favoriteSwitcher] = useFavoriteSwitcher({
     isFavorited: data?.isFavorited || false,
     contentId: data?.contentId || 0,
   });
 
+  const [likeResponse, likeSwitcher] = useLikeSwitcher({
+    isLiked: data?.isLiked || false,
+    contentId: data?.contentId || 0,
+  });
+
   useEffect(() => {
-    if (response) {
-      if (response.isSuccess) {
-        setIsFavorited(typeof response.result !== 'boolean');
+    if (likeResponse) {
+      if (likeResponse.isSuccess) {
+        setIsLiked(typeof likeResponse.result !== 'boolean');
+      }
+    }
+  }, [likeResponse]);
+
+  useEffect(() => {
+    if (favoriteResponse) {
+      if (favoriteResponse.isSuccess) {
+        setIsFavorited(typeof favoriteResponse.result !== 'boolean');
       } else {
         setContext({
           type: ActionType.Modal,
@@ -38,7 +53,7 @@ const Card = memo(() => {
         });
       }
     }
-  }, [response]);
+  }, [favoriteResponse]);
 
   const [, setURI] = useURI();
   const [transition, setTransition] = useState(TransitionType.Unset);
@@ -53,8 +68,12 @@ const Card = memo(() => {
         setContext({ type: ActionType.LoadingProcess, state: { enabled: true } });
       }}
       onload={() => {
-        setContext({ type: ActionType.LoadingProcess, state: { enabled: false } });
-        setTransition(TransitionType.FadeIn);
+        const coverImage = new Image();
+        coverImage.onload = () => {
+          setContext({ type: ActionType.LoadingProcess, state: { enabled: false } });
+          setTransition(TransitionType.FadeIn);
+        };
+        coverImage.src = data?.hubSpot_FeaturedImage || '/card-demo.jpg';
       }}
     >
       <div className='Card'>
@@ -75,10 +94,14 @@ const Card = memo(() => {
                 <div className='head'>
                   <Heading.H2>{data?.hubSpot_HtmlTitle || 'hubSpot_HtmlTitle'}</Heading.H2>
                   <div className='navBar'>
-                    <Button className='h-6 w-6' active={data?.isLiked}>
+                    <Button className='h-6 w-6' active={isLiked} onClick={() => likeSwitcher()}>
                       <Button.Card type='Like' />
                     </Button>
-                    <Button className='h-6 w-6' active={data?.isFavorited}>
+                    <Button
+                      className='h-6 w-6'
+                      active={isFavorited}
+                      onClick={() => favoriteSwitcher()}
+                    >
                       <Button.Card type='Favorite' />
                     </Button>
                   </div>

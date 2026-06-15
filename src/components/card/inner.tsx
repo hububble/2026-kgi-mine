@@ -62,10 +62,23 @@ const Inner = memo(({ transition, isFavorited, favoriteSwitcher }: TInnerProps) 
           <Button
             className='w-fit'
             onClick={() => {
+              if (!data?.hubSpot_Url) {
+                setContext({
+                  type: ActionType.Modal,
+                  state: {
+                    enabled: true,
+                    title: '文章連結不存在',
+                    body: '請聯絡客服人員',
+                    label: ['關閉'],
+                  },
+                });
+                return;
+              }
               setContext({
                 type: ActionType.Article,
                 state: {
                   enabled: true,
+                  url: data?.hubSpot_Url || 'https://mine.kgifund.com.tw/',
                   onClose: () => {
                     setState((S) => ({ ...S, step: JourneyStepType.resume }));
                   },
