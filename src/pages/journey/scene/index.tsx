@@ -35,9 +35,10 @@ const Scene = memo(() => {
   const sounds = context[ActionType.Sounds];
 
   const left = useMemo(
-    () => getPx(setting.offset, width) - setting.walkFadeInDistance * getScreenOffset(1),
+    () => getPx(setting.offset, width) - setting.walkFadeInDistance * getScreenOffset(2),
     [],
   );
+
   const [, setStyle] = useTween({ left });
   const [offset, setOffset] = useState(left);
 

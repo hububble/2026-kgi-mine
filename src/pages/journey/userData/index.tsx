@@ -86,7 +86,7 @@ const UserData = memo(() => {
         initialStyle={{ opacity: 0, y: 50 }}
         tweenTo={{ opacity: 1, y: 0 }}
         options={{ duration: 600 }}
-        shouldFadeIn={state.step === JourneyStepType.fadeIn}
+        shouldFadeIn={state.step >= JourneyStepType.fadeIn}
       >
         <div>
           <div>{firstName}</div>
