@@ -14,7 +14,7 @@ const useFavorite = (props?: { backgroundAppProcess?: boolean }) => {
 
   const [, setContext] = useContext(Context);
   const [state, setState] = useState<ResponseType>();
-  const fetch = async (params: { contentId: string }) => {
+  const fetch = async (params: { contentId: number }) => {
     if (!backgroundAppProcess) {
       setContext({ type: ActionType.LoadingProcess, state: { enabled: true } });
     }

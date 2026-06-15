@@ -1,3 +1,4 @@
+import useFavoriteSwitcher from '@/hooks/useFavoriteSwitcher';
 import useURI from '@/hooks/useURI';
 import { Context } from '@/settings/constant';
 import { ActionType, TransitionType } from '@/settings/type';
@@ -15,6 +16,29 @@ import Topic from './topic';
 const Card = memo(() => {
   const [context, setContext] = useContext(Context);
   const { data } = context[ActionType.Card]!;
+
+  const [isFavorited, setIsFavorited] = useState(data?.isFavorited || false);
+
+  const [response, favoriteSwitcher] = useFavoriteSwitcher({
+    isFavorited: data?.isFavorited || false,
+    contentId: data?.contentId || 0,
+  });
+
+  useEffect(() => {
+    if (response) {
+      if (response.isSuccess) {
+        setIsFavorited(typeof response.result !== 'boolean');
+      } else {
+        setContext({
+          type: ActionType.Modal,
+          state: {
+            enabled: true,
+            body: '操作失敗，請稍後再試',
+          },
+        });
+      }
+    }
+  }, [response]);
 
   const [, setURI] = useURI();
   const [transition, setTransition] = useState(TransitionType.Unset);
@@ -64,7 +88,11 @@ const Card = memo(() => {
                   <div className='hr' />
                   <Heading.H3>{data?.hubSpot_AuthorName || 'hubSpot_AuthorName'}</Heading.H3>
                 </div>
-                <Inner transition={transition} />
+                <Inner
+                  transition={transition}
+                  favoriteSwitcher={favoriteSwitcher}
+                  isFavorited={isFavorited || false}
+                />
               </div>
               <Topic count={data?.minerCount || 0} transition={transition} />
             </div>

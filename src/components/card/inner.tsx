@@ -8,7 +8,13 @@ import Button from '../button';
 import Heading from '../heading';
 import { findPrimarySecondaryTag } from './config';
 
-const Inner = memo(({ transition }: { transition: TransitionType }) => {
+type TInnerProps = {
+  transition: TransitionType;
+  isFavorited: boolean;
+  favoriteSwitcher: () => void;
+};
+
+const Inner = memo(({ transition, isFavorited, favoriteSwitcher }: TInnerProps) => {
   const [style, setStyle] = useTween({ opacity: 0, y: 30 });
   const [context, setContext] = useContext(Context);
   const { data, navBarIcon } = context[ActionType.Card]!;
@@ -70,8 +76,8 @@ const Inner = memo(({ transition }: { transition: TransitionType }) => {
           >
             <Button.Soft>點我觀看</Button.Soft>
           </Button>
-          {!data?.isFavorited && (
-            <Button className='w-fit'>
+          {!isFavorited && (
+            <Button className='w-fit' onClick={() => favoriteSwitcher()}>
               <Button.Soft>收藏內容</Button.Soft>
             </Button>
           )}

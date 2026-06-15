@@ -7,9 +7,7 @@ export const URI = [
 
 export const findPrimarySecondaryTag = (data?: TUserDataContent) => {
   const { hubSpot_PrimaryTag, hubSpot_SecondaryTag } = data || {};
-
   const currentPrimaryTag = (hubSpot_PrimaryTag || 'NONE') as 'CAREER' | 'FINANCE' | 'HEALTH' | 'RELATIONS' | 'SOCIETY' | 'NONE';
-
   const currentSecondaryTag = (hubSpot_SecondaryTag || 'NONE') as 'CAREER' | 'FINANCE' | 'HEALTH' | 'RELATIONS' | 'SOCIETY' | 'NONE';
 
   let primaryCount = 0;
