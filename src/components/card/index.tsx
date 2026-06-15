@@ -31,8 +31,13 @@ const Topic = ({ count, transition }: { count: number; transition: TransitionTyp
 const InnerCard = memo(({ transition }: { transition: TransitionType }) => {
   const [style, setStyle] = useTween({ opacity: 0, y: 30 });
   const [context, setContext] = useContext(Context);
-  const { navBarIcon, mines } = context[ActionType.Card]!;
+  const { data, navBarIcon, mines } = context[ActionType.Card]!;
+
   const [, setState] = useContext(JourneyContext);
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   useEffect(() => {
     if (transition === TransitionType.FadeIn) {
@@ -42,7 +47,7 @@ const InnerCard = memo(({ transition }: { transition: TransitionType }) => {
 
   return (
     <div className='card' style={style}>
-      <img src='/card-demo.jpg' alt='Card Demo' />
+      <img src={data?.hubSpot_FeaturedImage || '/card-demo.jpg'} alt='Card Demo' />
       <div className='gradient-top' />
       <div className='gradient-bottom' />
       <div className='ctx'>
@@ -96,15 +101,14 @@ const InnerCard = memo(({ transition }: { transition: TransitionType }) => {
 
 const Card = memo(() => {
   const [context, setContext] = useContext(Context);
-  const { cardURI, data } = context[ActionType.Card]!;
+  const { data } = context[ActionType.Card]!;
 
   const [, setURI] = useURI();
   const [transition, setTransition] = useState(TransitionType.Unset);
 
   useEffect(() => {
-    cardURI?.forEach((uri) => setURI(uri));
     URI.forEach((uri) => setURI(uri));
-  }, [cardURI]);
+  }, []);
 
   return (
     <OnloadProvider

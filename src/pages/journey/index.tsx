@@ -70,6 +70,8 @@ const Journey = memo(() => {
           .filter((content) => content.contentId)
           .filter((content) => content.hubSpot_Id);
 
+        console.log(currentResult);
+
         setContext({ type: ActionType.UserData, state: { contents: currentResult } });
         setContext({ type: ActionType.LoadingProcess, state: { enabled: false } });
         setState((S) => ({ ...S, step: JourneyStepType.fadeIn }));

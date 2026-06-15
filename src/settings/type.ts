@@ -129,7 +129,6 @@ export type TSceneViewSizeState = {
 
 export type TCardState = {
   enabled?: boolean;
-  cardURI?: { path: string; name: string }[];
   navBarIcon?: ReactNode;
   mines?: { type: 'career' | 'finance' | 'health' | 'relations' | 'society'; count: number }[];
   data?: TUserDataContent;
