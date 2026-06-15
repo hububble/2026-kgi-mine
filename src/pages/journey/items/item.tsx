@@ -55,7 +55,7 @@ const Item = memo(({ data, offset, onCenter, onItemSelected }: TItemProps) => {
         {!data.name.includes('roadSign') && data.name && data.clicked === false && (
           <Button
             onClick={() => {
-              onItemSelected?.(data.name, data.index);
+              onItemSelected?.(data.name, (data.index ?? 1) - 1);
               setStatus((S) => ({ ...S, isCenter: true, isInView: true }));
             }}
           >
