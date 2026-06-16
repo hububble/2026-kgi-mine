@@ -35,6 +35,14 @@ const Card = memo(() => {
     if (likeResponse) {
       if (likeResponse.isSuccess) {
         setIsLiked(typeof likeResponse.result !== 'boolean');
+      } else {
+        setContext({
+          type: ActionType.Modal,
+          state: {
+            enabled: true,
+            body: '操作失敗，請稍後再試',
+          },
+        });
       }
     }
   }, [likeResponse]);
