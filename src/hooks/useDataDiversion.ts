@@ -148,6 +148,7 @@ const useDataDiversion = ({ index = 0, scene }: { index: number; scene: JourneyS
   }, [state.scene, state.index, contents]);
 
   const updateStep = ({ step, scene }: { step?: number; scene?: JourneySceneType }) => {
+    if (step === -1) dataRef.current = { back: [], front: [], static: [] };
     setState((S) => ({
       ...S,
       index: step === undefined ? S.index + 1 : step,

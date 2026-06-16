@@ -38,6 +38,8 @@ const Item = memo(({ data, offset, onCenter, onItemSelected }: TItemProps) => {
     }
   }, [offset]);
 
+  if (data.name === '') return null;
+
   return (
     <div
       className={twMerge(

@@ -44,8 +44,9 @@ const Items = memo(({ children, offset }: TItemsProps) => {
   useEffect(() => {
     if (data.back.length === 0 && data.front.length === 0 && state.loop > 0) {
       endLoopShouldBe.current = state.loop;
+      // 嘗試獲取下一輪內容
     }
-  }, [data]);
+  }, [data, state.loop]);
 
   const onCenter = useMemo(
     () => (name: string) => {
@@ -91,7 +92,7 @@ const Items = memo(({ children, offset }: TItemsProps) => {
   const onPushed = useCallback((loop: number) => {
     if (JourneySceneDebug.enabled) return;
     if (loop === endLoopShouldBe.current) {
-      setState((S) => ({ ...S, step: JourneyStepType.fadeOut }));
+      // 等場景結束後才更新內容，避免切換場景時內容閃爍
       setEvent((S) => ({
         ...S,
         onJourneyEnd: { ...S.onJourneyEnd, index: S.onJourneyEnd.index + 1 },

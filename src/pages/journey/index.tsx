@@ -9,6 +9,7 @@ import { Context } from '@/settings/constant';
 import { ActionType } from '@/settings/type';
 import EnterFrame from 'lesca-enterframe';
 import OnloadProvider from 'lesca-react-onload';
+import QueryString from 'lesca-url-parameters';
 import { memo, useContext, useEffect, useRef, useState } from 'react';
 import {
   JourneyContext,
@@ -21,7 +22,7 @@ import JourneyEventProvider, { JourneyEventsContext, JourneyEventsState } from '
 import './index.less';
 import Scene from './scene';
 import UserData from './userData';
-import QueryString from 'lesca-url-parameters';
+import Storage from 'lesca-local-storage';
 
 const Journey = memo(() => {
   const [context, setContext] = useContext(Context);
@@ -68,14 +69,15 @@ const Journey = memo(() => {
         // TODO
         const currentResult = response.result
           .filter((content) => content.contentId)
-          .filter((content) => content.hubSpot_Id);
-
+          .filter((content) => content.hubSpot_Id)
+          .filter((_, index) => index < 1);
         console.log(currentResult);
 
         setContext({ type: ActionType.UserData, state: { contents: currentResult } });
         setContext({ type: ActionType.LoadingProcess, state: { enabled: false } });
         setState((S) => ({ ...S, step: JourneyStepType.fadeIn }));
       } else {
+        Storage.clear();
         window.location.href = QueryString.root();
       }
     }

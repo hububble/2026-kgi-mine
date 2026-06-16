@@ -2,6 +2,7 @@ import { Context } from '@/settings/constant';
 import { ActionType, IReactProps } from '@/settings/type';
 import { createContext, Dispatch, memo, SetStateAction, useContext, useEffect } from 'react';
 import { JourneyContext, JourneySceneType, JourneyStepType } from './config';
+import useContent from '@/hooks/useContent';
 
 export type TJourneyEventsState = {
   isCharacterStopped: boolean;
@@ -23,6 +24,11 @@ export type TJourneyEventsState = {
     prev: number;
     callback: () => void;
   };
+  onContentEmpty: {
+    index: number;
+    prev: number;
+    callback: () => void;
+  };
 };
 
 export type TJourneyEventsContext = [
@@ -35,6 +41,7 @@ export const JourneyEventsState: TJourneyEventsState = {
   onItemSelected: { index: -1, prev: -1, callback: () => {} },
   onJourneyEnd: { index: -1, prev: -1, callback: () => {} },
   onLoopChange: { loop: -1 },
+  onContentEmpty: { index: -1, prev: -1, callback: () => {} },
   isCharacterStopped: false,
 };
 
@@ -48,7 +55,9 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
   const { contents } = context[ActionType.UserData]!;
 
   const [, setState] = useContext(JourneyContext);
-  const [eventState] = useContext(JourneyEventsContext);
+  const [eventState, setEventState] = useContext(JourneyEventsContext);
+
+  const [response, getContent] = useContent();
 
   useEffect(() => {
     if (!eventState.isCharacterStopped) return;
@@ -59,7 +68,6 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
       const { index } = eventState.onItemSelected;
       const currentContent = contents[index];
       setContext({ type: ActionType.Card, state: { data: currentContent } });
-
       eventState.onItemSelected.prev = index;
     }
   }, [eventState.onItemSelected, eventState.isCharacterStopped, contents]);
@@ -99,10 +107,37 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
   }, [eventState.onEncounteringRoadSign, eventState.isCharacterStopped]);
 
   useEffect(() => {
-    if (!eventState.isCharacterStopped) return;
+    if (response) {
+      if (response.isSuccess) {
+        console.log(response);
+        const currentResult = response.result
+          .filter((content) => content.contentId)
+          .filter((content) => content.hubSpot_Id);
 
+        if (currentResult.length === 0) {
+          // 旅程結束，重置所有狀態
+        } else {
+          // 還有內容，繼續旅程
+          setState((S) => ({ ...S, loop: -1 }));
+          setContext({ type: ActionType.UserData, state: { contents: currentResult } });
+          setEventState(JourneyEventsState);
+        }
+      }
+    }
+  }, [response]);
+
+  useEffect(() => {
+    if (eventState.onContentEmpty.index !== eventState.onContentEmpty.prev) {
+      getContent();
+      eventState.onContentEmpty.callback();
+      eventState.onContentEmpty.prev = eventState.onContentEmpty.index;
+    }
+  }, [eventState.onContentEmpty]);
+
+  useEffect(() => {
+    if (!eventState.isCharacterStopped) return;
     if (eventState.onJourneyEnd.index !== eventState.onJourneyEnd.prev) {
-      // 旅程結束，重置所有狀態
+      // TODO: 旅程結束，顯示問卷
       setContext({
         type: ActionType.Questionnaire,
         state: {
@@ -112,6 +147,7 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
           },
         },
       });
+      eventState.onJourneyEnd.callback();
       eventState.onJourneyEnd.prev = eventState.onJourneyEnd.index;
     }
   }, [eventState.onJourneyEnd, eventState.isCharacterStopped]);
