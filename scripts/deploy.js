@@ -10,7 +10,7 @@ const message = {
 };
 
 (async () => {
-  const list = ['gh-pages', 'netlify', 'netlify-prod'];
+  const list = ['gh-pages', 'netlify-draft', 'netlify-prod'];
 
   if (list.length) {
     inquirer
