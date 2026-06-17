@@ -21,14 +21,6 @@ const Content = memo(() => {
     }
   }, [token]);
 
-  useEffect(() => {
-    if (questionResponse) {
-      if (!questionResponse.isSuccess) {
-        console.log('aa');
-      }
-    }
-  }, [questionResponse]);
-
   const page = useMemo(() => {
     switch (state.page) {
       default:

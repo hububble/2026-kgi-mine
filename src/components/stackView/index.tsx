@@ -30,13 +30,14 @@ const StackView = memo(({ offset, type, children, onPushed }: TStackViewProps) =
       const cycleDistance = coverPercent + currentGap;
       const phaseOffset = type === 'even' ? cycleDistance / 2 : 0;
       const movedInCycle = normalizeModulo(totalOffset + phaseOffset, cycleDistance);
+
       const loop = Math.floor(totalOffset / (cycleDistance * 0.5)) - baseLoop - loadDataTimes;
       const left = movedInCycle * -1;
 
       return { left, loop, isPushPrevToEnd: left <= -100 };
     }
     return { left: 0, loop: -1, isPushPrevToEnd: false };
-  }, [offset, width, ratio, coverPercent, type, baseLoop]);
+  }, [offset, width, ratio, coverPercent, type, baseLoop, loadDataTimes]);
 
   useEffect(() => {
     if (isPushPrevToEnd) onPushed?.(loop);

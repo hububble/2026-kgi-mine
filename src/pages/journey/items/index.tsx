@@ -29,7 +29,6 @@ const Items = memo(({ children, offset }: TItemsProps) => {
   const [even, setEven] = useState<TDataDiversionStateData>({ back: [], front: [], static: [] });
 
   useEffect(() => {
-    console.log(state.loop);
     updateStep({ step: state.loop });
     setEvent((S) => ({ ...S, onLoopChange: { loop: state.loop } }));
   }, [state.loop]);
