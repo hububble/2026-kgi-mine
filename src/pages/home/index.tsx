@@ -34,7 +34,7 @@ const Home = memo(() => {
       setContext({
         type: ActionType.UserData,
         state: {
-          character: (name as TCharacterName) || 'blue',
+          character: (name as TCharacterName) || '小桃_正_灰底',
         },
       });
     }

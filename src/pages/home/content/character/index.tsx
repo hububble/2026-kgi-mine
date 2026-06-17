@@ -27,7 +27,7 @@ const 選擇你的Miner角色 = memo(({ data }: { data?: ResponseType['result'][
 
   useEffect(() => {
     if (data) {
-      setState((S) => ({ ...S, characterData: data[0] }));
+      setState((S) => ({ ...S, characterData: data[window.innerWidth >= 768 ? 2 : 1] }));
       data.forEach((item) => {
         const dat = CharacterURIList[item.name as keyof typeof CharacterURIList];
         if (dat) setURI({ path: dat.path, name: dat.name });
@@ -41,6 +41,7 @@ const 選擇你的Miner角色 = memo(({ data }: { data?: ResponseType['result'][
     const quizList = state.decadeData?.map((item) => item.quizId) || [];
     const minerId = state.characterData?.minerId || '';
     const [tripId] = state.journeyData?.map((item) => item.trip) || [''];
+
     fetchAnswer({ tripId, quizList, minerId });
   }, [state]);
 

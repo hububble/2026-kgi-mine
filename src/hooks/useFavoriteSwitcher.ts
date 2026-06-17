@@ -30,8 +30,6 @@ const useFavoriteSwitcher = ({ isFavorited, contentId }: TUseFavoriteSwitcher) =
       return;
     }
 
-    console.log(favorited);
-
     if (favorited) {
       if (favorited.isFavorited) {
         setFavorite({ contentId: favorited.contentId });
