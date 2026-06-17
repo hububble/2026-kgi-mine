@@ -41,7 +41,7 @@ export const SceneSize = {
 
 export const SceneDepth = {
   back: 0.01,
-  middle: 0.1,
+  middle: 0.08,
   front: 0.6,
 };
 
