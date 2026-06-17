@@ -142,7 +142,7 @@ export const JourneyStaticItemsList = {
 };
 
 export const JourneySceneSetting = {
-  itemsCenterThreshold: 300,
+  itemsCenterThreshold: 250,
   offset: 100,
   walkFadeInDistance: 100,
   walkFadeInDuration: 8000,

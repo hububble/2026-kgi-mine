@@ -35,7 +35,7 @@ const message = {
               console.log(chalk.redBright('gh-pages deploy failed:', error.message));
             }
             break;
-          case 'netlify':
+          case 'netlify-draft':
             try {
               execSync('netlify deploy --dir=dist', { stdio: 'inherit' });
             } catch (error) {
