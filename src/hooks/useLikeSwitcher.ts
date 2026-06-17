@@ -23,6 +23,8 @@ const useLikeSwitcher = ({ isLiked, contentId }: TUseLikeSwitcher) => {
   };
 
   useEffect(() => {
+    if (contentId === 0) return;
+
     if (like.isFirst) {
       setLiked((S) => ({ ...S, isFirst: false }));
       return;

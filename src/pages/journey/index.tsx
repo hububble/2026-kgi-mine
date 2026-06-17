@@ -70,6 +70,8 @@ const Journey = memo(() => {
         const currentResult = response.result
           .filter((content) => content.contentId)
           .filter((content) => content.hubSpot_Id);
+        // .filter((_, index) => index === 0);
+
         console.log(`第一次讀取資料`, currentResult);
 
         setContext({ type: ActionType.UserData, state: { contents: currentResult } });

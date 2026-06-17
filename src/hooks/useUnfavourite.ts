@@ -21,7 +21,7 @@ const useUnfavorite = (props?: { backgroundAppProcess?: boolean }) => {
 
     let response;
     try {
-      response = await Fetcher.post(REST_PATH.favorite, params);
+      response = await Fetcher.post(REST_PATH.unfavorite, params);
     } catch {
       response = {
         isSuccess: false,

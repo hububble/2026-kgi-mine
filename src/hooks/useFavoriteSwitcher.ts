@@ -23,10 +23,14 @@ const useFavoriteSwitcher = ({ isFavorited, contentId }: TUseFavoriteSwitcher) =
   };
 
   useEffect(() => {
+    if (contentId === 0) return;
+
     if (favorited.isFirst) {
       setFavorited((S) => ({ ...S, isFirst: false }));
       return;
     }
+
+    console.log(favorited);
 
     if (favorited) {
       if (favorited.isFavorited) {
