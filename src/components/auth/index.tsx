@@ -13,7 +13,6 @@ const Auth = memo(({ children }: IReactProps) => {
   useEffect(() => {
     const auth = Storage.get(SESSION_KEY);
     const queryToken = QueryString.get('token');
-
     if (auth) {
       const { token } = auth.data;
       if (token) {
