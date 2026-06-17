@@ -20,7 +20,7 @@ const StackView = memo(({ offset, type, children, onPushed }: TStackViewProps) =
 
   const normalizeModulo = (value: number, mod: number) => ((value % mod) + mod) % mod;
 
-  const { left, loop, isPushPrevToEnd } = useMemo(() => {
+  const { left, loop, isPushPrevToEnd, staticLoop } = useMemo(() => {
     if (ratio && coverPercent && width) {
       const offsetPx = getViewPxByDirection(JourneySceneSetting.offset, width);
       const currentOffset = offset - offsetPx;
@@ -31,12 +31,13 @@ const StackView = memo(({ offset, type, children, onPushed }: TStackViewProps) =
       const phaseOffset = type === 'even' ? cycleDistance / 2 : 0;
       const movedInCycle = normalizeModulo(totalOffset + phaseOffset, cycleDistance);
 
-      const loop = Math.floor(totalOffset / (cycleDistance * 0.5)) - baseLoop - loadDataTimes;
+      const staticLoop = Math.floor(totalOffset / (cycleDistance * 0.5));
+      const loop = staticLoop - baseLoop - loadDataTimes;
       const left = movedInCycle * -1;
 
-      return { left, loop, isPushPrevToEnd: left <= -100 };
+      return { left, loop, staticLoop, isPushPrevToEnd: left <= -100 };
     }
-    return { left: 0, loop: -1, isPushPrevToEnd: false };
+    return { left: 0, loop: -1, staticLoop: -1, isPushPrevToEnd: false };
   }, [offset, width, ratio, coverPercent, type, baseLoop, loadDataTimes]);
 
   useEffect(() => {
@@ -44,8 +45,8 @@ const StackView = memo(({ offset, type, children, onPushed }: TStackViewProps) =
   }, [isPushPrevToEnd, loop, onPushed]);
 
   useEffect(() => {
-    setState((S) => ({ ...S, loop }));
-  }, [loop, setState]);
+    setState((S) => ({ ...S, loop, staticLoop }));
+  }, [loop, staticLoop, setState]);
 
   return (
     <div className='StackView'>

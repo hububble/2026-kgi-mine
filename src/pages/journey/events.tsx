@@ -55,7 +55,7 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
   const { contents } = context[ActionType.UserData]!;
 
   const [, setState] = useContext(JourneyContext);
-  const [eventState, setEventState] = useContext(JourneyEventsContext);
+  const [eventState] = useContext(JourneyEventsContext);
 
   const [response, getContent] = useContent();
 
@@ -111,22 +111,16 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
       if (response.isSuccess) {
         const currentResult = response.result
           .filter((content) => content.contentId)
-          .filter((content) => content.hubSpot_Id)
-          .filter((_, index) => index < 1);
+          .filter((content) => content.hubSpot_Id);
+
         console.log(`新的資料有${currentResult.length}筆`, currentResult);
 
         if (currentResult.length === 0) {
           // 旅程結束，重置所有狀態
         } else {
           // 還有內容，繼續旅程
-          setState((S) => ({
-            ...S,
-            loop: -1,
-            baseLoop: S.loop,
-            loadDataTimes: S.loadDataTimes + 1,
-          }));
+          eventState.onContentEmpty.callback();
           setContext({ type: ActionType.UserData, state: { contents: currentResult } });
-          setEventState(JourneyEventsState);
         }
       }
     }
@@ -135,7 +129,6 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
   useEffect(() => {
     if (eventState.onContentEmpty.index !== eventState.onContentEmpty.prev) {
       getContent();
-      eventState.onContentEmpty.callback();
       eventState.onContentEmpty.prev = eventState.onContentEmpty.index;
     }
   }, [eventState.onContentEmpty]);

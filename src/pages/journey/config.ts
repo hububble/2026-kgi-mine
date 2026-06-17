@@ -26,6 +26,7 @@ export enum JourneyDialogType {
 export type TJourneyState = {
   step: JourneyStepType;
   scene: JourneySceneType;
+  staticLoop: number;
   loop: number;
   baseLoop: number;
   loadDataTimes: number;
@@ -36,6 +37,7 @@ export type TJourneyContext = [TJourneyState, Dispatch<SetStateAction<TJourneySt
 export const JourneyState: TJourneyState = {
   step: JourneyStepType.unset,
   scene: JourneySceneType.晴光森林,
+  staticLoop: -1,
   loop: -1,
   baseLoop: 0,
   loadDataTimes: 0,

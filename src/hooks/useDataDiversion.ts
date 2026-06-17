@@ -156,6 +156,10 @@ const useDataDiversion = ({ index = 0, scene }: { index: number; scene: JourneyS
     }));
   };
 
-  return [state, updateStep] as const;
+  const forceUpdate = () => {
+    dataRef.current = { back: [], front: [], static: [] };
+  };
+
+  return [state, updateStep, forceUpdate] as const;
 };
 export default useDataDiversion;
