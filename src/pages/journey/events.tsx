@@ -109,10 +109,10 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
   useEffect(() => {
     if (response) {
       if (response.isSuccess) {
-        console.log(response);
         const currentResult = response.result
           .filter((content) => content.contentId)
           .filter((content) => content.hubSpot_Id);
+        console.log(`新的資料有${currentResult.length}筆`, currentResult);
 
         if (currentResult.length === 0) {
           // 旅程結束，重置所有狀態

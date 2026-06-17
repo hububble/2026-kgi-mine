@@ -44,7 +44,13 @@ const Items = memo(({ children, offset }: TItemsProps) => {
   useEffect(() => {
     if (data.back.length === 0 && data.front.length === 0 && state.loop > 0) {
       endLoopShouldBe.current = state.loop;
-      // 嘗試獲取下一輪內容
+
+      // TODO: 1.當items取得資料為空時，嘗試獲取下一輪內容
+      console.log(`第${state.loop + 1}圈沒資料，嘗試讀取新資料`);
+      setEvent((S) => ({
+        ...S,
+        onContentEmpty: { ...S.onContentEmpty, index: S.onContentEmpty.index + 1 },
+      }));
     }
   }, [data, state.loop]);
 
@@ -92,7 +98,7 @@ const Items = memo(({ children, offset }: TItemsProps) => {
   const onPushed = useCallback((loop: number) => {
     if (JourneySceneDebug.enabled) return;
     if (loop === endLoopShouldBe.current) {
-      // 等場景結束後才更新內容，避免切換場景時內容閃爍
+      // TODO: 2.當空資料時endLoopShouldBe會更新，而且等到上一個場景完全在畫面外後才觸發事件。
       setEvent((S) => ({
         ...S,
         onJourneyEnd: { ...S.onJourneyEnd, index: S.onJourneyEnd.index + 1 },
