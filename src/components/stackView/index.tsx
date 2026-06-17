@@ -4,8 +4,8 @@ import { Context } from '@/settings/constant';
 import { ActionType, IReactProps } from '@/settings/type';
 import { getViewPxByDirection } from '@/utils';
 import { memo, useContext, useEffect, useMemo } from 'react';
-import './index.less';
 import { twMerge } from 'tailwind-merge';
+import './index.less';
 
 type TStackViewProps = IReactProps & {
   offset: number;
@@ -15,7 +15,7 @@ type TStackViewProps = IReactProps & {
 
 const StackView = memo(({ offset, type, children, onPushed }: TStackViewProps) => {
   const [context] = useContext(Context);
-  const [, setState] = useContext(JourneyContext);
+  const [{ baseLoop, loadDataTimes }, setState] = useContext(JourneyContext);
   const { coverPercent, ratio, width } = context[ActionType.SceneViewSize]!;
 
   const normalizeModulo = (value: number, mod: number) => ((value % mod) + mod) % mod;
@@ -30,13 +30,13 @@ const StackView = memo(({ offset, type, children, onPushed }: TStackViewProps) =
       const cycleDistance = coverPercent + currentGap;
       const phaseOffset = type === 'even' ? cycleDistance / 2 : 0;
       const movedInCycle = normalizeModulo(totalOffset + phaseOffset, cycleDistance);
-      const loop = Math.floor(totalOffset / (cycleDistance * 0.5));
+      const loop = Math.floor(totalOffset / (cycleDistance * 0.5)) - baseLoop - loadDataTimes;
       const left = movedInCycle * -1;
 
       return { left, loop, isPushPrevToEnd: left <= -100 };
     }
     return { left: 0, loop: -1, isPushPrevToEnd: false };
-  }, [offset, width, ratio, coverPercent, type]);
+  }, [offset, width, ratio, coverPercent, type, baseLoop]);
 
   useEffect(() => {
     if (isPushPrevToEnd) onPushed?.(loop);

@@ -27,6 +27,8 @@ export type TJourneyState = {
   step: JourneyStepType;
   scene: JourneySceneType;
   loop: number;
+  baseLoop: number;
+  loadDataTimes: number;
 };
 
 export type TJourneyContext = [TJourneyState, Dispatch<SetStateAction<TJourneyState>>];
@@ -35,6 +37,8 @@ export const JourneyState: TJourneyState = {
   step: JourneyStepType.unset,
   scene: JourneySceneType.晴光森林,
   loop: -1,
+  baseLoop: 0,
+  loadDataTimes: 0,
 };
 
 export const JourneyContext = createContext<TJourneyContext>([JourneyState, () => {}]);

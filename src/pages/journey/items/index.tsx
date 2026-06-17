@@ -29,6 +29,7 @@ const Items = memo(({ children, offset }: TItemsProps) => {
   const [even, setEven] = useState<TDataDiversionStateData>({ back: [], front: [], static: [] });
 
   useEffect(() => {
+    console.log(state.loop);
     updateStep({ step: state.loop });
     setEvent((S) => ({ ...S, onLoopChange: { loop: state.loop } }));
   }, [state.loop]);
@@ -44,7 +45,6 @@ const Items = memo(({ children, offset }: TItemsProps) => {
   useEffect(() => {
     if (data.back.length === 0 && data.front.length === 0 && state.loop > 0) {
       endLoopShouldBe.current = state.loop;
-
       // TODO: 1.當items取得資料為空時，嘗試獲取下一輪內容
       console.log(`第${state.loop + 1}圈沒資料，嘗試讀取新資料`);
       setEvent((S) => ({

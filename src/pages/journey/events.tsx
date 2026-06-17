@@ -118,7 +118,12 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
           // 旅程結束，重置所有狀態
         } else {
           // 還有內容，繼續旅程
-          setState((S) => ({ ...S, loop: -1 }));
+          setState((S) => ({
+            ...S,
+            loop: -1,
+            baseLoop: S.loop,
+            loadDataTimes: S.loadDataTimes + 1,
+          }));
           setContext({ type: ActionType.UserData, state: { contents: currentResult } });
           setEventState(JourneyEventsState);
         }
