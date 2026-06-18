@@ -18,6 +18,7 @@ import {
   TQuestionnaireState,
   TRecentState,
   TSceneViewSizeState,
+  TTripList,
   TUserDataState,
 } from './type';
 
@@ -113,7 +114,7 @@ export const CardState: TCardState = {
 
 // 問券
 export const QuestionnaireState: TQuestionnaireState = {
-  enabled: true,
+  enabled: false,
   question: QuestionnaireDemoData,
   onClose: () => {},
 };
@@ -159,6 +160,12 @@ export const AlertState: TAlertState = {
   onClose: () => {},
 };
 
+export const TripListState: TTripList = {
+  minerList: [],
+  quizList: [],
+  tripList: [],
+};
+
 export const InitialState: IState = {
   [ActionType.Page]: getPageByQueryString(),
   [ActionType.LoadingProcess]: LoadingProcessState,
@@ -172,6 +179,7 @@ export const InitialState: IState = {
   [ActionType.Recent]: RecentState,
   [ActionType.Article]: ArticleState,
   [ActionType.Alert]: AlertState,
+  [ActionType.TripList]: TripListState,
 };
 
 export const Context = createContext<TContext>([InitialState, () => {}]);

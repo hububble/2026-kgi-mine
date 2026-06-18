@@ -1,8 +1,8 @@
+import useContent from '@/hooks/useContent';
 import { Context } from '@/settings/constant';
 import { ActionType, IReactProps } from '@/settings/type';
 import { createContext, Dispatch, memo, SetStateAction, useContext, useEffect } from 'react';
 import { JourneyContext, JourneySceneType, JourneyStepType } from './config';
-import useContent from '@/hooks/useContent';
 
 export type TJourneyEventsState = {
   isCharacterStopped: boolean;
@@ -57,7 +57,7 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
   const [, setState] = useContext(JourneyContext);
   const [eventState, setEventState] = useContext(JourneyEventsContext);
 
-  const [response, getContent] = useContent();
+  const [contentResponse, getContent] = useContent();
 
   useEffect(() => {
     if (!eventState.isCharacterStopped) return;
@@ -108,9 +108,9 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
   }, [eventState.onEncounteringRoadSign, eventState.isCharacterStopped]);
 
   useEffect(() => {
-    if (response) {
-      if (response.isSuccess) {
-        const currentResult = response.result
+    if (contentResponse) {
+      if (contentResponse.isSuccess) {
+        const currentResult = contentResponse.result
           .filter((content) => content.contentId)
           .filter((content) => content.hubSpot_Id)
           .filter((content) => content.hubSpot_Id === '123456');
@@ -134,7 +134,7 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
         }
       }
     }
-  }, [response]);
+  }, [contentResponse]);
 
   useEffect(() => {
     if (eventState.onContentEmpty.index !== eventState.onContentEmpty.prev) {

@@ -14,6 +14,7 @@ export enum ActionType {
   Recent = 'recent',
   Article = 'article',
   Alert = 'alert',
+  TripList = 'tripList',
 }
 
 export enum LoadingProcessType {
@@ -188,6 +189,23 @@ export type TAlertState = {
   onClose?: () => void;
 };
 
+export type TTripList = {
+  minerList: {
+    minerId: string;
+    name: string;
+    order: number;
+    image: number;
+  }[];
+  quizList: {
+    quizId: string;
+    name: string;
+  }[];
+  tripList: {
+    trip: string;
+    name: string;
+  }[];
+};
+
 export interface IState {
   [ActionType.Page]: string;
   [ActionType.LoadingProcess]: TLoadingProcessState;
@@ -201,6 +219,7 @@ export interface IState {
   [ActionType.Recent]: TRecentState;
   [ActionType.Article]: TArticleState;
   [ActionType.Alert]: TAlertState;
+  [ActionType.TripList]: TTripList;
 }
 
 export interface IAction {

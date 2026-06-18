@@ -16,6 +16,12 @@ const Content = memo(() => {
   const [questionResponse, getQuestions] = useQuestion({ auto: false, backgroundAppProcess: true });
 
   useEffect(() => {
+    if (questionResponse) {
+      console.log(questionResponse);
+    }
+  }, [questionResponse]);
+
+  useEffect(() => {
     if (token) {
       getQuestions();
     }
