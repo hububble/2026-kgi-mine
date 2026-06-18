@@ -21,7 +21,7 @@ const QuestionsByAPI = memo(() => {
           enabled: true,
           body: (
             <div className='flex w-full flex-col gap-8'>
-              <div className='w-full leading-6'>{currentQuestion.headline}</div>
+              <div className='w-full leading-8'>{currentQuestion.headline}</div>
               {currentQuestion.options && (
                 <div className='flex w-full flex-col gap-5'>
                   {currentQuestion.options?.map((option) => (
@@ -63,6 +63,6 @@ const QuestionsByAPI = memo(() => {
     }
   }, [currentQuestion]);
 
-  return <div className=''></div>;
+  return <></>;
 });
 export default QuestionsByAPI;
