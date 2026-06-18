@@ -55,7 +55,7 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
   const { contents } = context[ActionType.UserData]!;
 
   const [, setState] = useContext(JourneyContext);
-  const [eventState] = useContext(JourneyEventsContext);
+  const [eventState, setEventState] = useContext(JourneyEventsContext);
 
   const [response, getContent] = useContent();
 
@@ -76,6 +76,7 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
     if (!eventState.isCharacterStopped) return;
 
     if (eventState.onEncounteringRoadSign.index !== eventState.onEncounteringRoadSign.prev) {
+      // TODO: 顯示對話框，詢問玩家是否要探索新的路線
       setContext({
         type: ActionType.Modal,
         state: {
@@ -111,12 +112,21 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
       if (response.isSuccess) {
         const currentResult = response.result
           .filter((content) => content.contentId)
-          .filter((content) => content.hubSpot_Id);
+          .filter((content) => content.hubSpot_Id)
+          .filter((content) => content.hubSpot_Id === '123456');
 
         console.log(`新的資料有${currentResult.length}筆`, currentResult);
 
         if (currentResult.length === 0) {
           // 旅程結束，重置所有狀態
+          setState((S) => ({ ...S, step: JourneyStepType.fadeOut }));
+          setEventState((S) => ({
+            ...S,
+            onJourneyEnd: {
+              ...S.onJourneyEnd,
+              index: S.onJourneyEnd.index + 1,
+            },
+          }));
         } else {
           // 還有內容，繼續旅程
           eventState.onContentEmpty.callback();

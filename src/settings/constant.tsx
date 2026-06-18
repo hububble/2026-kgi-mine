@@ -113,7 +113,7 @@ export const CardState: TCardState = {
 
 // 問券
 export const QuestionnaireState: TQuestionnaireState = {
-  enabled: false,
+  enabled: true,
   question: QuestionnaireDemoData,
   onClose: () => {},
 };
