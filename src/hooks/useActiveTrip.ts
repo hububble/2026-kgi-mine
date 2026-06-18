@@ -17,14 +17,9 @@ const useActiveTrip = (props?: { backgroundAppProcess?: boolean }) => {
 
   const [context, setContext] = useContext(Context);
   const { tripList } = context[ActionType.TripList]!;
+  const [, getQuestion] = useQuestion({ backgroundAppProcess: true });
 
   const [state, setState] = useState<ResponseType>();
-
-  const getQuestion = async () => {
-    const [response, fetch] = useQuestion({ backgroundAppProcess: true });
-    await fetch();
-    return response;
-  };
 
   const fetch = async (params: { trip: JourneySceneType }) => {
     if (!backgroundAppProcess) {
@@ -42,12 +37,16 @@ const useActiveTrip = (props?: { backgroundAppProcess?: boolean }) => {
       currentTripList = response?.result?.tripList || [];
     }
 
-    console.log(currentTripList);
-    return;
+    const [tripName] = Object.entries(JourneySceneType).filter(([, value]) => {
+      if (value === params.trip) {
+        return true;
+      }
+    });
 
+    const [{ trip }] = currentTripList.filter((trip) => trip.name === tripName[0]);
     let response;
     try {
-      response = await Fetcher.post(REST_PATH.activeTrip, params);
+      response = await Fetcher.post(REST_PATH.activeTrip, { tripId: trip });
     } catch {
       response = {
         isSuccess: false,
@@ -60,6 +59,7 @@ const useActiveTrip = (props?: { backgroundAppProcess?: boolean }) => {
     }
 
     setState(response as ResponseType);
+    return response as ResponseType;
   };
 
   return [state, fetch] as const;

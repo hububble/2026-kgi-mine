@@ -22,7 +22,12 @@ const useQuestion = (props?: { auto?: boolean; backgroundAppProcess?: boolean })
       setContext({ type: ActionType.LoadingProcess, state: { enabled: true } });
     }
 
-    if (!token) return;
+    if (!token) {
+      if (!backgroundAppProcess) {
+        setContext({ type: ActionType.LoadingProcess, state: { enabled: false } });
+      }
+      return;
+    }
 
     let response;
     try {
@@ -35,7 +40,9 @@ const useQuestion = (props?: { auto?: boolean; backgroundAppProcess?: boolean })
       setContext({ type: ActionType.LoadingProcess, state: { enabled: false } });
     }
 
-    setState(response as ResponseType);
+    const nextState = response as ResponseType;
+    setState(nextState);
+    return nextState;
   };
 
   useEffect(() => {
