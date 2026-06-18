@@ -17,6 +17,7 @@ export const REST_PATH = {
   like: 'content/like',
   unlike: 'content/unlike',
   nextTrip: 'immersion/next-trip',
+  activeTrip: 'immersion/active-trip',
 };
 
 export const CharacterURIList = {

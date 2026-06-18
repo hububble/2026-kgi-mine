@@ -194,7 +194,7 @@ export type TTripList = {
     minerId: string;
     name: string;
     order: number;
-    image: number;
+    image: string;
   }[];
   quizList: {
     quizId: string;

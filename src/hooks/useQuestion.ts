@@ -1,16 +1,12 @@
 import { REST_PATH } from '@/settings/config';
 import { Context } from '@/settings/constant';
-import { ActionType } from '@/settings/type';
+import { ActionType, TTripList } from '@/settings/type';
 import Fetcher from 'lesca-fetcher';
 import { useContext, useEffect, useState } from 'react';
 
 export type ResponseType = {
   isSuccess: boolean;
-  result: {
-    tripList: { trip: string; name: string }[];
-    quizList: { quizId: string; name: string }[];
-    minerList: { minerId: string; name: string; image: string; order: number }[];
-  };
+  result: TTripList;
 };
 
 const useQuestion = (props?: { auto?: boolean; backgroundAppProcess?: boolean }) => {

@@ -9,7 +9,7 @@ import 你想要哪一場理想旅程呢 from './journey';
 import 歡迎踏上豐盛之旅 from './landing';
 
 const Content = memo(() => {
-  const [context] = useContext(Context);
+  const [context, setContext] = useContext(Context);
   const { token } = context[ActionType.UserData]!;
 
   const [state] = useContext(HomeContext);
@@ -17,7 +17,7 @@ const Content = memo(() => {
 
   useEffect(() => {
     if (questionResponse) {
-      console.log(questionResponse);
+      setContext({ type: ActionType.TripList, state: { ...questionResponse.result } });
     }
   }, [questionResponse]);
 

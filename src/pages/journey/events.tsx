@@ -3,6 +3,7 @@ import { Context } from '@/settings/constant';
 import { ActionType, IReactProps } from '@/settings/type';
 import { createContext, Dispatch, memo, SetStateAction, useContext, useEffect } from 'react';
 import { JourneyContext, JourneySceneType, JourneyStepType } from './config';
+import useActiveTrip from '@/hooks/useActiveTrip';
 
 export type TJourneyEventsState = {
   isCharacterStopped: boolean;
@@ -54,8 +55,9 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
   const [context, setContext] = useContext(Context);
   const { contents } = context[ActionType.UserData]!;
 
-  const [, setState] = useContext(JourneyContext);
+  const [state, setState] = useContext(JourneyContext);
   const [eventState, setEventState] = useContext(JourneyEventsContext);
+  const [activeTripResponse, getActiveTrip] = useActiveTrip();
 
   const [contentResponse, getContent] = useContent();
 
@@ -76,33 +78,37 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
     if (!eventState.isCharacterStopped) return;
 
     if (eventState.onEncounteringRoadSign.index !== eventState.onEncounteringRoadSign.prev) {
+      const scenes = Object.values(JourneySceneType).filter((scene) => scene !== state.scene);
+      const randomScene = scenes[Math.floor(Math.random() * scenes.length)];
+      getActiveTrip({ trip: randomScene });
+
       // TODO: 顯示對話框，詢問玩家是否要探索新的路線
-      setContext({
-        type: ActionType.Modal,
-        state: {
-          enabled: true,
-          body: '是否探索一條新的路線?',
-          label: ['好的', '暫時不要'],
-          onConfirm: (label) => {
-            if (label === '好的') {
-              setState((S) => {
-                const scenes = Object.values(JourneySceneType).filter((scene) => scene !== S.scene);
-                return {
-                  ...S,
-                  loop: -1,
-                  scene: scenes[Math.floor(Math.random() * scenes.length)],
-                  step: JourneyStepType.unset,
-                };
-              });
-            } else {
-              setState((S) => ({ ...S, step: JourneyStepType.resume }));
-            }
-          },
-          onClose: () => {
-            setState((S) => ({ ...S, step: JourneyStepType.resume }));
-          },
-        },
-      });
+      // setContext({
+      //   type: ActionType.Modal,
+      //   state: {
+      //     enabled: true,
+      //     body: '是否探索一條新的路線?',
+      //     label: ['好的', '暫時不要'],
+      //     onConfirm: (label) => {
+      //       if (label === '好的') {
+      //         setState((S) => {
+      //           const scenes = Object.values(JourneySceneType).filter((scene) => scene !== S.scene);
+      //           return {
+      //             ...S,
+      //             loop: -1,
+      //             scene: scenes[Math.floor(Math.random() * scenes.length)],
+      //             step: JourneyStepType.unset,
+      //           };
+      //         });
+      //       } else {
+      //         setState((S) => ({ ...S, step: JourneyStepType.resume }));
+      //       }
+      //     },
+      //     onClose: () => {
+      //       setState((S) => ({ ...S, step: JourneyStepType.resume }));
+      //     },
+      //   },
+      // });
       eventState.onEncounteringRoadSign.prev = eventState.onEncounteringRoadSign.index;
     }
   }, [eventState.onEncounteringRoadSign, eventState.isCharacterStopped]);
