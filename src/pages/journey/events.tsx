@@ -4,6 +4,7 @@ import { ActionType, IReactProps } from '@/settings/type';
 import { createContext, Dispatch, memo, SetStateAction, useContext, useEffect } from 'react';
 import { JourneyContext, JourneySceneType, JourneyStepType } from './config';
 import useActiveTrip from '@/hooks/useActiveTrip';
+import QueryString from 'lesca-url-parameters';
 
 export type TJourneyEventsState = {
   isCharacterStopped: boolean;
@@ -120,12 +121,14 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
       if (contentResponse.isSuccess) {
         const currentResult = contentResponse.result
           .filter((content) => content.contentId)
-          .filter((content) => content.hubSpot_Id)
-          .filter((_, index) => index === 9999);
+          .filter((content) => content.hubSpot_Id);
+        // .filter((_, index) => index === 9999);
 
-        console.log(`新的資料有${currentResult.length}筆`, currentResult);
+        const content = QueryString.get('content') === 'no';
+        const filteredResult = content ? [] : currentResult;
+        console.log(`新的資料有${filteredResult.length}筆`, filteredResult);
 
-        if (currentResult.length === 0) {
+        if (filteredResult.length === 0) {
           // 旅程結束，重置所有狀態
           setState((S) => ({ ...S, step: JourneyStepType.fadeOut }));
           setEventState((S) => ({
@@ -138,7 +141,7 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
         } else {
           // 還有內容，繼續旅程
           eventState.onContentEmpty.callback();
-          setContext({ type: ActionType.UserData, state: { contents: currentResult } });
+          setContext({ type: ActionType.UserData, state: { contents: filteredResult } });
         }
       }
     }
