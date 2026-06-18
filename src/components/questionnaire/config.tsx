@@ -1,3 +1,11 @@
+import { createContext, Dispatch, SetStateAction } from 'react';
+
+export type TQuestionnaireState = { pilotId: string; topicId: string };
+export type TQuestionnaireContext = [TQuestionnaireState, Dispatch<SetStateAction<TQuestionnaireState>>];
+
+export const QuestionnaireState: TQuestionnaireState = { pilotId: '', topicId: '' };
+export const QuestionnaireContext = createContext<TQuestionnaireContext>([QuestionnaireState, () => {}]);
+
 export const TranslateKeyToTitle = {
   pilotDtoList: (
     <>

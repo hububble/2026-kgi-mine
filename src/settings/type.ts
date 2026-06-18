@@ -160,6 +160,7 @@ export type TCardState = {
 export type TQuestionnaireOption = {
   headline: React.ReactNode;
   options?: { label: string; value: string }[];
+  name?: string;
   confirmLabel?: string;
   type: 'Modal' | 'Recent';
 };

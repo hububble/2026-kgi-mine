@@ -4,14 +4,21 @@ import { Context } from '@/settings/constant';
 import { ActionType } from '@/settings/type';
 import { useDebounce } from 'use-debounce';
 import Button from '../button';
+import { QuestionnaireContext } from './config';
 
 const QuestionsByAPI = memo(() => {
   const [context, setContext] = useContext(Context);
   const { question = [], onClose } = context[ActionType.Questionnaire]!;
 
+  const [, setState] = useContext(QuestionnaireContext);
+
   const [index, setIndex] = useState(0);
   const [debouncedIndex] = useDebounce(index, 1000);
   const currentQuestion = useMemo(() => question[debouncedIndex], [debouncedIndex, question]);
+
+  useEffect(() => {
+    console.log(question);
+  }, [question]);
 
   useEffect(() => {
     if (currentQuestion.type === 'Modal') {
@@ -29,13 +36,16 @@ const QuestionsByAPI = memo(() => {
                       key={option.label}
                       className='w-full'
                       onClick={() => {
+                        // 關掉視窗、儲存資料，然後檢查是不是有下一題；如果沒有的話就關掉問券
                         setContext({ type: ActionType.Modal, state: { enabled: false } });
+                        if (currentQuestion.name) {
+                          setState((S) => ({ ...S, [currentQuestion.name!]: option.value }));
+                        }
                         if (index < question.length - 1) {
                           setIndex((S) => S + 1);
                         } else {
                           onClose?.();
                           setContext({ type: ActionType.Questionnaire, state: { enabled: false } });
-                          // TODO: 根據選擇的項目，更新旅程場景
                         }
                       }}
                     >

@@ -2,8 +2,8 @@ import useGetNextTrip from '@/hooks/useGetNextTrip';
 import { QuestionnaireIntroData } from '@/settings/config';
 import { Context } from '@/settings/constant';
 import { ActionType } from '@/settings/type';
-import { memo, useContext, useEffect } from 'react';
-import { TranslateKeyToTitle } from './config';
+import { memo, useContext, useEffect, useState } from 'react';
+import { QuestionnaireContext, QuestionnaireState, TranslateKeyToTitle } from './config';
 import './index.less';
 import QuestionsByAPI from './questions';
 
@@ -11,6 +11,8 @@ const Questionnaire = memo(() => {
   const [context, setContext] = useContext(Context);
   const { question = [] } = context[ActionType.Questionnaire]!;
   const [response] = useGetNextTrip({ auto: true });
+
+  const value = useState(QuestionnaireState);
 
   useEffect(() => {
     if (response) {
@@ -31,6 +33,7 @@ const Questionnaire = memo(() => {
               ...sorted.map(([key, value]) => ({
                 headline: value.headline,
                 type: 'Modal' as const,
+                name: key === 'pilotDtoList' ? 'pilotId' : 'topicId',
                 options: value.item.map((item) => {
                   return {
                     label: item.name,
@@ -45,6 +48,10 @@ const Questionnaire = memo(() => {
     }
   }, [response]);
 
-  return <>{response?.isSuccess && question.length > 0 && <QuestionsByAPI />}</>;
+  return (
+    <QuestionnaireContext.Provider value={value}>
+      {response?.isSuccess && question.length > 0 && <QuestionsByAPI />}
+    </QuestionnaireContext.Provider>
+  );
 });
 export default Questionnaire;
