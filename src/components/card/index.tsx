@@ -76,12 +76,10 @@ const Card = memo(() => {
         setContext({ type: ActionType.LoadingProcess, state: { enabled: true } });
       }}
       onload={() => {
-        const coverImage = new Image();
-        coverImage.onload = () => {
+        requestAnimationFrame(() => {
           setContext({ type: ActionType.LoadingProcess, state: { enabled: false } });
           setTransition(TransitionType.FadeIn);
-        };
-        coverImage.src = data?.hubSpot_FeaturedImage || '/card-demo.jpg';
+        });
       }}
     >
       <div className='Card'>

@@ -2,7 +2,7 @@ import { JourneyContext, JourneyStepType } from '@/pages/journey/config';
 import { Context } from '@/settings/constant';
 import { ActionType, TransitionType } from '@/settings/type';
 import useTween from 'lesca-use-tween';
-import { memo, useContext, useEffect, useMemo } from 'react';
+import { memo, useContext, useEffect, useMemo, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import Button from '../button';
 import Heading from '../heading';
@@ -18,24 +18,24 @@ const Inner = memo(({ transition, isFavorited, favoriteSwitcher }: TInnerProps) 
   const [style, setStyle] = useTween({ opacity: 0, y: 30 });
   const [context, setContext] = useContext(Context);
   const { data, navBarIcon } = context[ActionType.Card]!;
-
   const [, setState] = useContext(JourneyContext);
+  const [imageDidLoaded, setImageDidLoaded] = useState(false);
 
   useEffect(() => {
-    console.log(data);
-  }, [data]);
-
-  useEffect(() => {
-    if (transition === TransitionType.FadeIn) {
+    if (transition === TransitionType.FadeIn && imageDidLoaded) {
       setStyle({ opacity: 1, y: 0 }, { duration: 600, delay: 200 });
     }
-  }, [transition]);
+  }, [transition, imageDidLoaded]);
 
   const { primary, secondary } = useMemo(() => findPrimarySecondaryTag(data), [data]);
 
   return (
-    <div className='card' style={style}>
-      <img src={data?.hubSpot_FeaturedImage || '/card-demo.jpg'} alt='Card Demo' />
+    <div className={twMerge('card', imageDidLoaded ? 'block' : 'hidden')} style={style}>
+      <img
+        src={data?.hubSpot_FeaturedImage || '/card-demo.jpg'}
+        alt='Card Demo'
+        onLoad={() => setImageDidLoaded(true)}
+      />
       <div className='gradient-top' />
       <div className='gradient-bottom' />
       <div className='ctx'>
