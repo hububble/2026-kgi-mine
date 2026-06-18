@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import QueryString from 'lesca-url-parameters';
 import { createContext } from 'react';
-import { CardDemoData, PAGE, QuestionnaireDemoData } from './config';
+import { CardDemoData, PAGE } from './config';
 import {
   ActionType,
   IAction,
@@ -114,8 +114,8 @@ export const CardState: TCardState = {
 
 // 問券
 export const QuestionnaireState: TQuestionnaireState = {
-  enabled: false,
-  question: QuestionnaireDemoData,
+  enabled: true,
+  question: [],
   onClose: () => {},
 };
 

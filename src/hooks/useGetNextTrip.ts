@@ -2,15 +2,24 @@ import { REST_PATH } from '@/settings/config';
 import { Context } from '@/settings/constant';
 import { ActionType } from '@/settings/type';
 import Fetcher from 'lesca-fetcher';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 type ResponseType = {
   isSuccess: boolean;
-  result: { contentId: number; hubSpot_Id: string; isFirst: boolean };
+  result: Record<
+    string,
+    {
+      order: number;
+      item: ({
+        name: string;
+        order: number;
+      } & { [k: string]: string })[];
+    }
+  >;
 };
 
-const useGetNextTrip = (props?: { backgroundAppProcess?: boolean }) => {
-  const { backgroundAppProcess = false } = props || {};
+const useGetNextTrip = (props?: { auto: boolean; backgroundAppProcess?: boolean }) => {
+  const { auto = false, backgroundAppProcess = false } = props || {};
 
   const [, setContext] = useContext(Context);
   const [state, setState] = useState<ResponseType>();
@@ -22,11 +31,10 @@ const useGetNextTrip = (props?: { backgroundAppProcess?: boolean }) => {
     let response;
     try {
       response = await Fetcher.get(REST_PATH.nextTrip);
-      console.log(response);
     } catch {
       response = {
         isSuccess: false,
-        result: { contentId: 0, hubSpot_Id: '', isFirst: false } as ResponseType['result'],
+        result: {} as ResponseType['result'],
       };
     }
 
@@ -36,6 +44,10 @@ const useGetNextTrip = (props?: { backgroundAppProcess?: boolean }) => {
 
     setState(response as ResponseType);
   };
+
+  useEffect(() => {
+    if (auto) fetch();
+  }, []);
 
   return [state, fetch] as const;
 };

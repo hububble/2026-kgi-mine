@@ -55,7 +55,7 @@ export const PATTERN_URI_PROPERTIES = [
   { path: 'pattern-icon-society.png', name: 'pattern-icon-society' },
 ];
 
-export const QuestionnaireDemoData: TQuestionnaireOption[] = [
+export const QuestionnaireIntroData: TQuestionnaireOption[] = [
   {
     headline: (
       <>
@@ -67,57 +67,57 @@ export const QuestionnaireDemoData: TQuestionnaireOption[] = [
     confirmLabel: '許願新路線',
     type: 'Modal',
   },
-  {
-    headline: (
-      <>
-        你最想跟哪一位導航員
-        <br />
-        共同探索下一段豐盛旅程？（可複選）
-      </>
-    ),
-    options: [
-      { label: '人選 A', value: 'A' },
-      { label: '人選 B', value: 'B' },
-      { label: '人選 C', value: 'C' },
-      { label: '人選 D', value: 'D' },
-      { label: '人選 E', value: 'E' },
-    ],
-    type: 'Modal',
-    confirmLabel: '確認',
-  },
-  {
-    headline: (
-      <>
-        最想深入挖掘的主題？
-        <br />
-        （可複選）
-      </>
-    ),
-    options: [
-      { label: '解鎖複利魔法', value: 'A' },
-      { label: '建立高效習慣', value: 'B' },
-      { label: '穩健的退休規劃', value: 'C' },
-      { label: '培養你的豐盛盟友', value: 'D' },
-      { label: '提升溝通與關係的質感', value: 'E' },
-    ],
-    confirmLabel: '確認',
-    type: 'Modal',
-  },
-  {
-    headline: <>探索更多活動</>,
-    type: 'Recent',
-  },
-  {
-    headline: (
-      <>
-        感謝你的填答
-        <br />
-        願望我們收到囉！
-      </>
-    ),
-    confirmLabel: '瀏覽所有內容',
-    type: 'Modal',
-  },
+  // {
+  //   headline: (
+  //     <>
+  //       你最想跟哪一位導航員
+  //       <br />
+  //       共同探索下一段豐盛旅程？（可複選）
+  //     </>
+  //   ),
+  //   options: [
+  //     { label: '人選 A', value: 'A' },
+  //     { label: '人選 B', value: 'B' },
+  //     { label: '人選 C', value: 'C' },
+  //     { label: '人選 D', value: 'D' },
+  //     { label: '人選 E', value: 'E' },
+  //   ],
+  //   type: 'Modal',
+  //   confirmLabel: '確認',
+  // },
+  // {
+  //   headline: (
+  //     <>
+  //       最想深入挖掘的主題？
+  //       <br />
+  //       （可複選）
+  //     </>
+  //   ),
+  //   options: [
+  //     { label: '解鎖複利魔法', value: 'A' },
+  //     { label: '建立高效習慣', value: 'B' },
+  //     { label: '穩健的退休規劃', value: 'C' },
+  //     { label: '培養你的豐盛盟友', value: 'D' },
+  //     { label: '提升溝通與關係的質感', value: 'E' },
+  //   ],
+  //   confirmLabel: '確認',
+  //   type: 'Modal',
+  // },
+  // {
+  //   headline: <>探索更多活動</>,
+  //   type: 'Recent',
+  // },
+  // {
+  //   headline: (
+  //     <>
+  //       感謝你的填答
+  //       <br />
+  //       願望我們收到囉！
+  //     </>
+  //   ),
+  //   confirmLabel: '瀏覽所有內容',
+  //   type: 'Modal',
+  // },
 ];
 
 export const CardDemoData: Omit<TCardState, 'enabled'> = {
