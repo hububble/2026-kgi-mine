@@ -121,7 +121,7 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
         const currentResult = contentResponse.result
           .filter((content) => content.contentId)
           .filter((content) => content.hubSpot_Id)
-          .filter((content) => content.hubSpot_Id === '123456');
+          .filter((_, index) => index === 9999);
 
         console.log(`新的資料有${currentResult.length}筆`, currentResult);
 

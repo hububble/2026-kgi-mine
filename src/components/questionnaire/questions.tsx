@@ -17,10 +17,6 @@ const QuestionsByAPI = memo(() => {
   const currentQuestion = useMemo(() => question[debouncedIndex], [debouncedIndex, question]);
 
   useEffect(() => {
-    console.log(question);
-  }, [question]);
-
-  useEffect(() => {
     if (currentQuestion.type === 'Modal') {
       setContext({
         type: ActionType.Modal,
