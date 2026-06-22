@@ -18,6 +18,7 @@ const Inner = memo(({ transition, isFavorited, favoriteSwitcher }: TInnerProps) 
   const [style, setStyle] = useTween({ opacity: 0, y: 30 });
   const [context, setContext] = useContext(Context);
   const { data, navBarIcon } = context[ActionType.Card]!;
+  const contentCategory = data?.contentCategory?.toLocaleLowerCase() || '';
   const [, setState] = useContext(JourneyContext);
   const [imageDidLoaded, setImageDidLoaded] = useState(false);
 
@@ -28,6 +29,21 @@ const Inner = memo(({ transition, isFavorited, favoriteSwitcher }: TInnerProps) 
   }, [transition, imageDidLoaded]);
 
   const { primary, secondary } = useMemo(() => findPrimarySecondaryTag(data), [data]);
+
+  const icon = useMemo(() => {
+    if (!navBarIcon) return null;
+
+    switch (contentCategory) {
+      case 'video':
+        return navBarIcon.video;
+      case 'audio':
+        return navBarIcon.audio;
+      case 'article':
+        return navBarIcon.article;
+      default:
+        return null;
+    }
+  }, [contentCategory, navBarIcon]);
 
   return (
     <div className={twMerge('card', imageDidLoaded ? 'block' : 'hidden')} style={style}>
@@ -40,7 +56,7 @@ const Inner = memo(({ transition, isFavorited, favoriteSwitcher }: TInnerProps) 
       <div className='gradient-bottom' />
       <div className='ctx'>
         <div className='head'>
-          <Heading.H4 icon={navBarIcon}>豐盛未來式</Heading.H4>
+          <Heading.H4 icon={icon}>{data?.hubSpot_PostCollection}</Heading.H4>
           <div className='navBar'>
             {primary.type !== 'none' && (
               <div

@@ -78,6 +78,7 @@ export enum PostMessageList {
 export type TUserDataContent = {
   baseRequirement: number;
   baseReward: number;
+  contentCategory: 'Video' | 'Audio' | 'Article';
   careerRequirement: number;
   careerReward: number;
   contentId: number;
@@ -100,6 +101,7 @@ export type TUserDataContent = {
   hubSpot_Post_Title: string;
   hubSpot_PrimaryTag: string;
   hubSpot_SecondaryTag: string;
+  hubSpot_PostCollection: string;
   hubSpot_Url: string;
   isFavorited: boolean;
   isLiked: boolean;
@@ -153,7 +155,7 @@ export type TSceneViewSizeState = {
 
 export type TCardState = {
   enabled?: boolean;
-  navBarIcon?: ReactNode;
+  navBarIcon?: { video: ReactNode; audio: ReactNode; article: ReactNode };
   data?: TUserDataContent;
 };
 
