@@ -169,6 +169,7 @@ export type TQuestionnaireOption = {
 
 export type TQuestionnaireState = {
   enabled?: boolean;
+  has_triggered?: boolean;
   question?: TQuestionnaireOption[];
   onClose?: () => void;
 };

@@ -23,7 +23,10 @@ const QuestionsByAPI = memo(() => {
   useEffect(() => {
     if (saveTripResponse) {
       if (saveTripResponse.isSuccess) {
-        setContext({ type: ActionType.Questionnaire, state: { enabled: false } });
+        setContext({
+          type: ActionType.Questionnaire,
+          state: { enabled: false, has_triggered: true },
+        });
         onClose?.();
       }
     }
@@ -71,11 +74,15 @@ const QuestionsByAPI = memo(() => {
           onConfirm: (label) => {
             if (label === currentQuestion.confirmLabel) {
               setContext({ type: ActionType.Modal, state: { enabled: false } });
+
               if (index < question.length - 1) {
                 setIndex((S) => S + 1);
               } else {
                 onClose?.();
-                setContext({ type: ActionType.Questionnaire, state: { enabled: false } });
+                setContext({
+                  type: ActionType.Questionnaire,
+                  state: { enabled: false, has_triggered: true },
+                });
               }
             }
           },

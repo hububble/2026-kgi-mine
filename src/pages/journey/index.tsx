@@ -101,7 +101,8 @@ const Journey = memo(() => {
               <Scene />
               <UserData />
               {context[ActionType.Card]?.enabled && <Card />}
-              {context[ActionType.Questionnaire]?.enabled && <Questionnaire />}
+              {context[ActionType.Questionnaire]?.enabled &&
+                !context[ActionType.Questionnaire]?.has_triggered && <Questionnaire />}
               {context[ActionType.Article]?.enabled && <Article />}
               {context[ActionType.Modal]?.enabled && <Modal />}
               {context[ActionType.Recent]?.enabled && <Recent />}
