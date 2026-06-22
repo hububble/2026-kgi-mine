@@ -1,22 +1,16 @@
-import useURI from '@/hooks/useURI';
+import { Context } from '@/settings/constant';
+import { ActionType, PostMessageList } from '@/settings/type';
 import { memo, useContext, useEffect, useState } from 'react';
 import Blockquote from '../blockquote';
 import './index.less';
-import { Context } from '@/settings/constant';
-import { ActionType, PostMessageList } from '@/settings/type';
 
 const Article = memo(() => {
   const [context, setContext] = useContext(Context);
   const { url } = context[ActionType.Article]!;
-  const [, setURI] = useURI();
   const [height, setHeight] = useState(10000);
 
   useEffect(() => {
     setContext({ type: ActionType.LoadingProcess, state: { enabled: true } });
-  }, []);
-
-  useEffect(() => {
-    setURI({ path: 'article-demo-cover.png', name: 'article-demo-cover' });
   }, []);
 
   useEffect(() => {

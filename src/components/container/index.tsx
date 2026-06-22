@@ -12,13 +12,24 @@ const Container = memo(({ children }: IReactProps) => {
   const [context, setContext] = useContext(Context);
   const sceneImageSize = context[ActionType.SceneViewSize];
   const ref = useRef<HTMLDivElement>(null);
+  const rafRef = useRef<number | null>(null);
   useURI({ path: 'scene-bg.jpg', name: 'scene-bg' });
   useURI({ path: 'scene-bg-m.jpg', name: 'scene-bg-m' });
 
   useEffect(() => {
     const resize = () => {
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
+
       if (ref.current) {
         const { height } = ref.current.getBoundingClientRect();
+
+        if (height === 0) {
+          rafRef.current = requestAnimationFrame(resize);
+          return;
+        }
 
         const width = (height * SceneSize.width) / SceneSize.height;
         const coverPercent = ((window.innerWidth + width) / window.innerWidth) * 100;
@@ -35,7 +46,10 @@ const Container = memo(({ children }: IReactProps) => {
     };
     resize();
     window.addEventListener('resize', resize);
-    return () => window.removeEventListener('resize', resize);
+    return () => {
+      window.removeEventListener('resize', resize);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
   }, []);
 
   return (
@@ -44,7 +58,7 @@ const Container = memo(({ children }: IReactProps) => {
       <div className='ctx'>
         <div>
           <div ref={ref} className='content'>
-            {sceneImageSize && sceneImageSize.width && children}
+            {sceneImageSize && sceneImageSize.width !== 0 && children}
             <Menu />
           </div>
         </div>
