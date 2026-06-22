@@ -18,9 +18,9 @@ export type Options = {
   duration?: number;
   easing?: number[];
   delay?: number;
-  onStart?: Function;
-  onUpdate?: Function;
-  onEnd?: Function;
+  onStart?: () => void;
+  onUpdate?: () => void;
+  onEnd?: () => void;
 };
 
 type TTweenerProvider = IReactProps & {
