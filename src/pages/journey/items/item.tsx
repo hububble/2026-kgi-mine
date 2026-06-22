@@ -1,8 +1,10 @@
 import Button from '@/components/button';
 import { TDataDiversionItem } from '@/hooks/useDataDiversion';
 import { PATTERN_URI_PROPERTIES } from '@/settings/config';
+import { Context } from '@/settings/constant';
+import { ActionType } from '@/settings/type';
 import { checkElementCenterOfScreenWithOffset, checkElementInViewport } from '@/utils';
-import { memo, useEffect, useRef, useState } from 'react';
+import { memo, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { JourneySceneDebug, JourneySceneSetting } from '../config';
 
@@ -14,12 +16,33 @@ type TItemProps = {
 };
 
 const Item = memo(({ data, offset, onCenter, onItemSelected }: TItemProps) => {
+  const [context] = useContext(Context);
+  const { contents } = context[ActionType.UserData]!;
+
   const ref = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState({ isCenter: false, isInView: false });
 
-  const randomPattern = useRef(
-    PATTERN_URI_PROPERTIES[Math.floor(Math.random() * PATTERN_URI_PROPERTIES.length)].name,
-  );
+  const currentPattern = useMemo(() => {
+    const random =
+      PATTERN_URI_PROPERTIES[Math.floor(Math.random() * PATTERN_URI_PROPERTIES.length)].name;
+
+    if (data.index !== undefined) {
+      const currentIndex = Math.max(data.index - 1, 0);
+      const { hubSpot_PrimaryTag } = contents[currentIndex];
+
+      const tag = hubSpot_PrimaryTag || 'NONE';
+      const lowercaseTag = tag.toLowerCase() as
+        | 'career'
+        | 'finance'
+        | 'health'
+        | 'relations'
+        | 'society'
+        | 'none';
+      const pattern = PATTERN_URI_PROPERTIES.find((p) => p.name.includes(lowercaseTag));
+      return pattern ? pattern.name : random;
+    }
+    return random;
+  }, [contents, data.index]);
 
   useEffect(() => {
     const currentThreshold =
@@ -62,7 +85,7 @@ const Item = memo(({ data, offset, onCenter, onItemSelected }: TItemProps) => {
             }}
           >
             <Button.Marker>
-              <div className={`box ${randomPattern.current}`}></div>
+              <div className={`box ${currentPattern}`} />
             </Button.Marker>
           </Button>
         )}
