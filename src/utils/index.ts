@@ -1,4 +1,5 @@
 import { SceneDepth, SceneSize } from '@/settings/config';
+import BezierEasing from 'bezier-easing';
 
 export const printCSSAnimation = (radius: number = 20, isBlank: boolean = false) => {
   let i = 0;
@@ -119,10 +120,15 @@ export const getViewPxRatio = ({ width }: { width: number }) => {
 
 export const getScreenOffset = (defaultRatio: number = 2) => {
   // The ratio is calculated based on the difference between the current view width and the original design width, compared to the original background pan offset. This allows for dynamic adjustment of the parallax effect based on the actual view size, ensuring a consistent visual experience across different screen sizes.
+  const easing =
+    window.innerWidth > 768 ? BezierEasing(0.5, 0, 0.75, 0) : BezierEasing(0.22, 1, 0.36, 1);
+
   const windowRatio = window.innerWidth / window.innerHeight;
   const expectedRatio = 1680 / 1050;
+
   const offsetRatio = windowRatio - expectedRatio;
-  return defaultRatio + offsetRatio;
+  const currentOffset = easing(Math.abs(offsetRatio)) * (offsetRatio < 0 ? -1 : 1);
+  return defaultRatio + currentOffset;
 };
 
 export function shareURL({ onError }: { onError?: () => void }) {

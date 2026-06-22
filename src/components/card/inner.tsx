@@ -56,7 +56,11 @@ const Inner = memo(({ transition, isFavorited, favoriteSwitcher }: TInnerProps) 
       <div className='gradient-bottom' />
       <div className='ctx'>
         <div className='head'>
-          <Heading.H4 icon={icon}>{data?.hubSpot_PostCollection}</Heading.H4>
+          {data?.hubSpot_PostCollection ? (
+            <Heading.H4 icon={icon}>{data?.hubSpot_PostCollection}</Heading.H4>
+          ) : (
+            <div />
+          )}
           <div className='navBar'>
             {primary.type !== 'none' && (
               <div

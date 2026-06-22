@@ -102,7 +102,7 @@ const Scene = memo(() => {
       setStyle(
         { left: getPx(setting.offset, width) },
         {
-          duration: setting.walkFadeInDuration * getScreenOffset(1),
+          duration: setting.walkFadeInDuration * getScreenOffset(window.innerWidth > 768 ? 1 : 1.5),
           easing: Bezier.easeIn,
           onUpdate: (value: { left: number }) => setOffset(value.left),
           onEnd: (value: { left: number }) => {
