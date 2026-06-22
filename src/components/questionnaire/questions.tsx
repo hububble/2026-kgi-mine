@@ -27,8 +27,17 @@ const QuestionsByAPI = memo(() => {
           type: ActionType.Questionnaire,
           state: { enabled: false, has_triggered: true },
         });
-        onClose?.();
+      } else {
+        setContext({
+          type: ActionType.Modal,
+          state: {
+            enabled: true,
+            title: 'API錯誤',
+            body: saveTripResponse.message || '儲存失敗，請稍後再試。',
+          },
+        });
       }
+      onClose?.();
     }
   }, [saveTripResponse]);
 
