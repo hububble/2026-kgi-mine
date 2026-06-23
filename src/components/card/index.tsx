@@ -6,46 +6,21 @@ import OnloadProvider from 'lesca-react-onload';
 import { memo, useContext, useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import Blockquote from '../blockquote';
-import Button from '../button';
 import Heading from '../heading';
 import { URI } from './config';
 import './index.less';
 import Inner from './inner';
 import Topic from './topic';
-import useLikeSwitcher from '@/hooks/useLikeSwitcher';
 
 const Card = memo(() => {
   const [context, setContext] = useContext(Context);
   const { data } = context[ActionType.Card]!;
 
   const [isFavorited, setIsFavorited] = useState(data?.isFavorited || false);
-  const [isLiked, setIsLiked] = useState(data?.isLiked || false);
-
   const [favoriteResponse, favoriteSwitcher] = useFavoriteSwitcher({
     isFavorited: data?.isFavorited || false,
     contentId: data?.contentId || 0,
   });
-
-  const [likeResponse, likeSwitcher] = useLikeSwitcher({
-    isLiked: data?.isLiked || false,
-    contentId: data?.contentId || 0,
-  });
-
-  useEffect(() => {
-    if (likeResponse) {
-      if (likeResponse.isSuccess) {
-        setIsLiked(typeof likeResponse.result !== 'boolean');
-      } else {
-        setContext({
-          type: ActionType.Modal,
-          state: {
-            enabled: true,
-            body: '操作失敗，請稍後再試',
-          },
-        });
-      }
-    }
-  }, [likeResponse]);
 
   useEffect(() => {
     if (favoriteResponse) {
@@ -98,24 +73,16 @@ const Card = memo(() => {
                 )}
               >
                 <div className='head'>
-                  <Heading.H2>{data?.hubSpot_HtmlTitle || 'hubSpot_HtmlTitle'}</Heading.H2>
-                  <div className='navBar'>
-                    <Button className='h-6 w-6' active={isLiked} onClick={() => likeSwitcher()}>
-                      <Button.Card type='Like' />
-                    </Button>
-                    <Button
-                      className='h-6 w-6'
-                      active={isFavorited}
-                      onClick={() => favoriteSwitcher()}
-                    >
-                      <Button.Card type='Favorite' />
-                    </Button>
-                  </div>
+                  <Heading.H2 clampLines={2}>
+                    {data?.hubSpot_HtmlTitle || 'hubSpot_HtmlTitle'}
+                  </Heading.H2>
                 </div>
                 <div className='sub'>
                   <Heading.H3>導航員</Heading.H3>
                   <div className='hr' />
-                  <Heading.H3>{data?.hubSpot_AuthorName || 'hubSpot_AuthorName'}</Heading.H3>
+                  <Heading.H3 clampLines={1}>
+                    {data?.hubSpot_AuthorName || 'hubSpot_AuthorName'}
+                  </Heading.H3>
                 </div>
                 <Inner
                   transition={transition}
