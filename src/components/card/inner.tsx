@@ -10,17 +10,26 @@ import { findPrimarySecondaryTag } from './config';
 
 type TInnerProps = {
   transition: TransitionType;
-  isFavorited: boolean;
   favoriteSwitcher: () => void;
 };
 
-const Inner = memo(({ transition, isFavorited, favoriteSwitcher }: TInnerProps) => {
+const Inner = memo(({ transition, favoriteSwitcher }: TInnerProps) => {
   const [style, setStyle] = useTween({ opacity: 0, y: 30 });
   const [context, setContext] = useContext(Context);
   const { data, navBarIcon } = context[ActionType.Card]!;
   const contentCategory = data?.contentCategory?.toLocaleLowerCase() || '';
   const [, setState] = useContext(JourneyContext);
   const [imageDidLoaded, setImageDidLoaded] = useState(false);
+
+  useEffect(() => {
+    if (data?.hubSpot_FeaturedImage) {
+      const img = new Image();
+      img.src = data.hubSpot_FeaturedImage;
+      img.onload = () => {
+        setImageDidLoaded(true);
+      };
+    }
+  }, [data?.hubSpot_FeaturedImage]);
 
   useEffect(() => {
     if (transition === TransitionType.FadeIn && imageDidLoaded) {
@@ -47,10 +56,13 @@ const Inner = memo(({ transition, isFavorited, favoriteSwitcher }: TInnerProps) 
 
   return (
     <div className={twMerge('card', imageDidLoaded ? 'block' : 'hidden')} style={style}>
-      <img
-        src={data?.hubSpot_FeaturedImage || '/card-demo.jpg'}
-        alt='Card Demo'
-        onLoad={() => setImageDidLoaded(true)}
+      <div
+        className='featuredImage'
+        style={
+          data?.hubSpot_FeaturedImage
+            ? { backgroundImage: `url(${data.hubSpot_FeaturedImage})` }
+            : {}
+        }
       />
       <div className='gradient-top' />
       <div className='gradient-bottom' />
@@ -109,11 +121,9 @@ const Inner = memo(({ transition, isFavorited, favoriteSwitcher }: TInnerProps) 
           >
             <Button.Soft>點我觀看</Button.Soft>
           </Button>
-          {!isFavorited && (
-            <Button className='w-fit' onClick={() => favoriteSwitcher()}>
-              <Button.Soft>收藏內容</Button.Soft>
-            </Button>
-          )}
+          <Button disabled className='w-fit' onClick={() => favoriteSwitcher()}>
+            <Button.Soft>收藏內容</Button.Soft>
+          </Button>
           <Button
             className='w-fit'
             onClick={() => {

@@ -58,11 +58,12 @@ const Button = (props: TRegularProps) => {
       id={id}
       className={twMerge(
         className,
-        active ? 'button-active' : 'button-hover',
         'Button',
-        isPress && 'Button-active',
+        active ? 'button-active' : 'button-hover',
+        disabled && 'button-disabled',
+        isPress && 'button-active',
         'cursor-pointer **:pointer-events-none',
-        (disabled || (clickOnce && isPress)) && 'pointer-events-none **:grayscale-50',
+        clickOnce && isPress && 'pointer-events-none **:grayscale-50',
       )}
       style={style}
     >
