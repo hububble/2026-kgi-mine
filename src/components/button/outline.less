@@ -12,24 +12,14 @@
 .button-hover {
   &:hover {
     .Outline {
-      @apply bg-black/20;
-
-      @apply bg-black/20;
-
-      @media only screen and (max-width: @XS) {
-        @apply bg-transparent;
-      }
+      @apply bg-bg-white-light text-primary-blue;
     }
   }
 }
 
 .button-active {
   .Outline {
-    @apply bg-primary-blue/80;
-
-    &:hover {
-      background-color: color-mix(in oklab, var(--color-black) 80%, transparent) !important;
-    }
+    @apply bg-bg-white-light text-primary-blue;
   }
 }
 
