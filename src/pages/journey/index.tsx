@@ -24,6 +24,8 @@ import Scene from './scene';
 import UserData from './userData';
 import Storage from 'lesca-local-storage';
 
+let timeout: number = 0;
+
 const Journey = memo(() => {
   const [context, setContext] = useContext(Context);
   const journey = context[ActionType.UserData]?.journey;
@@ -87,13 +89,14 @@ const Journey = memo(() => {
     <JourneyContext.Provider value={[state, setState]}>
       <JourneyEventsContext.Provider value={value}>
         <OnloadProvider
-          key={`${state.scene}-${resetIndex}`}
+          key={`${state.scene}-${resetIndex}}`}
           onStart={() => {
             setState((S) => ({ ...S, step: JourneyStepType.unset }));
             setContext({ type: ActionType.LoadingProcess, state: { enabled: true } });
           }}
           onload={() => {
-            getContent();
+            clearTimeout(timeout);
+            timeout = setTimeout(() => getContent(), 300);
           }}
         >
           <div className='Journey'>

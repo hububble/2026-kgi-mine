@@ -58,7 +58,7 @@ const Container = memo(({ children }: IReactProps) => {
       <div className='ctx'>
         <div>
           <div ref={ref} className='content'>
-            {sceneImageSize && sceneImageSize.width !== 0 && children}
+            {sceneImageSize && sceneImageSize.width && children}
             <Menu />
           </div>
         </div>
