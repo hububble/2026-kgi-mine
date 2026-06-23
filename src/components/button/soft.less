@@ -6,15 +6,10 @@
     @apply rounded-l-full rounded-r-full bg-white px-5 py-2 text-sm select-none;
   }
 
-  &:hover {
-    .soft {
-      @apply bg-primary-blue text-white;
-    }
-  }
-
+  &:hover,
   &:active {
     .soft {
-      @apply bg-gray-300;
+      @apply bg-primary-blue text-white;
     }
   }
 }
@@ -22,5 +17,12 @@
 .button-disabled {
   .soft {
     @apply bg-bg-white-dark text-font-gray-light;
+  }
+
+  &:hover,
+  &:active {
+    .soft {
+      @apply bg-primary-blue text-white;
+    }
   }
 }

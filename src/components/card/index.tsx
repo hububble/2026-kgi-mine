@@ -11,10 +11,13 @@ import { URI } from './config';
 import './index.less';
 import Inner from './inner';
 import Topic from './topic';
+import { JourneyContext, JourneyStepType } from '@/pages/journey/config';
 
 const Card = memo(() => {
   const [context, setContext] = useContext(Context);
   const { data } = context[ActionType.Card]!;
+
+  const [, setState] = useContext(JourneyContext);
 
   const [isFavorited, setIsFavorited] = useState(data?.isFavorited || false);
   const [favoriteResponse, favoriteSwitcher] = useFavoriteSwitcher({
@@ -25,7 +28,12 @@ const Card = memo(() => {
   useEffect(() => {
     if (favoriteResponse) {
       if (favoriteResponse.isSuccess) {
-        setIsFavorited(typeof favoriteResponse.result !== 'boolean');
+        const favorited = typeof favoriteResponse.result !== 'boolean';
+        setIsFavorited(favorited);
+        if (favorited) {
+          setContext({ type: ActionType.Card, state: { enabled: false } });
+          setState((S) => ({ ...S, step: JourneyStepType.resume }));
+        }
       } else {
         setContext({
           type: ActionType.Modal,

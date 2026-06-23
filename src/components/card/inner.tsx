@@ -10,10 +10,11 @@ import { findPrimarySecondaryTag } from './config';
 
 type TInnerProps = {
   transition: TransitionType;
+  isFavorited: boolean;
   favoriteSwitcher: () => void;
 };
 
-const Inner = memo(({ transition, favoriteSwitcher }: TInnerProps) => {
+const Inner = memo(({ transition, isFavorited, favoriteSwitcher }: TInnerProps) => {
   const [style, setStyle] = useTween({ opacity: 0, y: 30 });
   const [context, setContext] = useContext(Context);
   const { data, navBarIcon } = context[ActionType.Card]!;
@@ -24,7 +25,7 @@ const Inner = memo(({ transition, favoriteSwitcher }: TInnerProps) => {
   useEffect(() => {
     if (data?.hubSpot_FeaturedImage) {
       const img = new Image();
-      img.onload = () => setImageDidLoaded(true);
+      img.onload = () => requestAnimationFrame(() => setImageDidLoaded(true));
       img.src = data.hubSpot_FeaturedImage;
     }
   }, [data?.hubSpot_FeaturedImage]);
@@ -119,8 +120,8 @@ const Inner = memo(({ transition, favoriteSwitcher }: TInnerProps) => {
           >
             <Button.Soft>點我觀看</Button.Soft>
           </Button>
-          <Button disabled className='w-fit' onClick={() => favoriteSwitcher()}>
-            <Button.Soft>收藏內容</Button.Soft>
+          <Button disabled={isFavorited} className='w-fit' onClick={() => favoriteSwitcher()}>
+            <Button.Soft>{isFavorited ? '取消收藏' : '收藏內容'}</Button.Soft>
           </Button>
           <Button
             className='w-fit'
