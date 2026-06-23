@@ -24,10 +24,8 @@ const Inner = memo(({ transition, favoriteSwitcher }: TInnerProps) => {
   useEffect(() => {
     if (data?.hubSpot_FeaturedImage) {
       const img = new Image();
+      img.onload = () => setImageDidLoaded(true);
       img.src = data.hubSpot_FeaturedImage;
-      img.onload = () => {
-        setImageDidLoaded(true);
-      };
     }
   }, [data?.hubSpot_FeaturedImage]);
 
