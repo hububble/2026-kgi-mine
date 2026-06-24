@@ -13,6 +13,7 @@ import QueryString from 'lesca-url-parameters';
 import { memo, useContext, useEffect, useRef, useState } from 'react';
 import {
   JourneyContext,
+  JourneyFakeData,
   JourneySceneSetting,
   JourneySceneType,
   JourneyState,
@@ -69,13 +70,15 @@ const Journey = memo(() => {
     if (response) {
       if (response.isSuccess) {
         // TODO
-        const currentResult = response.result
-          .filter((content) => content.contentId)
-          .filter((content) => content.hubSpot_Id);
+        // const contents = response.result
+        //   .filter((content) => content.contentId)
+        //   .filter((content) => content.hubSpot_Id);
         // .filter((_, index) => index === 0);
-        console.log(`第一次讀取資料`, currentResult);
 
-        setContext({ type: ActionType.UserData, state: { contents: currentResult } });
+        const contents = JourneyFakeData;
+
+        console.log(`第一次讀取資料`, contents);
+        setContext({ type: ActionType.UserData, state: { contents } });
         setContext({ type: ActionType.LoadingProcess, state: { enabled: false } });
         setState((S) => ({ ...S, step: JourneyStepType.fadeIn }));
       } else {

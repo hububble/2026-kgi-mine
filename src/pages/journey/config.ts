@@ -1,3 +1,5 @@
+import { TUserDataContent } from '@/settings/type';
+import { faker } from '@faker-js/faker';
 import QueryString from 'lesca-url-parameters';
 import { createContext, Dispatch, SetStateAction } from 'react';
 
@@ -156,5 +158,45 @@ type JourneySceneDebugType = {
 
 export const JourneySceneDebug: JourneySceneDebugType = {
   enabled: QueryString.get('debug') === '1' || false,
-  count: 3,
+  count: 7,
 };
+
+const createJourneyFakeItem = (): TUserDataContent => ({
+  baseRequirement: faker.number.int({ min: 0, max: 100 }),
+  baseReward: faker.number.int({ min: 1, max: 50 }),
+  contentCategory: faker.helpers.arrayElement(['Video', 'Audio', 'Article']),
+  careerRequirement: faker.number.int({ min: 0, max: 100 }),
+  careerReward: faker.number.int({ min: 1, max: 50 }),
+  contentId: faker.number.int({ min: 1, max: 999999 }),
+  financeRequirement: faker.number.int({ min: 0, max: 100 }),
+  financeReward: faker.number.int({ min: 1, max: 50 }),
+  healthRequirement: faker.number.int({ min: 0, max: 100 }),
+  healthReward: faker.number.int({ min: 1, max: 50 }),
+  hubSpot_AuthorAvatar: faker.image.avatar(),
+  hubSpot_AuthorBio: faker.person.bio(),
+  hubSpot_AuthorDisplayName: faker.person.firstName(),
+  hubSpot_AuthorFullName: faker.person.fullName(),
+  hubSpot_AuthorId: faker.string.uuid(),
+  hubSpot_AuthorName: faker.person.fullName(),
+  hubSpot_FeaturedImage: faker.image.urlPicsumPhotos(),
+  hubSpot_HtmlTitle: faker.lorem.sentence({ min: 3, max: 8 }),
+  hubSpot_Id: faker.string.uuid(),
+  hubSpot_Name: faker.lorem.words({ min: 2, max: 5 }),
+  hubSpot_PostBody: faker.lorem.paragraphs({ min: 2, max: 5 }),
+  hubSpot_Post_Subtitle: faker.lorem.sentence({ min: 5, max: 10 }),
+  hubSpot_Post_Title: faker.lorem.sentence({ min: 3, max: 8 }),
+  hubSpot_PrimaryTag: faker.helpers.arrayElement(['CAREER', 'FINANCE', 'HEALTH', 'RELATIONS', 'SOCIETY'] as const),
+  hubSpot_SecondaryTag: faker.helpers.arrayElement(['CAREER', 'FINANCE', 'HEALTH', 'RELATIONS', 'SOCIETY', 'NONE'] as const),
+  hubSpot_PostCollection: faker.lorem.words({ min: 1, max: 3 }),
+  hubSpot_Url: faker.internet.url(),
+  isFavorited: faker.datatype.boolean(),
+  isLiked: faker.datatype.boolean(),
+  isUnlockRequired: faker.datatype.boolean(),
+  minerCount: faker.number.int({ min: 1, max: 10 }),
+  relationsRequirement: faker.number.int({ min: 0, max: 100 }),
+  relationsReward: faker.number.int({ min: 1, max: 50 }),
+  societyRequirement: faker.number.int({ min: 0, max: 100 }),
+  societyReward: faker.number.int({ min: 1, max: 50 }),
+});
+
+export const JourneyFakeData: TUserDataContent[] = faker.helpers.multiple(createJourneyFakeItem, { count: 10 });

@@ -1,4 +1,9 @@
-import { JourneyItemsList, JourneySceneType, JourneyStaticItemsList } from '@/pages/journey/config';
+import {
+  JourneyItemsList,
+  JourneySceneDebug,
+  JourneySceneType,
+  JourneyStaticItemsList,
+} from '@/pages/journey/config';
 import { Context } from '@/settings/constant';
 import { ActionType } from '@/settings/type';
 import { useContext, useEffect, useRef, useState } from 'react';
@@ -79,12 +84,13 @@ const useDataDiversion = ({ index = 0, scene }: { index: number; scene: JourneyS
               .concat(itemsLineUpSameAsContentLength.slice(7))
           : itemsLineUpSameAsContentLength.concat(roadSign);
 
-      // 把items分成每組3個
+      // 把items分成每組groupCount個
+      const groupCount = JourneySceneDebug.enabled ? JourneySceneDebug.count : 3;
       const groupList: TDataDiversionItem[][] = [];
       let indexCounter = 0;
-      for (let i = 0; i < itemsWithRoadSign.length; i += 3) {
+      for (let i = 0; i < itemsWithRoadSign.length; i += groupCount) {
         const group: TDataDiversionItem[] = itemsWithRoadSign
-          .slice(i, i + 3)
+          .slice(i, i + groupCount)
           .map((item) =>
             item.name.includes('roadSign')
               ? { ...item, clicked: false }

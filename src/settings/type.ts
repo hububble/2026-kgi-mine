@@ -99,8 +99,8 @@ export type TUserDataContent = {
   hubSpot_PostBody: string;
   hubSpot_Post_Subtitle: string;
   hubSpot_Post_Title: string;
-  hubSpot_PrimaryTag: string;
-  hubSpot_SecondaryTag: string;
+  hubSpot_PrimaryTag: 'CAREER' | 'FINANCE' | 'HEALTH' | 'RELATIONS' | 'SOCIETY' | 'NONE';
+  hubSpot_SecondaryTag: 'CAREER' | 'FINANCE' | 'HEALTH' | 'RELATIONS' | 'SOCIETY' | 'NONE';
   hubSpot_PostCollection: string;
   hubSpot_Url: string;
   isFavorited: boolean;

@@ -6,11 +6,13 @@ import { memo, useContext, useEffect, useState } from 'react';
 import { QuestionnaireContext, QuestionnaireState, TranslateKeyToTitle } from './config';
 import './index.less';
 import QuestionsByAPI from './questions';
+import { JourneyContext, JourneyStepType } from '@/pages/journey/config';
 
 const Questionnaire = memo(() => {
   const [context, setContext] = useContext(Context);
   const { question = [] } = context[ActionType.Questionnaire]!;
   const [response] = useGetNextTrip({ auto: true });
+  const [, setState] = useContext(JourneyContext);
 
   const value = useState(QuestionnaireState);
 
@@ -25,6 +27,8 @@ const Questionnaire = memo(() => {
             const headline = TranslateKeyToTitle[key as keyof typeof TranslateKeyToTitle];
             return [key, { ...value, item, headline }] as const;
           });
+        console.log(`一共有${sorted.length}題問券`);
+
         setContext({
           type: ActionType.Questionnaire,
           state: {
@@ -44,6 +48,9 @@ const Questionnaire = memo(() => {
             ],
           },
         });
+      } else {
+        console.log('沒有問券，繼續旅程');
+        setState((S) => ({ ...S, step: JourneyStepType.resume }));
       }
     }
   }, [response]);
