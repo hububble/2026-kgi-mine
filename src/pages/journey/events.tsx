@@ -64,12 +64,10 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
   useEffect(() => {
     if (!eventState.isCharacterStopped) return;
     if (eventState.onItemSelected.index !== eventState.onItemSelected.prev) {
-      setContext({ type: ActionType.Card, state: { enabled: true } });
-
       // 根據選擇的項目索引，更新卡片內容
       const { index } = eventState.onItemSelected;
       const currentContent = contents[index];
-      setContext({ type: ActionType.Card, state: { data: currentContent } });
+      setContext({ type: ActionType.Card, state: { enabled: true, data: currentContent } });
       eventState.onItemSelected.prev = index;
     }
   }, [eventState.onItemSelected, eventState.isCharacterStopped, contents]);

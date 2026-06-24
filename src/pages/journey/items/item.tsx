@@ -6,7 +6,7 @@ import { ActionType } from '@/settings/type';
 import { checkElementCenterOfScreenWithOffset, checkElementInViewport } from '@/utils';
 import { memo, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { JourneySceneDebug, JourneySceneSetting } from '../config';
+import { JourneyContext, JourneySceneDebug, JourneySceneSetting } from '../config';
 
 type TItemProps = {
   data: TDataDiversionItem;
@@ -18,6 +18,8 @@ type TItemProps = {
 const Item = memo(({ data, offset, onCenter, onItemSelected }: TItemProps) => {
   const [context] = useContext(Context);
   const { contents } = context[ActionType.UserData]!;
+
+  const [, setState] = useContext(JourneyContext);
 
   const ref = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState({ isCenter: false, isInView: false });
@@ -51,6 +53,26 @@ const Item = memo(({ data, offset, onCenter, onItemSelected }: TItemProps) => {
     if (ref.current) {
       const inCenter = checkElementCenterOfScreenWithOffset(ref.current, currentThreshold);
       const inView = checkElementInViewport(ref.current);
+
+      if (data.name) {
+        setState((S) => {
+          const included = S.onCenterItem.includes(data.name);
+          if (inCenter) {
+            if (included) return S;
+            return { ...S, onCenterItem: [...S.onCenterItem, data.name] };
+          }
+          if (!included) return S;
+          return { ...S, onCenterItem: S.onCenterItem.filter((name) => name !== data.name) };
+        });
+      }
+
+      if (data.clicked) {
+        setState((S) => ({
+          ...S,
+          onCenterItem: S.onCenterItem.filter((name) => name !== data.name),
+        }));
+      }
+
       if (inCenter && !status.isCenter) {
         onCenter?.(data.name);
         setStatus((S) => ({ ...S, isCenter: true }));

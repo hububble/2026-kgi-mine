@@ -17,13 +17,13 @@ import {
   JourneyStepType,
   JourneySceneSetting as setting,
 } from '../config';
+import { JourneyEventsContext } from '../events';
 import Items from '../items';
 import MinerWalker from '../miner';
 import { URI } from './config';
 import './index.less';
 import Moon from './Moon';
 import View from './view';
-import { JourneyEventsContext } from '../events';
 
 const Scene = memo(() => {
   const [context] = useContext(Context);
@@ -114,9 +114,11 @@ const Scene = memo(() => {
     } else if (state.step === JourneyStepType.fadeOut) {
       setStyle({ left: offset }, 1);
     } else if (state.step === JourneyStepType.resume) {
-      EnterFrame.play();
-      setIsAlpha(false);
-      setEvent((S) => ({ ...S, isCharacterStopped: false }));
+      if (state.onCenterItem.length === 0) {
+        EnterFrame.play();
+        setIsAlpha(false);
+        setEvent((S) => ({ ...S, isCharacterStopped: false }));
+      }
     } else if (state.step === JourneyStepType.loop) {
       EnterFrame.destroy();
       EnterFrame.reset();

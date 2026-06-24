@@ -32,6 +32,7 @@ export type TJourneyState = {
   loop: number;
   baseLoop: number;
   loadDataTimes: number;
+  onCenterItem: string[];
 };
 
 export type TJourneyContext = [TJourneyState, Dispatch<SetStateAction<TJourneyState>>];
@@ -43,6 +44,7 @@ export const JourneyState: TJourneyState = {
   loop: -1,
   baseLoop: 0,
   loadDataTimes: 0,
+  onCenterItem: [],
 };
 
 export const JourneyContext = createContext<TJourneyContext>([JourneyState, () => {}]);

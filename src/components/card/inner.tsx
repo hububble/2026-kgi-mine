@@ -75,14 +75,14 @@ const Inner = memo(({ transition, isFavorited, favoriteSwitcher }: TInnerProps) 
           <div className='navBar'>
             {primary.type !== 'none' && (
               <div
-                key={primary.type + primary.count}
+                key={`primary-${primary.type}`}
                 className={twMerge(primary.type, `after:content-[attr(data-count)]`)}
                 data-count={primary.count}
               />
             )}
             {secondary.type !== 'none' && (
               <div
-                key={secondary.type + secondary.count}
+                key={`secondary-${secondary.type}`}
                 className={twMerge(secondary.type, `after:content-[attr(data-count)]`)}
                 data-count={secondary.count}
               />
