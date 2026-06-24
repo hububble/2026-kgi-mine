@@ -7,6 +7,7 @@ import { twMerge } from 'tailwind-merge';
 import Button from '../button';
 import Heading from '../heading';
 import { findPrimarySecondaryTag } from './config';
+import useSkip from '@/hooks/useSkip';
 
 type TInnerProps = {
   transition: TransitionType;
@@ -18,9 +19,28 @@ const Inner = memo(({ transition, isFavorited, favoriteSwitcher }: TInnerProps) 
   const [style, setStyle] = useTween({ opacity: 0, y: 30 });
   const [context, setContext] = useContext(Context);
   const { data, navBarIcon } = context[ActionType.Card]!;
+
   const contentCategory = data?.contentCategory?.toLocaleLowerCase() || '';
   const [, setState] = useContext(JourneyContext);
   const [imageDidLoaded, setImageDidLoaded] = useState(false);
+
+  const [response, fetch] = useSkip();
+
+  useEffect(() => {
+    if (response) {
+      if (!response.isSuccess) {
+        setContext({
+          type: ActionType.Modal,
+          state: {
+            enabled: true,
+            body: response.message || '伺服器連線異常，請稍後再試',
+          },
+        });
+      }
+      setState((S) => ({ ...S, step: JourneyStepType.resume }));
+      setContext({ type: ActionType.Card, state: { enabled: false } });
+    }
+  }, [response]);
 
   useEffect(() => {
     if (data?.hubSpot_FeaturedImage) {
@@ -126,8 +146,7 @@ const Inner = memo(({ transition, isFavorited, favoriteSwitcher }: TInnerProps) 
           <Button
             className='w-fit'
             onClick={() => {
-              setState((S) => ({ ...S, step: JourneyStepType.resume }));
-              setContext({ type: ActionType.Card, state: { enabled: false } });
+              if (data) fetch({ contentId: data?.contentId });
             }}
           >
             <Button.Soft>繼續旅程</Button.Soft>
