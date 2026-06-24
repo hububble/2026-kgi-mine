@@ -84,7 +84,7 @@ export const JourneyItemsList = {
     { name: 'goldenRiceField-item-2', path: 'scene-goldenRiceField-item-2.png', top: 40.1, left: 35, dissociation: 'back' },
     { name: 'goldenRiceField-item-3', path: 'scene-goldenRiceField-item-3.png', top: 61, left: 8, dissociation: 'back' },
     { name: 'goldenRiceField-item-4', path: 'scene-goldenRiceField-item-4.png', top: 63, left: 16.2, dissociation: 'back' },
-    { name: 'goldenRiceField-item-5', path: 'scene-goldenRiceField-item-5.png', top: 66, left: 26, dissociation: 'front' },
+    { name: 'goldenRiceField-item-5', path: 'scene-goldenRiceField-item-5.png', top: 68, left: 26, dissociation: 'front' },
     { name: 'goldenRiceField-item-6', path: 'scene-goldenRiceField-item-6.png', top: 39.5, left: 43.7, dissociation: 'back' },
     { name: 'goldenRiceField-item-7', path: 'scene-goldenRiceField-item-7.png', top: 55.5, left: 79.8, dissociation: 'back' },
   ],

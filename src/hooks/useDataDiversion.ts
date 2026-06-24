@@ -85,7 +85,7 @@ const useDataDiversion = ({ index = 0, scene }: { index: number; scene: JourneyS
           : itemsLineUpSameAsContentLength.concat(roadSign);
 
       // 把items分成每組groupCount個
-      const groupCount = JourneySceneDebug.enabled ? JourneySceneDebug.count : 7;
+      const groupCount = JourneySceneDebug.enabled ? JourneySceneDebug.count : 3;
       const groupList: TDataDiversionItem[][] = [];
       let indexCounter = 0;
       for (let i = 0; i < itemsWithRoadSign.length; i += groupCount) {
