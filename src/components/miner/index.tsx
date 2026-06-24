@@ -48,9 +48,7 @@ const Miner = forwardRef(({ height, className, autoplay, onShowDown }: MinerProp
   }, [frame]);
 
   useEffect(() => {
-    if (frame) {
-      onShowDown?.(frame);
-    }
+    if (frame) onShowDown?.(frame);
   }, [frame?.duration]);
 
   const slowDown = useCallback(() => {
@@ -70,6 +68,7 @@ const Miner = forwardRef(({ height, className, autoplay, onShowDown }: MinerProp
       EnterFrame.stop();
     },
     slowDown() {
+      EnterFrame.stop();
       slowDown();
     },
     getFrame() {
