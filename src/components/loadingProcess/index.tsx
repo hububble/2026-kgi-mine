@@ -8,7 +8,7 @@ import { LoadingProcessIconList } from './config';
 import './index.less';
 
 const Background = () => (
-  <div className='bg-bg-gray-light absolute top-0 h-full w-full opacity-90' />
+  <div className='bg-bg-gray-light absolute top-0 h-full w-full opacity-95' />
 );
 
 const Text = ({ children }: IReactProps) => (
