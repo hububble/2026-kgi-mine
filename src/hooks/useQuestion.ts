@@ -7,7 +7,8 @@ import { useContext, useEffect, useState } from 'react';
 
 export type ResponseType = {
   isSuccess: boolean;
-  result: TTripList;
+  result?: TTripList;
+  message?: string;
 };
 
 const useQuestion = (props?: { auto?: boolean; backgroundAppProcess?: boolean }) => {
@@ -34,7 +35,11 @@ const useQuestion = (props?: { auto?: boolean; backgroundAppProcess?: boolean })
     try {
       response = await Fetcher.get(REST_PATH.questions);
     } catch {
-      response = { isSuccess: false, result: { tripList: [], quizList: [], minerList: [] } };
+      response = {
+        isSuccess: false,
+        result: { tripList: [], quizList: [], minerList: [] },
+        message: '系統發生錯誤，請稍後再試',
+      };
     }
 
     if (!backgroundAppProcess) {

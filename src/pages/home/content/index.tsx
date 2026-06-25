@@ -8,6 +8,7 @@ import 選擇你的Miner角色 from './character';
 import 你想要的下一個十年是 from './decade';
 import 你想要哪一場理想旅程呢 from './journey';
 import 歡迎踏上豐盛之旅 from './landing';
+import Storage from 'lesca-local-storage';
 
 const Content = memo(() => {
   const [, setContext] = useContext(Context);
@@ -18,7 +19,24 @@ const Content = memo(() => {
 
   useEffect(() => {
     if (questionResponse) {
-      setContext({ type: ActionType.TripList, state: { ...questionResponse.result } });
+      if (questionResponse.isSuccess) {
+        setContext({ type: ActionType.TripList, state: { ...questionResponse.result } });
+      } else {
+        setContext({
+          type: ActionType.Modal,
+          state: {
+            enabled: true,
+            body: questionResponse.message || '系統發生錯誤，請稍後再試',
+            label: ['清除session並重新登入'],
+            onConfirm(label) {
+              if (label === '清除session並重新登入') {
+                Storage.clear();
+                window.location.search = 'page=login';
+              }
+            },
+          },
+        });
+      }
     }
   }, [questionResponse]);
 
@@ -36,13 +54,13 @@ const Content = memo(() => {
         return <歡迎踏上豐盛之旅 />;
 
       case HomePageType.decade:
-        return <你想要的下一個十年是 data={questionResponse?.result.quizList} />;
+        return <你想要的下一個十年是 data={questionResponse?.result?.quizList} />;
 
       case HomePageType.journey:
-        return <你想要哪一場理想旅程呢 data={questionResponse?.result.tripList} />;
+        return <你想要哪一場理想旅程呢 data={questionResponse?.result?.tripList} />;
 
       case HomePageType.character:
-        return <選擇你的Miner角色 data={questionResponse?.result.minerList} />;
+        return <選擇你的Miner角色 data={questionResponse?.result?.minerList} />;
     }
   }, [state.page, questionResponse]);
 
