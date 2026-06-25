@@ -33,7 +33,7 @@ const Auth = memo(({ children }: IReactProps) => {
       if (token) {
         value[1]({ token, isLogin: true });
         Fetcher.setJWT(token);
-        console.log(`[AUTH]:已取得token:${token}`);
+        console.log(`[AUTH]:已取得token`);
       }
     }
   }, []);
