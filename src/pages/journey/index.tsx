@@ -8,12 +8,12 @@ import useContent from '@/hooks/useContent';
 import { Context } from '@/settings/constant';
 import { ActionType } from '@/settings/type';
 import EnterFrame from 'lesca-enterframe';
+import Storage from 'lesca-local-storage';
 import OnloadProvider from 'lesca-react-onload';
 import QueryString from 'lesca-url-parameters';
 import { memo, useContext, useEffect, useRef, useState } from 'react';
 import {
   JourneyContext,
-  JourneyFakeData,
   JourneySceneSetting,
   JourneySceneType,
   JourneyState,
@@ -23,7 +23,6 @@ import JourneyEventProvider, { JourneyEventsContext, JourneyEventsState } from '
 import './index.less';
 import Scene from './scene';
 import UserData from './userData';
-import Storage from 'lesca-local-storage';
 
 let timeout: number = 0;
 
@@ -70,11 +69,11 @@ const Journey = memo(() => {
     if (response) {
       if (response.isSuccess) {
         // TODO
-        // const contents = response.result
-        //   .filter((content) => content.contentId)
-        //   .filter((content) => content.hubSpot_Id);
+        const contents = response.result
+          .filter((content) => content.contentId)
+          .filter((content) => content.hubSpot_Id);
         // .filter((_, index) => index === 0);
-        const contents = JourneyFakeData;
+        //const contents = JourneyFakeData;
         console.log(response);
 
         console.log(`第一次讀取資料`, contents);

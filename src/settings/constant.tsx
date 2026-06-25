@@ -148,8 +148,8 @@ const getPageByQueryString = (): IState[ActionType.Page] => {
       return PAGE.home;
     case '2':
       return PAGE.journey;
-    case '3':
-      return PAGE.demo;
+    case 'login':
+      return PAGE.login;
   }
 };
 

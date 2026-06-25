@@ -1,29 +1,37 @@
-import { memo, useContext, useEffect } from 'react';
-import Storage from 'lesca-local-storage';
-import { SESSION_KEY } from './config';
-import { ActionType, IReactProps } from '@/settings/type';
-import { Context } from '@/settings/constant';
+import { IReactProps } from '@/settings/type';
 import Fetcher from 'lesca-fetcher';
-import QueryString from 'lesca-url-parameters';
+import Storage from 'lesca-local-storage';
+import { memo, useContext, useEffect, useState } from 'react';
+import { AuthContext, AuthState, SESSION_KEY, UNSET_AUTH_CONTEXT } from './config';
 
 Storage.setStorageType('session');
 
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (context === UNSET_AUTH_CONTEXT) {
+    throw new Error('useAuth must be used within <Auth>');
+  }
+  return context;
+};
+
 const Auth = memo(({ children }: IReactProps) => {
-  const [, setContext] = useContext(Context);
+  const value = useState(AuthState);
+
   useEffect(() => {
     const auth = Storage.get(SESSION_KEY);
-    const queryToken = QueryString.get('token');
-    if (auth) {
+    console.log(auth);
+    if (!auth) {
+      // 如果没有session
+    } else {
+      // 如果有session
       const { token } = auth.data;
       if (token) {
-        setContext({ type: ActionType.UserData, state: { token } });
+        value[1]({ token, isLogin: true });
         Fetcher.setJWT(token);
       }
-    } else if (queryToken) {
-      setContext({ type: ActionType.UserData, state: { token: queryToken } });
-      Fetcher.setJWT(queryToken);
     }
   }, []);
-  return <>{children}</>;
+
+  return <AuthContext.Provider {...{ value }}>{children}</AuthContext.Provider>;
 });
 export default Auth;

@@ -1,15 +1,14 @@
+import { useAuth } from '@/components/auth';
 import Button from '@/components/button';
 import Sounds from '@/components/sounds';
 import TweenerProvider from '@/components/tweenProvider';
-import useSignIn, { SignInParams } from '@/hooks/useSignIn';
 import { Context } from '@/settings/constant';
 import { ActionType } from '@/settings/type';
-import Fetcher from 'lesca-fetcher';
 import { Bezier } from 'lesca-use-tween';
-import { memo, useContext, useEffect, useState } from 'react';
+import { memo, useContext, useState } from 'react';
 import { HomeContext, HomeStepType } from '../../config';
 
-const LoginButton = memo(({ signIn }: { signIn: (params: SignInParams) => Promise<void> }) => {
+const LoginButton = memo(() => {
   const [{ step }] = useContext(HomeContext);
   const [onButtonFadeIn, setOnButtonFadeIn] = useState(false);
 
@@ -30,7 +29,7 @@ const LoginButton = memo(({ signIn }: { signIn: (params: SignInParams) => Promis
       <Button
         clickOnce
         onClick={() => {
-          signIn({ credential: 'Ab123456789', email: 'test@test.com' });
+          window.location.search = '?page=login';
         }}
         disabled={!onButtonFadeIn}
       >
@@ -79,26 +78,11 @@ const StartButton = memo(() => {
 });
 
 const Buttons = memo(() => {
-  const [, setContext] = useContext(Context);
-  const [response, signIn] = useSignIn();
-
-  useEffect(() => {
-    if (response) {
-      Fetcher.setJWT(response.result.token);
-      setContext({
-        type: ActionType.UserData,
-        state: {
-          memberId: response.result.memberId,
-          memberInfoDto: response.result.memberInfoDto,
-          token: response.result.token,
-        },
-      });
-    }
-  }, [response]);
+  const [{ isLogin }] = useAuth();
 
   return (
     <div className='my-5 flex w-full flex-col items-center justify-center gap-5 md:flex-row'>
-      {response?.isSuccess ? <StartButton /> : <LoginButton signIn={signIn} />}
+      {!isLogin ? <LoginButton /> : <StartButton />}
     </div>
   );
 });

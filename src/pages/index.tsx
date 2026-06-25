@@ -11,7 +11,7 @@ import EnterFrame from 'lesca-enterframe';
 import Fetcher, { contentType, formatType } from 'lesca-fetcher';
 import { useEffect, useMemo, useReducer } from 'react';
 import ReactDOM from 'react-dom/client';
-import Demo from './demo';
+import FakeLogin from './fake-login';
 import Home from './home';
 import Journey from './journey';
 
@@ -55,8 +55,8 @@ const App = ({ dataset }: { dataset: typeof rooAppDataset }) => {
       case PAGE.journey:
         return <Journey />;
 
-      case PAGE.demo:
-        return <Demo />;
+      case PAGE.login:
+        return <FakeLogin />;
     }
   }, [page]);
 
@@ -66,7 +66,7 @@ const App = ({ dataset }: { dataset: typeof rooAppDataset }) => {
         <Auth>
           <Container>{currentPage}</Container>
           {context[ActionType.LoadingProcess]?.enabled && <LoadingProcess />}
-          {(page === PAGE.home || page === PAGE.demo) && context[ActionType.Modal]?.enabled && (
+          {(page === PAGE.home || page === PAGE.login) && context[ActionType.Modal]?.enabled && (
             <Modal />
           )}
         </Auth>

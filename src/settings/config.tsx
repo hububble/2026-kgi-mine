@@ -3,7 +3,7 @@ import { TQuestionnaireOption } from './type';
 export const PAGE = {
   home: 'home',
   journey: 'journey',
-  demo: 'demo',
+  login: 'login',
 };
 
 export const REST_PATH = {
@@ -19,6 +19,7 @@ export const REST_PATH = {
   nextTrip: 'immersion/next-trip',
   activeTrip: 'immersion/active-trip',
   skip: 'content/skip',
+  clean: 'test/clean',
 };
 
 export const CharacterURIList = {
