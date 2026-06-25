@@ -44,7 +44,17 @@ const Items = memo(({ children, offset }: TItemsProps) => {
   }, [data, state.staticLoop]);
 
   useEffect(() => {
-    if (data.back.length === 0 && data.front.length === 0 && state.loop > 0) {
+    console.log(
+      state.loop === -1 ? '正在讀取資料' : `第${state.loop + 1}圈`,
+      data.back.length === 0 && data.front.length === 0 ? '資料為空' : '資料存在',
+    );
+
+    if (state.loop === -1) {
+      // TODO: 表示這一輪他正在讀取資料
+      return;
+    }
+
+    if (data.back.length === 0 && data.front.length === 0) {
       endLoopShouldBe.current = state.loop;
       // TODO: 1.當items取得資料為空時，嘗試獲取下一輪內容
       console.log(`第${state.loop + 1}圈沒資料，嘗試讀取新資料`);

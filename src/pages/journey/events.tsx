@@ -55,6 +55,7 @@ export const JourneyEventsContext = createContext<TJourneyEventsContext>([
 export const JourneyEventProvider = memo(({ children }: IReactProps) => {
   const [context, setContext] = useContext(Context);
   const { contents } = context[ActionType.UserData]!;
+  const { has_triggered } = context[ActionType.Questionnaire]!;
 
   const [state, setState] = useContext(JourneyContext);
   const [eventState, setEventState] = useContext(JourneyEventsContext);
@@ -128,14 +129,16 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
 
         if (filteredResult.length === 0) {
           // 旅程結束，重置所有狀態
-          setState((S) => ({ ...S, step: JourneyStepType.fadeOut }));
-          setEventState((S) => ({
-            ...S,
-            onJourneyEnd: {
-              ...S.onJourneyEnd,
-              index: S.onJourneyEnd.index + 1,
-            },
-          }));
+          if (!has_triggered) {
+            setState((S) => ({ ...S, step: JourneyStepType.fadeOut }));
+            setEventState((S) => ({
+              ...S,
+              onJourneyEnd: {
+                ...S.onJourneyEnd,
+                index: S.onJourneyEnd.index + 1,
+              },
+            }));
+          }
         } else {
           // 還有內容，繼續旅程
           eventState.onContentEmpty.callback();
@@ -143,7 +146,7 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
         }
       }
     }
-  }, [contentResponse]);
+  }, [contentResponse, has_triggered]);
 
   useEffect(() => {
     if (eventState.onContentEmpty.index !== eventState.onContentEmpty.prev) {
@@ -165,6 +168,7 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
           },
         },
       });
+
       eventState.onJourneyEnd.callback();
       eventState.onJourneyEnd.prev = eventState.onJourneyEnd.index;
     }

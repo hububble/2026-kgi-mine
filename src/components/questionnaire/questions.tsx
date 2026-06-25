@@ -22,12 +22,7 @@ const QuestionsByAPI = memo(() => {
 
   useEffect(() => {
     if (saveTripResponse) {
-      if (saveTripResponse.isSuccess) {
-        setContext({
-          type: ActionType.Questionnaire,
-          state: { enabled: false, has_triggered: true },
-        });
-      } else {
+      if (!saveTripResponse.isSuccess) {
         setContext({
           type: ActionType.Modal,
           state: {
@@ -37,6 +32,10 @@ const QuestionsByAPI = memo(() => {
           },
         });
       }
+      setContext({
+        type: ActionType.Questionnaire,
+        state: { enabled: false, has_triggered: true },
+      });
       onClose?.();
     }
   }, [saveTripResponse]);
