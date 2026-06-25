@@ -1,3 +1,4 @@
+import { useAuth } from '@/components/auth';
 import { SESSION_KEY } from '@/components/auth/config';
 import { REST_PATH } from '@/settings/config';
 import { Context } from '@/settings/constant';
@@ -25,8 +26,8 @@ Storage.setStorageType('session');
 const useSignIn = (props?: { backgroundAppProcess?: boolean }) => {
   const { backgroundAppProcess = false } = props || {};
 
-  const [context, setContext] = useContext(Context);
-  const { token } = context[ActionType.UserData]!;
+  const [, setContext] = useContext(Context);
+  const [{ token }] = useAuth();
 
   const [state, setState] = useState<ResponseType>();
   const fetch = async (params: SignInParams) => {
@@ -48,7 +49,7 @@ const useSignIn = (props?: { backgroundAppProcess?: boolean }) => {
           }
         }
       } catch {
-        response = { isSuccess: false, result: { memberId: '', memberInfoDto: [], token: '' } };
+        response = { isSuccess: false, result: { memberId: '', memberInfoDto: {}, token: '' } };
       }
     }
 

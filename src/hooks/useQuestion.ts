@@ -1,3 +1,4 @@
+import { useAuth } from '@/components/auth';
 import { REST_PATH } from '@/settings/config';
 import { Context } from '@/settings/constant';
 import { ActionType, TTripList } from '@/settings/type';
@@ -12,8 +13,8 @@ export type ResponseType = {
 const useQuestion = (props?: { auto?: boolean; backgroundAppProcess?: boolean }) => {
   const { auto = false, backgroundAppProcess = false } = props || {};
 
-  const [context, setContext] = useContext(Context);
-  const { token } = context[ActionType.UserData]!;
+  const [, setContext] = useContext(Context);
+  const [{ token }] = useAuth();
 
   const [state, setState] = useState<ResponseType>();
 

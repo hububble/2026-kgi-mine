@@ -13,7 +13,12 @@ const Landing = memo(() => {
     if (response) {
       if (response.isSuccess) {
         const { token } = response.result;
-        setAuth({ token, isLogin: true });
+        setAuth({
+          token,
+          isLogin: true,
+          memberId: response.result.memberId,
+          memberInfoDto: response.result.memberInfoDto,
+        });
         window.location.href = window.location.origin;
       }
     }

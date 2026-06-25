@@ -1,3 +1,4 @@
+import { useAuth } from '@/components/auth';
 import useQuestion from '@/hooks/useQuestion';
 import { Context } from '@/settings/constant';
 import { ActionType } from '@/settings/type';
@@ -9,8 +10,8 @@ import 你想要哪一場理想旅程呢 from './journey';
 import 歡迎踏上豐盛之旅 from './landing';
 
 const Content = memo(() => {
-  const [context, setContext] = useContext(Context);
-  const { token } = context[ActionType.UserData]!;
+  const [, setContext] = useContext(Context);
+  const [{ token }] = useAuth();
 
   const [state] = useContext(HomeContext);
   const [questionResponse, getQuestions] = useQuestion({ auto: false, backgroundAppProcess: true });
@@ -28,6 +29,7 @@ const Content = memo(() => {
   }, [token]);
 
   const page = useMemo(() => {
+    if (!questionResponse?.isSuccess) return '';
     switch (state.page) {
       default:
       case HomePageType.landing:
