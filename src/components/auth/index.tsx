@@ -18,8 +18,13 @@ const Auth = memo(({ children }: IReactProps) => {
   const value = useState(AuthState);
 
   useEffect(() => {
+    if (value[0].token) {
+      Fetcher.setJWT(value[0].token);
+    }
+  }, [value[0].token]);
+
+  useEffect(() => {
     const auth = Storage.get(SESSION_KEY);
-    console.log(auth);
     if (!auth) {
       // 如果没有session
     } else {
@@ -28,6 +33,7 @@ const Auth = memo(({ children }: IReactProps) => {
       if (token) {
         value[1]({ token, isLogin: true });
         Fetcher.setJWT(token);
+        console.log(`取得token:${token}`);
       }
     }
   }, []);

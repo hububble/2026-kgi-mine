@@ -14,6 +14,7 @@ const Landing = memo(() => {
       if (response.isSuccess) {
         const { token } = response.result;
         setAuth({ token, isLogin: true });
+        window.location.href = window.location.origin;
       }
     }
   }, [response, setAuth]);
