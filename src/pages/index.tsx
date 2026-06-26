@@ -2,7 +2,7 @@ import Auth from '@/components/auth';
 import Container from '@/components/container';
 import LoadingProcess from '@/components/loadingProcess';
 import Modal from '@/components/modal';
-import { Debug, PAGE } from '@/settings/config';
+import { PAGE } from '@/settings/config';
 import { Context, DatasetState, InitialState, Reducer } from '@/settings/constant';
 import '@/settings/global.css';
 import { ActionType, TContext } from '@/settings/type';
@@ -14,6 +14,7 @@ import ReactDOM from 'react-dom/client';
 import FakeLogin from './fake-login';
 import Home from './home';
 import Journey from './journey';
+import { JourneySceneSetting } from './journey/config';
 
 Click.install('#immersive_experience_section');
 
@@ -43,7 +44,7 @@ const App = ({ dataset }: { dataset: typeof rooAppDataset }) => {
 
     window.KGI_MINE_BASE_URI = baseUri;
     document.documentElement.style.setProperty('--base-uri', baseUri);
-    EnterFrame.setFPS(Debug.fps);
+    EnterFrame.setFPS(JourneySceneSetting.fps);
   }, []);
 
   const currentPage = useMemo(() => {

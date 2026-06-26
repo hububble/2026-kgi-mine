@@ -31,13 +31,6 @@ export const CharacterURIList = {
   小黃_正_灰底: { name: 'character-yellow', path: 'character-yellow.png' },
 };
 
-export const Debug = {
-  resource: true,
-  randomScene: true,
-  sceneItems: false,
-  fps: 60,
-};
-
 export const SceneSize = {
   width: 3840,
   height: 1080,

@@ -76,7 +76,7 @@ const Journey = memo(() => {
         // const contents: typeof JourneyFakeData = []; //JourneyFakeData;
 
         console.log(`第一次讀取資料`, contents);
-        setContext({ type: ActionType.UserData, state: { contents } });
+        setContext({ type: ActionType.UserData, state: { contents: [...contents, ...contents] } });
         setContext({ type: ActionType.LoadingProcess, state: { enabled: false } });
         setState((S) => ({ ...S, step: JourneyStepType.fadeIn }));
       } else {
