@@ -43,6 +43,8 @@ const Inner = memo(({ transition, isFavorited, favoriteSwitcher }: TInnerProps) 
   }, [response]);
 
   useEffect(() => {
+    console.log(data);
+
     if (data?.hubSpot_FeaturedImage) {
       const img = new Image();
       img.onload = () => requestAnimationFrame(() => setImageDidLoaded(true));

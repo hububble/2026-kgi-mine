@@ -21,7 +21,7 @@ const Items = memo(({ children, offset }: TItemsProps) => {
   const [state, setState] = useContext(JourneyContext);
   const [, setEvent] = useContext(JourneyEventsContext);
 
-  const [itemData] = useDataDiversion({ scene: state.scene });
+  const [itemData] = useDataDiversion();
   const { data } = useMemo(() => itemData, [itemData]);
   const endLoopShouldBe = useRef(Infinity);
 
@@ -37,6 +37,7 @@ const Items = memo(({ children, offset }: TItemsProps) => {
       setOdd((S) => ({ ...S, static: data.static }));
       setEven((S) => ({ ...S, static: data.static }));
     } else {
+      console.log(data);
       if (state.staticLoop % 2 === 1) setEven(data);
       else setOdd(data);
     }

@@ -3,7 +3,6 @@ import {
   JourneyItemsList,
   JourneySceneDebug,
   JourneySceneSetting,
-  JourneySceneType,
   JourneyStaticItemsList,
 } from '@/pages/journey/config';
 import { Context } from '@/settings/constant';
@@ -34,18 +33,16 @@ export type TDataDiversionStateData = {
 };
 
 type TDataDiversionState = {
-  scene: JourneySceneType | '';
   data: TDataDiversionStateData;
 };
 
-const useDataDiversion = ({ scene }: { scene: JourneySceneType }) => {
+const useDataDiversion = () => {
   const [context] = useContext(Context);
   const { contents } = context[ActionType.UserData]!;
 
-  const [{ loop }] = useContext(JourneyContext);
+  const [{ loop, scene, startFetchData }] = useContext(JourneyContext);
 
   const [state, setState] = useState<TDataDiversionState>({
-    scene,
     data: { back: [], front: [], static: [] },
   });
 
@@ -54,13 +51,15 @@ const useDataDiversion = ({ scene }: { scene: JourneySceneType }) => {
   const [, setURI] = useURI();
 
   useEffect(() => {
-    if (!state.scene) return;
+    if (!scene) return;
     dataRef.current = { back: [], front: [], static: [] };
-  }, [state.scene]);
+  }, [scene]);
 
   useEffect(() => {
-    const { scene } = state;
+    if (startFetchData) dataRef.current = { back: [], front: [], static: [] };
+  }, [startFetchData]);
 
+  useEffect(() => {
     if (!scene) return;
 
     let allData: TDataDiversionData = { ...dataRef.current };
@@ -166,19 +165,12 @@ const useDataDiversion = ({ scene }: { scene: JourneySceneType }) => {
     };
 
     setState((S) => ({ ...S, data }));
-  }, [state.scene, loop, contents]);
-
-  const updateStep = ({ scene }: { scene?: JourneySceneType }) => {
-    setState((S) => ({
-      ...S,
-      scene: !scene ? S.scene : scene,
-    }));
-  };
+  }, [scene, loop, contents]);
 
   const forceUpdate = () => {
     dataRef.current = { back: [], front: [], static: [] };
   };
 
-  return [state, updateStep, forceUpdate] as const;
+  return [state, forceUpdate] as const;
 };
 export default useDataDiversion;
