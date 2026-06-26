@@ -14,7 +14,6 @@ import QueryString from 'lesca-url-parameters';
 import { memo, useContext, useEffect, useRef, useState } from 'react';
 import {
   JourneyContext,
-  JourneyFakeData,
   JourneySceneSetting,
   JourneySceneType,
   JourneyState,
@@ -70,12 +69,12 @@ const Journey = memo(() => {
     if (response) {
       if (response.isSuccess) {
         // TODO
-        // const contents = response.result
-        //   .filter((content) => content.contentId)
-        //   .filter((content) => content.hubSpot_Id)
-        //   .filter((content) => content.hubSpot_FeaturedImage);
+        const contents = response.result
+          .filter((content) => content.contentId)
+          .filter((content) => content.hubSpot_Id)
+          .filter((content) => content.hubSpot_FeaturedImage);
         // .filter((_, index) => index === 0);
-        const contents: typeof JourneyFakeData = JourneyFakeData;
+        // const contents: typeof JourneyFakeData = JourneyFakeData;
 
         console.log(`第一次讀取資料`, contents);
         setContext({ type: ActionType.UserData, state: { contents } });

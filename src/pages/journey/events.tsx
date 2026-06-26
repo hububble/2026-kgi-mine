@@ -1,10 +1,9 @@
+import useActiveTrip from '@/hooks/useActiveTrip';
 import useContent from '@/hooks/useContent';
 import { Context } from '@/settings/constant';
 import { ActionType, IReactProps } from '@/settings/type';
 import { createContext, Dispatch, memo, SetStateAction, useContext, useEffect } from 'react';
-import { JourneyContext, JourneyFakeData, JourneySceneType, JourneyStepType } from './config';
-import useActiveTrip from '@/hooks/useActiveTrip';
-import QueryString from 'lesca-url-parameters';
+import { JourneyContext, JourneySceneType, JourneyStepType } from './config';
 
 export type TJourneyEventsState = {
   isCharacterStopped: boolean;
@@ -125,7 +124,7 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
           .filter((content) => content.hubSpot_FeaturedImage);
         // .filter((_, index) => index === 9999);
 
-        const filteredResult = JourneyFakeData;
+        const filteredResult = currentResult;
         console.log(`新的資料有${filteredResult.length}筆`, filteredResult);
 
         if (filteredResult.length === 0) {
