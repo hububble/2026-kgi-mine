@@ -2,11 +2,12 @@ import { Context } from '@/settings/constant';
 import { ActionType, PostMessageList } from '@/settings/type';
 import { memo, useContext, useEffect, useState } from 'react';
 import Blockquote from '../blockquote';
+import Button from '../button';
 import './index.less';
 
 const Article = memo(() => {
   const [context, setContext] = useContext(Context);
-  const { url } = context[ActionType.Article]!;
+  const { url, onClose } = context[ActionType.Article]!;
   const [height, setHeight] = useState(window.innerHeight);
 
   useEffect(() => {
@@ -14,10 +15,8 @@ const Article = memo(() => {
   }, []);
 
   useEffect(() => {
-    window.addEventListener('message', (event) => {
-      console.log(event.data);
+    const handleMessage = (event: MessageEvent) => {
       setContext({ type: ActionType.LoadingProcess, state: { enabled: false } });
-
       switch (event.data?.type) {
         // 偵測 iframe 的高度變化，並更新子組件的狀態
         case PostMessageList['iframe-height-change']:
@@ -32,14 +31,29 @@ const Article = memo(() => {
         case PostMessageList['iframe-audio-complete']:
           break;
       }
-    });
+    };
+    window.addEventListener('message', handleMessage);
+    return () => {
+      window.removeEventListener('message', handleMessage);
+    };
   }, []);
 
   return (
     <div className='Article'>
       <Blockquote className='flex w-full justify-center' scroll>
-        <div className='min-h-full w-full max-w-5xl py-0 md:py-10'>
+        <div className='relative min-h-full w-full max-w-5xl py-0 md:py-10'>
           <iframe src={url} className='min-h-full w-full' height={height} />
+          <div className='absolute top-5 left-5 h-10 w-10 md:top-14'>
+            <Button
+              className='h-10 w-10'
+              onClick={() => {
+                setContext({ type: ActionType.Article, state: { enabled: false } });
+                onClose?.();
+              }}
+            >
+              <Button.AlertClose />
+            </Button>
+          </div>
         </div>
       </Blockquote>
     </div>

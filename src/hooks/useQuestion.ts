@@ -7,7 +7,7 @@ import { useContext, useEffect, useState } from 'react';
 
 export type ResponseType = {
   isSuccess: boolean;
-  result?: TTripList;
+  result: TTripList;
   message?: string;
 };
 

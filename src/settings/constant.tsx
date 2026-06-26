@@ -91,16 +91,6 @@ export const UserDataState: TUserDataState = {
   journey: getJourneyName(),
   character: getCharacterName() || characterList[Math.floor(Math.random() * characterList.length)],
   contents: [],
-  memberInfoDto: {
-    baseNum: faker.number.int({ min: 0, max: 100 }),
-    careerNum: faker.number.int({ min: 0, max: 100 }),
-    financeNum: faker.number.int({ min: 0, max: 100 }),
-    healthNum: faker.number.int({ min: 0, max: 100 }),
-    relationsNum: faker.number.int({ min: 0, max: 100 }),
-    communityNum: faker.number.int({ min: 0, max: 100 }),
-    name: faker.person.firstName(),
-    nickName: faker.person.fullName(),
-  },
 };
 
 export const SceneViewSizeState: TSceneViewSizeState = {

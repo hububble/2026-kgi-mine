@@ -1,7 +1,6 @@
+import { useAuth } from '@/components/auth';
 import TweenerProvider from '@/components/tweenProvider';
 import useURI from '@/hooks/useURI';
-import { Context } from '@/settings/constant';
-import { ActionType } from '@/settings/type';
 import useTween, { Bezier } from 'lesca-use-tween';
 import { memo, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { JourneyContext, JourneyStepType } from '../config';
@@ -55,9 +54,7 @@ const Icon = memo(() => {
 });
 
 const UserData = memo(() => {
-  const [context] = useContext(Context);
-
-  const { memberInfoDto } = context[ActionType.UserData]!;
+  const [{ memberInfoDto }] = useAuth();
 
   const [state] = useContext(JourneyContext);
   const [, setURI] = useURI();
