@@ -21,7 +21,7 @@ const Items = memo(({ children, offset }: TItemsProps) => {
   const [state, setState] = useContext(JourneyContext);
   const [, setEvent] = useContext(JourneyEventsContext);
 
-  const [itemData, updateStep] = useDataDiversion({ scene: state.scene });
+  const [itemData] = useDataDiversion({ scene: state.scene });
   const { data } = useMemo(() => itemData, [itemData]);
   const endLoopShouldBe = useRef(Infinity);
 
@@ -29,7 +29,6 @@ const Items = memo(({ children, offset }: TItemsProps) => {
   const [even, setEven] = useState<TDataDiversionStateData>({ back: [], front: [], static: [] });
 
   useEffect(() => {
-    updateStep({ step: state.loop });
     setEvent((S) => ({ ...S, onLoopChange: { loop: state.loop } }));
   }, [state.loop]);
 
@@ -44,6 +43,8 @@ const Items = memo(({ children, offset }: TItemsProps) => {
   }, [data, state.staticLoop]);
 
   useEffect(() => {
+    console.log(state.loop, state.staticLoop, state.startFetchData, data.back, data.front);
+
     if (state.loop <= -1 || state.staticLoop <= -1 || state.startFetchData) {
       return;
     }
@@ -65,7 +66,7 @@ const Items = memo(({ children, offset }: TItemsProps) => {
         },
       }));
     }
-  }, [data, state.staticLoop]);
+  }, [data]);
 
   const onCenter = useMemo(
     () => (name: string) => {

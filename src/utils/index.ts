@@ -52,7 +52,7 @@ export const checkElementInViewportWithThreshold = (el: HTMLElement, threshold: 
 export const checkElementCenterOfScreenWithOffset = (el: HTMLElement, offset: number) => {
   const rect = el.getBoundingClientRect();
   if (rect.width === 0) return false;
-  return rect.left < 0 ? false : rect.left <= (window.innerWidth + offset) / 2;
+  return rect.left < 0 ? false : rect.left <= window.innerWidth / 2 + offset;
 };
 
 export const mergePath = (file: string) => {

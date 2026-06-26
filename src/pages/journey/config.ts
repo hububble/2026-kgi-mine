@@ -150,7 +150,7 @@ export const JourneyStaticItemsList = {
 export const JourneySceneSetting = {
   fps: 60,
   itemCountOfScene: 6,
-  itemsCenterThreshold: 230,
+  itemsCenterThreshold: 130,
   offset: 100,
   walkFadeInDistance: 100,
   walkFadeInDuration: 8000,

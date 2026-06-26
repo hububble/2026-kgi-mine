@@ -62,10 +62,19 @@ const useDataDiversion = ({ scene }: { scene: JourneySceneType }) => {
     const { scene } = state;
 
     if (!scene) return;
-    if (contents.length === 0) return;
 
     let allData: TDataDiversionData = { ...dataRef.current };
     let staticData = JourneyStaticItemsList[scene] || [];
+
+    if (contents.length === 0) {
+      const data = {
+        back: [],
+        front: [],
+        static: staticData,
+      };
+      setState((S) => ({ ...S, data }));
+      return;
+    }
 
     if (dataRef.current.back.length === 0 && dataRef.current.front.length === 0) {
       // 洗牌並分組資料
@@ -159,8 +168,7 @@ const useDataDiversion = ({ scene }: { scene: JourneySceneType }) => {
     setState((S) => ({ ...S, data }));
   }, [state.scene, loop, contents]);
 
-  const updateStep = ({ step, scene }: { step?: number; scene?: JourneySceneType }) => {
-    if (step && step <= -1) dataRef.current = { back: [], front: [], static: [] };
+  const updateStep = ({ scene }: { scene?: JourneySceneType }) => {
     setState((S) => ({
       ...S,
       scene: !scene ? S.scene : scene,

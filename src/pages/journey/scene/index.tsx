@@ -114,9 +114,8 @@ const Scene = memo(() => {
     } else if (state.step === JourneyStepType.fadeOut) {
       setStyle({ left: offset }, 1);
     } else if (state.step === JourneyStepType.resume) {
-      console.log(state.onCenterItem);
-
-      if (state.onCenterItem.length === 0) {
+      const currentCenterItem = state.onCenterItem.filter((name) => !name.includes('roadSign'));
+      if (currentCenterItem.length === 0) {
         EnterFrame.play();
         setIsAlpha(false);
         setEvent((S) => ({ ...S, isCharacterStopped: false }));

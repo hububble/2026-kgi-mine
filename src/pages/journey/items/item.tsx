@@ -30,7 +30,7 @@ const Item = memo(({ data, offset, onCenter, onItemSelected }: TItemProps) => {
 
     if (data.index !== undefined) {
       const currentIndex = Math.max(data.index - 1, 0);
-      const { hubSpot_PrimaryTag } = contents[currentIndex];
+      const hubSpot_PrimaryTag = contents?.[currentIndex]?.hubSpot_PrimaryTag;
 
       const tag = hubSpot_PrimaryTag || 'NONE';
       const lowercaseTag = tag.toLowerCase() as
@@ -49,7 +49,6 @@ const Item = memo(({ data, offset, onCenter, onItemSelected }: TItemProps) => {
   useEffect(() => {
     const currentThreshold =
       JourneySceneSetting.itemsCenterThreshold * (Math.min(window.innerWidth, 640) / 320);
-    console.log(currentThreshold);
 
     if (ref.current) {
       const inCenter = checkElementCenterOfScreenWithOffset(ref.current, currentThreshold);

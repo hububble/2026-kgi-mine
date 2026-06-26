@@ -2,7 +2,7 @@ import useContent from '@/hooks/useContent';
 import { Context } from '@/settings/constant';
 import { ActionType, IReactProps } from '@/settings/type';
 import { createContext, Dispatch, memo, SetStateAction, useContext, useEffect } from 'react';
-import { JourneyContext, JourneySceneType, JourneyStepType } from './config';
+import { JourneyContext, JourneyFakeData, JourneySceneType, JourneyStepType } from './config';
 import useActiveTrip from '@/hooks/useActiveTrip';
 import QueryString from 'lesca-url-parameters';
 
@@ -82,6 +82,7 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
         type: ActionType.Modal,
         state: {
           enabled: true,
+          title: '',
           body: '是否探索一條新的路線?',
           label: ['好的', '暫時不要'],
           onConfirm: (label) => {
@@ -124,8 +125,7 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
           .filter((content) => content.hubSpot_FeaturedImage);
         // .filter((_, index) => index === 9999);
 
-        const content = QueryString.get('content') === 'no';
-        const filteredResult = content ? [] : currentResult;
+        const filteredResult = JourneyFakeData;
         console.log(`新的資料有${filteredResult.length}筆`, filteredResult);
 
         if (filteredResult.length === 0) {
