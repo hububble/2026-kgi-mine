@@ -65,7 +65,7 @@ const Items = memo(({ children, offset }: TItemsProps) => {
         },
       }));
     }
-  }, [data]);
+  }, [data, state.staticLoop]);
 
   const onCenter = useMemo(
     () => (name: string) => {

@@ -71,7 +71,8 @@ const Journey = memo(() => {
         // TODO
         const contents = response.result
           .filter((content) => content.contentId)
-          .filter((content) => content.hubSpot_Id);
+          .filter((content) => content.hubSpot_Id)
+          .filter((content) => content.hubSpot_FeaturedImage);
         // .filter((_, index) => index === 0);
         // const contents: typeof JourneyFakeData = []; //JourneyFakeData;
 

@@ -49,6 +49,7 @@ const Item = memo(({ data, offset, onCenter, onItemSelected }: TItemProps) => {
   useEffect(() => {
     const currentThreshold =
       JourneySceneSetting.itemsCenterThreshold * (Math.min(window.innerWidth, 640) / 320);
+    console.log(currentThreshold);
 
     if (ref.current) {
       const inCenter = checkElementCenterOfScreenWithOffset(ref.current, currentThreshold);

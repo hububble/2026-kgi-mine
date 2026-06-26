@@ -120,7 +120,8 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
       if (contentResponse.isSuccess) {
         const currentResult = contentResponse.result
           .filter((content) => content.contentId)
-          .filter((content) => content.hubSpot_Id);
+          .filter((content) => content.hubSpot_Id)
+          .filter((content) => content.hubSpot_FeaturedImage);
         // .filter((_, index) => index === 9999);
 
         const content = QueryString.get('content') === 'no';
@@ -142,6 +143,12 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
                 ...S.onJourneyEnd,
                 index: S.onJourneyEnd.index + 1,
               },
+            }));
+          } else {
+            setState((S) => ({
+              ...S,
+              startFetchData: false,
+              fetchTimes: S.fetchTimes + 1,
             }));
           }
         } else {
