@@ -1,8 +1,10 @@
+import { JourneyFakeData, JourneySceneDebug } from '@/pages/journey/config';
 import { REST_PATH } from '@/settings/config';
 import { faker } from '@faker-js/faker';
 import { mergePath } from 'lesca-fetcher';
 import { HttpResponse, http } from 'msw';
 
+let time = 0;
 export const handlers = [
   http.get(mergePath(REST_PATH.login), () => {
     return HttpResponse.json({
@@ -12,10 +14,31 @@ export const handlers = [
     });
   }),
 
+  http.post(mergePath(REST_PATH.signIn), () => {
+    return HttpResponse.json({
+      isSuccess: true,
+      result: {
+        memberId: '',
+        memberInfoDto: {
+          name: faker.person.firstName(),
+          nickname: faker.person.lastName(),
+        },
+        token: faker.string.nanoid(),
+      },
+    });
+  }),
+
   http.get(mergePath(REST_PATH.start), () => {
     return HttpResponse.json({
       isSuccess: true,
-      result: [],
+      result: JourneyFakeData.filter((_, i) => i < JourneySceneDebug.useLocalData[time++ % JourneySceneDebug.useLocalData.length]),
+    });
+  }),
+
+  http.post(mergePath(REST_PATH.skip), () => {
+    return HttpResponse.json({
+      isSuccess: true,
+      result: true,
     });
   }),
 

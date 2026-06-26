@@ -67,7 +67,6 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
       // 根據選擇的項目索引，更新卡片內容
       const { index } = eventState.onItemSelected;
       const currentContent = contents[index];
-      console.log(currentContent, index);
 
       if (currentContent) {
         setContext({ type: ActionType.Card, state: { enabled: true, data: currentContent } });
@@ -176,6 +175,10 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
             baseLoop: S.staticLoop,
             startFetchData: false,
             fetchTimes: S.fetchTimes + 1,
+          }));
+          setEventState((S) => ({
+            ...S,
+            onItemSelected: JourneyEventsState.onItemSelected,
           }));
         }
       }

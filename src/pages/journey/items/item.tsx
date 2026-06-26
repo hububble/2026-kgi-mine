@@ -67,10 +67,13 @@ const Item = memo(({ data, offset, onCenter, onItemSelected }: TItemProps) => {
       }
 
       if (data.clicked) {
-        setState((S) => ({
-          ...S,
-          onCenterItem: S.onCenterItem.filter((name) => name !== data.name),
-        }));
+        setState((S) => {
+          if (!S.onCenterItem.includes(data.name)) return S;
+          return {
+            ...S,
+            onCenterItem: S.onCenterItem.filter((name) => name !== data.name),
+          };
+        });
       }
 
       if (inCenter && !status.isCenter) {
@@ -102,10 +105,11 @@ const Item = memo(({ data, offset, onCenter, onItemSelected }: TItemProps) => {
         {!data.name.includes('roadSign') && data.name && data.clicked === false && (
           <Button
             onClick={() => {
-              console.log('11212', data.index);
-
               onItemSelected?.(data.name, (data.index ?? 1) - 1);
-              setStatus((S) => ({ ...S, isCenter: true, isInView: true }));
+              setStatus((S) => {
+                if (S.isCenter && S.isInView) return S;
+                return { ...S, isCenter: true, isInView: true };
+              });
             }}
           >
             <Button.Marker>

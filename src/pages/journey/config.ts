@@ -160,11 +160,13 @@ export const JourneySceneSetting = {
 type JourneySceneDebugType = {
   enabled: boolean;
   count: number;
+  useLocalData: number[];
 };
 
 export const JourneySceneDebug: JourneySceneDebugType = {
   enabled: QueryString.get('debug') === '1' || false,
   count: 3,
+  useLocalData: [2, 2, 2, 1],
 };
 
 const createJourneyFakeItem = (): TUserDataContent => ({

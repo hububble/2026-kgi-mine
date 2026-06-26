@@ -120,6 +120,7 @@ const Scene = memo(() => {
         setIsAlpha(false);
         setEvent((S) => ({ ...S, isCharacterStopped: false }));
       }
+      setEvent((S) => ({ ...S, isCharacterStopped: true }));
     } else if (state.step === JourneyStepType.loop) {
       EnterFrame.destroy();
       EnterFrame.reset();

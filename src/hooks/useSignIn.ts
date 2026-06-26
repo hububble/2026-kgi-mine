@@ -1,5 +1,5 @@
 import { useAuth } from '@/components/auth';
-import { SESSION_KEY } from '@/components/auth/config';
+import { SESSION_KEY, TAuthState } from '@/components/auth/config';
 import { REST_PATH } from '@/settings/config';
 import { Context } from '@/settings/constant';
 import { ActionType } from '@/settings/type';
@@ -11,7 +11,7 @@ type ResponseType = {
   isSuccess: boolean;
   result: {
     memberId: string;
-    memberInfoDto: any;
+    memberInfoDto: TAuthState['memberInfoDto'];
     token: string;
   };
 };
