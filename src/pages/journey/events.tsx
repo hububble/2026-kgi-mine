@@ -69,7 +69,22 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
       const currentContent = contents[index];
       console.log(currentContent, index);
 
-      setContext({ type: ActionType.Card, state: { enabled: true, data: currentContent } });
+      if (currentContent) {
+        setContext({ type: ActionType.Card, state: { enabled: true, data: currentContent } });
+      } else {
+        setContext({
+          type: ActionType.Modal,
+          state: {
+            enabled: true,
+            title: '',
+            body: '此項目尚未有內容，請選擇其他項目',
+            label: ['好的'],
+            onClose: () => {
+              setState((S) => ({ ...S, step: JourneyStepType.resume }));
+            },
+          },
+        });
+      }
       eventState.onItemSelected.prev = index;
     }
   }, [eventState.onItemSelected, eventState.isCharacterStopped, contents]);

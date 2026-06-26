@@ -37,11 +37,10 @@ const Items = memo(({ children, offset }: TItemsProps) => {
       setOdd((S) => ({ ...S, static: data.static }));
       setEven((S) => ({ ...S, static: data.static }));
     } else {
-      console.log(data);
       if (state.staticLoop % 2 === 1) setEven(data);
       else setOdd(data);
     }
-  }, [data, state.staticLoop]);
+  }, [data]);
 
   useEffect(() => {
     if (state.loop <= -1 || state.staticLoop <= -1 || state.startFetchData) {
