@@ -151,6 +151,7 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
               step: JourneyStepType.fadeOut,
               startFetchData: false,
               fetchTimes: S.fetchTimes + 1,
+              onCenterItem: [],
             }));
             setEventState((S) => ({
               ...S,
@@ -164,6 +165,7 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
               ...S,
               startFetchData: false,
               fetchTimes: S.fetchTimes + 1,
+              onCenterItem: [],
             }));
           }
         } else {
@@ -175,6 +177,7 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
             baseLoop: S.staticLoop,
             startFetchData: false,
             fetchTimes: S.fetchTimes + 1,
+            onCenterItem: [],
           }));
           setEventState((S) => ({
             ...S,

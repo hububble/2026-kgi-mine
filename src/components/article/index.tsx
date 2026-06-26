@@ -42,13 +42,7 @@ const Article = memo(() => {
     <div className='Article'>
       <Blockquote className='flex w-full justify-center' scroll>
         <div className='relative min-h-full w-full max-w-5xl py-0 md:py-10'>
-          <iframe
-            src={
-              'https://243367301.hs-sites-na2.com/test-blog/%E5%BC%B7%E5%8C%96%E6%99%82%E9%96%93%E7%9A%84%E8%A4%87%E5%88%A9%E7%B4%80%E5%BE%8B'
-            }
-            className='min-h-full w-full'
-            height={height}
-          />
+          <iframe src={url || ''} className='min-h-full w-full' height={height} />
           <div className='absolute top-5 left-5 h-10 w-10 md:top-14'>
             <Button
               className='h-10 w-10'

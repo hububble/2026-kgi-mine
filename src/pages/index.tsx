@@ -81,6 +81,8 @@ async function bootstrap() {
     const { worker } = await import('@/mocks/browser');
     await worker.start({
       serviceWorker: { url: './mockServiceWorker.js' },
+      quiet: true, // Disables all library logging
+      onUnhandledRequest: 'bypass', // Ignores unhandled requests
     });
   }
 

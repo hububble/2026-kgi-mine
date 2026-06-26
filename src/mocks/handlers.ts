@@ -28,10 +28,13 @@ export const handlers = [
     });
   }),
 
-  http.get(mergePath(REST_PATH.start), () => {
+  http.get(mergePath(REST_PATH.content), () => {
+    time += 1;
+
     return HttpResponse.json({
       isSuccess: true,
-      result: JourneyFakeData.filter((_, i) => i < JourneySceneDebug.useLocalData[time++ % JourneySceneDebug.useLocalData.length]),
+      result: JourneyFakeData.filter((_, i) => i < JourneySceneDebug.useLocalData[time % JourneySceneDebug.useLocalData.length]),
+      time,
     });
   }),
 

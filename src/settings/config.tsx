@@ -9,7 +9,7 @@ export const PAGE = {
 export const REST_PATH = {
   signIn: 'member/sign-in',
   login: 'admin/login',
-  start: 'immersion/content',
+  content: 'immersion/content',
   questions: 'immersion/miner',
   answer: 'immersion/miner',
   favorite: 'content/favorite',

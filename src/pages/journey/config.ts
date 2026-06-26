@@ -166,7 +166,7 @@ type JourneySceneDebugType = {
 export const JourneySceneDebug: JourneySceneDebugType = {
   enabled: QueryString.get('debug') === '1' || false,
   count: 3,
-  useLocalData: [2, 2, 2, 1],
+  useLocalData: [2, 2, 2, 1, 0],
 };
 
 const createJourneyFakeItem = (): TUserDataContent => ({
@@ -196,7 +196,7 @@ const createJourneyFakeItem = (): TUserDataContent => ({
   hubSpot_PrimaryTag: faker.helpers.arrayElement(['CAREER', 'FINANCE', 'HEALTH', 'RELATIONS', 'SOCIETY'] as const),
   hubSpot_SecondaryTag: faker.helpers.arrayElement(['CAREER', 'FINANCE', 'HEALTH', 'RELATIONS', 'SOCIETY', 'NONE'] as const),
   hubSpot_PostCollection: faker.lorem.words({ min: 1, max: 3 }),
-  hubSpot_Url: faker.internet.url(),
+  hubSpot_Url: 'https://243367301.hs-sites-na2.com/test-blog/%E5%BC%B7%E5%8C%96%E6%99%82%E9%96%93%E7%9A%84%E8%A4%87%E5%88%A9%E7%B4%80%E5%BE%8B',
   isFavorited: faker.datatype.boolean(),
   isLiked: faker.datatype.boolean(),
   isUnlockRequired: faker.datatype.boolean(),

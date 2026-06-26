@@ -27,7 +27,8 @@ const useContent = (props?: { auto?: boolean; backgroundAppProcess?: boolean }) 
       //   result: JourneyFakeData.filter((_, i) => i < 10) as TUserDataContent[],
       // };
       // response = { isSuccess: true, result: [] };
-      response = await Fetcher.get(REST_PATH.start);
+      response = await Fetcher.get(REST_PATH.content);
+      console.log(response);
     } catch {
       response = { isSuccess: false, result: [] as TUserDataContent[] };
     }
