@@ -7,7 +7,7 @@ import './index.less';
 const Article = memo(() => {
   const [context, setContext] = useContext(Context);
   const { url } = context[ActionType.Article]!;
-  const [height, setHeight] = useState(10000);
+  const [height, setHeight] = useState(window.innerHeight);
 
   useEffect(() => {
     setContext({ type: ActionType.LoadingProcess, state: { enabled: true } });
@@ -15,11 +15,13 @@ const Article = memo(() => {
 
   useEffect(() => {
     window.addEventListener('message', (event) => {
+      console.log(event.data);
+      setContext({ type: ActionType.LoadingProcess, state: { enabled: false } });
+
       switch (event.data?.type) {
         // 偵測 iframe 的高度變化，並更新子組件的狀態
         case PostMessageList['iframe-height-change']:
           setHeight(event.data.height);
-          setContext({ type: ActionType.LoadingProcess, state: { enabled: false } });
           break;
 
         // 偵測 iframe 的video變化

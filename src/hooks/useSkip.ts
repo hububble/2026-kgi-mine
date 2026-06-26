@@ -30,7 +30,7 @@ const useSkip = (props?: { backgroundAppProcess?: boolean }) => {
 
     let response;
     try {
-      response = await Fetcher.post(REST_PATH.like, params);
+      response = await Fetcher.post(REST_PATH.skip, params);
     } catch {
       response = {
         isSuccess: false,
