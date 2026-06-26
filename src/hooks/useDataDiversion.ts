@@ -1,4 +1,5 @@
 import {
+  JourneyContext,
   JourneyItemsList,
   JourneySceneDebug,
   JourneySceneType,
@@ -32,17 +33,17 @@ export type TDataDiversionStateData = {
 };
 
 type TDataDiversionState = {
-  index: number;
   scene: JourneySceneType | '';
   data: TDataDiversionStateData;
 };
 
-const useDataDiversion = ({ index = 0, scene }: { index: number; scene: JourneySceneType }) => {
+const useDataDiversion = ({ scene }: { scene: JourneySceneType }) => {
   const [context] = useContext(Context);
   const { contents } = context[ActionType.UserData]!;
 
+  const [{ loop }] = useContext(JourneyContext);
+
   const [state, setState] = useState<TDataDiversionState>({
-    index,
     scene,
     data: { back: [], front: [], static: [] },
   });
@@ -62,7 +63,7 @@ const useDataDiversion = ({ index = 0, scene }: { index: number; scene: JourneyS
     if (!scene) return;
     if (contents.length === 0) return;
 
-    let allData: TDataDiversionData = dataRef.current;
+    let allData: TDataDiversionData = { ...dataRef.current };
     let staticData = JourneyStaticItemsList[scene] || [];
 
     if (dataRef.current.back.length === 0 && dataRef.current.front.length === 0) {
@@ -99,7 +100,7 @@ const useDataDiversion = ({ index = 0, scene }: { index: number; scene: JourneyS
         groupList.push(group);
       }
 
-      const allData: TDataDiversionData = groupList.reduce(
+      allData = groupList.reduce(
         (acc, group) => {
           const backGroup: TDataDiversionItem[] = [];
           const frontGroup: TDataDiversionItem[] = [];
@@ -132,6 +133,7 @@ const useDataDiversion = ({ index = 0, scene }: { index: number; scene: JourneyS
         },
         { back: [], front: [], static: [] } as TDataDiversionData,
       );
+
       dataRef.current = allData;
 
       [...allData.front, ...allData.back].flat().forEach((item) => {
@@ -145,19 +147,18 @@ const useDataDiversion = ({ index = 0, scene }: { index: number; scene: JourneyS
     });
 
     const data = {
-      back: allData.back[state.index] || [],
-      front: allData.front[state.index] || [],
+      back: allData.back[loop] || [],
+      front: allData.front[loop] || [],
       static: staticData,
     };
 
     setState((S) => ({ ...S, data }));
-  }, [state.scene, state.index, contents]);
+  }, [state.scene, loop, contents]);
 
   const updateStep = ({ step, scene }: { step?: number; scene?: JourneySceneType }) => {
     if (step && step <= -1) dataRef.current = { back: [], front: [], static: [] };
     setState((S) => ({
       ...S,
-      index: step === undefined ? S.index + 1 : step,
       scene: !scene ? S.scene : scene,
     }));
   };

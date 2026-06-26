@@ -31,8 +31,9 @@ export type TJourneyState = {
   staticLoop: number;
   loop: number;
   baseLoop: number;
-  loadDataTimes: number;
   onCenterItem: string[];
+  startFetchData: boolean;
+  fetchTimes: number;
 };
 
 export type TJourneyContext = [TJourneyState, Dispatch<SetStateAction<TJourneyState>>];
@@ -43,8 +44,9 @@ export const JourneyState: TJourneyState = {
   staticLoop: -1,
   loop: -1,
   baseLoop: 0,
-  loadDataTimes: 0,
   onCenterItem: [],
+  startFetchData: false,
+  fetchTimes: 0,
 };
 
 export const JourneyContext = createContext<TJourneyContext>([JourneyState, () => {}]);
@@ -160,7 +162,7 @@ type JourneySceneDebugType = {
 
 export const JourneySceneDebug: JourneySceneDebugType = {
   enabled: QueryString.get('debug') === '1' || false,
-  count: 7,
+  count: 3,
 };
 
 const createJourneyFakeItem = (): TUserDataContent => ({

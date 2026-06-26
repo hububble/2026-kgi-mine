@@ -21,7 +21,7 @@ const Items = memo(({ children, offset }: TItemsProps) => {
   const [state, setState] = useContext(JourneyContext);
   const [, setEvent] = useContext(JourneyEventsContext);
 
-  const [itemData, updateStep, forceUpdate] = useDataDiversion({ index: -1, scene: state.scene });
+  const [itemData, updateStep] = useDataDiversion({ scene: state.scene });
   const { data } = useMemo(() => itemData, [itemData]);
   const endLoopShouldBe = useRef(Infinity);
 
@@ -44,13 +44,7 @@ const Items = memo(({ children, offset }: TItemsProps) => {
   }, [data, state.staticLoop]);
 
   useEffect(() => {
-    console.log(
-      state.loop === -1 ? '正在讀取資料' : `第${state.loop + 1}圈`,
-      data.back.length === 0 && data.front.length === 0 ? '資料為空' : '資料存在',
-    );
-
-    if (state.loop === -1) {
-      // TODO: 表示這一輪他正在讀取資料
+    if (state.loop <= -1 || state.staticLoop <= -1 || state.startFetchData) {
       return;
     }
 
@@ -60,19 +54,18 @@ const Items = memo(({ children, offset }: TItemsProps) => {
       console.log(`第${state.loop + 1}圈沒資料，嘗試讀取新資料`);
       setState((S) => ({
         ...S,
-        baseLoop: S.baseLoop + S.loop,
-        loadDataTimes: S.loadDataTimes + 1,
+        baseLoop: S.staticLoop,
+        startFetchData: true,
       }));
       setEvent((S) => ({
         ...S,
         onContentEmpty: {
           ...S.onContentEmpty,
           index: S.onContentEmpty.index + 1,
-          callback: forceUpdate,
         },
       }));
     }
-  }, [data, state.loop]);
+  }, [data]);
 
   const onCenter = useMemo(
     () => (name: string) => {

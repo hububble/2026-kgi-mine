@@ -27,6 +27,7 @@ const Auth = memo(({ children }: IReactProps) => {
     const auth = Storage.get(SESSION_KEY);
     if (!auth) {
       // 如果没有session
+      console.log(`[AUTH]:未取得token，需要登入`);
     } else {
       // 如果有session
       const { token } = auth.data;

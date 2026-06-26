@@ -47,13 +47,13 @@ const Content = memo(() => {
   }, [token]);
 
   const page = useMemo(() => {
-    if (!questionResponse?.isSuccess) return '';
     switch (state.page) {
       default:
       case HomePageType.landing:
         return <歡迎踏上豐盛之旅 />;
 
       case HomePageType.decade:
+        if (!questionResponse?.isSuccess) return '';
         return <你想要的下一個十年是 data={questionResponse?.result?.quizList} />;
 
       case HomePageType.journey:

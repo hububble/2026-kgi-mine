@@ -15,7 +15,7 @@ type TStackViewProps = IReactProps & {
 
 const StackView = memo(({ offset, type, children, onPushed }: TStackViewProps) => {
   const [context] = useContext(Context);
-  const [{ baseLoop, loadDataTimes }, setState] = useContext(JourneyContext);
+  const [{ baseLoop, fetchTimes }, setState] = useContext(JourneyContext);
   const { coverPercent, ratio, width } = context[ActionType.SceneViewSize]!;
 
   const normalizeModulo = (value: number, mod: number) => ((value % mod) + mod) % mod;
@@ -32,13 +32,13 @@ const StackView = memo(({ offset, type, children, onPushed }: TStackViewProps) =
       const movedInCycle = normalizeModulo(totalOffset + phaseOffset, cycleDistance);
 
       const staticLoop = Math.floor(totalOffset / (cycleDistance * 0.5));
-      const loop = staticLoop - baseLoop - loadDataTimes;
+      const loop = staticLoop - baseLoop - (fetchTimes > 0 ? 1 : 0);
       const left = movedInCycle * -1;
 
       return { left, loop, staticLoop, isPushPrevToEnd: left <= -100 };
     }
     return { left: 0, loop: -1, staticLoop: -1, isPushPrevToEnd: false };
-  }, [offset, width, ratio, coverPercent, type, baseLoop, loadDataTimes]);
+  }, [offset, width, ratio, coverPercent, type, baseLoop, fetchTimes]);
 
   useEffect(() => {
     if (isPushPrevToEnd) onPushed?.(loop);

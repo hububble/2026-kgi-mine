@@ -21,6 +21,11 @@ const useContent = (props?: { auto?: boolean; backgroundAppProcess?: boolean }) 
 
     let response;
     try {
+      // TODO : 這裡是模擬資料，之後要改成實際的 API
+      // response = {
+      //   isSuccess: true,
+      //   result: JourneyFakeData.filter((_, i) => i < 10) as TUserDataContent[],
+      // };
       response = await Fetcher.get(REST_PATH.start);
     } catch {
       response = { isSuccess: false, result: [] as TUserDataContent[] };
