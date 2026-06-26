@@ -1,6 +1,7 @@
-import { faker } from '@faker-js/faker';
 import QueryString from 'lesca-url-parameters';
 import { createContext } from 'react';
+import { GoVideo } from 'react-icons/go';
+import { PiFileAudioFill } from 'react-icons/pi';
 import { PAGE } from './config';
 import {
   ActionType,
@@ -21,8 +22,6 @@ import {
   TTripList,
   TUserDataState,
 } from './type';
-import { GoVideo } from 'react-icons/go';
-import { PiFileAudioFill } from 'react-icons/pi';
 
 export const LoadingProcessState: TLoadingProcessState = {
   enabled: false,
