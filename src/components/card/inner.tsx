@@ -1,13 +1,13 @@
+import useSkip from '@/hooks/useSkip';
 import { JourneyContext, JourneyStepType } from '@/pages/journey/config';
 import { Context } from '@/settings/constant';
 import { ActionType, TransitionType } from '@/settings/type';
 import useTween from 'lesca-use-tween';
-import { memo, useContext, useEffect, useMemo, useState } from 'react';
+import { memo, useContext, useEffect, useMemo } from 'react';
 import { twMerge } from 'tailwind-merge';
 import Button from '../button';
 import Heading from '../heading';
 import { findPrimarySecondaryTag } from './config';
-import useSkip from '@/hooks/useSkip';
 
 type TInnerProps = {
   transition: TransitionType;
@@ -22,7 +22,6 @@ const Inner = memo(({ transition, isFavorited, favoriteSwitcher }: TInnerProps) 
 
   const contentCategory = data?.contentCategory?.toLocaleLowerCase() || '';
   const [, setState] = useContext(JourneyContext);
-  const [imageDidLoaded, setImageDidLoaded] = useState(false);
 
   const [response, fetch] = useSkip();
 
@@ -43,19 +42,11 @@ const Inner = memo(({ transition, isFavorited, favoriteSwitcher }: TInnerProps) 
   }, [response]);
 
   useEffect(() => {
-    if (data?.hubSpot_FeaturedImage) {
-      const img = new Image();
-      img.onload = () => requestAnimationFrame(() => setImageDidLoaded(true));
-      img.src = data.hubSpot_FeaturedImage;
-    }
-  }, [data?.hubSpot_FeaturedImage]);
-
-  useEffect(() => {
-    if (transition === TransitionType.FadeIn && imageDidLoaded) {
+    if (transition === TransitionType.FadeIn) {
       setStyle({ opacity: 1, y: 0 }, { duration: 600, delay: 200 });
     }
     return () => destroy();
-  }, [transition, imageDidLoaded]);
+  }, [transition]);
 
   const { primary, secondary } = useMemo(() => findPrimarySecondaryTag(data), [data]);
 
@@ -75,7 +66,7 @@ const Inner = memo(({ transition, isFavorited, favoriteSwitcher }: TInnerProps) 
   }, [contentCategory, navBarIcon]);
 
   return (
-    <div className={twMerge('card', imageDidLoaded ? 'block' : 'hidden')} style={style}>
+    <div className='card' style={style}>
       <div
         className='featuredImage'
         style={

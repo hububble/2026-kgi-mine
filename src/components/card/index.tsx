@@ -59,10 +59,16 @@ const Card = memo(() => {
         setContext({ type: ActionType.LoadingProcess, state: { enabled: true } });
       }}
       onload={() => {
-        requestAnimationFrame(() => {
-          setContext({ type: ActionType.LoadingProcess, state: { enabled: false } });
-          setTransition(TransitionType.FadeIn);
-        });
+        if (data?.hubSpot_FeaturedImage) {
+          const image = new Image();
+          image.onload = () => {
+            requestAnimationFrame(() => {
+              setContext({ type: ActionType.LoadingProcess, state: { enabled: false } });
+              setTransition(TransitionType.FadeIn);
+            });
+          };
+          image.src = data.hubSpot_FeaturedImage;
+        }
       }}
     >
       <div className='Card'>
