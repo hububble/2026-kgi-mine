@@ -38,6 +38,13 @@ export const handlers = [
     });
   }),
 
+  http.get(mergePath(REST_PATH.nextTrip), () => {
+    return HttpResponse.json({
+      isSuccess: true,
+      result: {},
+    });
+  }),
+
   http.post(mergePath(REST_PATH.skip), () => {
     return HttpResponse.json({
       isSuccess: true,
