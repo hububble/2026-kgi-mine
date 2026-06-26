@@ -29,6 +29,10 @@ const Questionnaire = memo(() => {
         if (sorted.length === 0) {
           console.log('沒有問券，繼續旅程');
           onClose?.();
+          setContext({
+            type: ActionType.Questionnaire,
+            state: { enabled: false, has_triggered: true },
+          });
           return;
         }
 
@@ -54,6 +58,10 @@ const Questionnaire = memo(() => {
       } else {
         console.log('沒有問券，繼續旅程');
         onClose?.();
+        setContext({
+          type: ActionType.Questionnaire,
+          state: { enabled: false, has_triggered: true },
+        });
       }
     }
   }, [response]);

@@ -142,6 +142,7 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
         const filteredResult = currentResult;
         console.log(`新的資料有${filteredResult.length}筆`, filteredResult);
 
+        setContext({ type: ActionType.UserData, state: { contents: filteredResult } });
         if (filteredResult.length === 0) {
           if (!has_triggered) {
             // 旅程結束，重置所有狀態
@@ -170,7 +171,7 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
         } else {
           // 還有內容，繼續旅程
           eventState.onContentEmpty.callback();
-          setContext({ type: ActionType.UserData, state: { contents: filteredResult } });
+
           setState((S) => ({
             ...S,
             baseLoop: S.staticLoop,
