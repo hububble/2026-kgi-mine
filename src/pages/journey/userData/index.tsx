@@ -86,7 +86,7 @@ const UserData = memo(() => {
         shouldFadeIn={state.step >= JourneyStepType.fadeIn}
       >
         <div>
-          <div>{firstName}</div>
+          <div>{firstName || 'Guest'}</div>
           <div>
             <Icon />
           </div>

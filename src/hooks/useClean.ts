@@ -14,14 +14,14 @@ const useClean = (props?: { backgroundAppProcess?: boolean }) => {
 
   const [, setContext] = useContext(Context);
   const [state, setState] = useState<ResponseType>();
-  const fetch = async (params: { contentId: number }) => {
+  const fetch = async () => {
     if (!backgroundAppProcess) {
       setContext({ type: ActionType.LoadingProcess, state: { enabled: true } });
     }
 
     let response;
     try {
-      response = await Fetcher.post(REST_PATH.clean, params);
+      response = await Fetcher.get(REST_PATH.clean);
     } catch {
       response = {
         isSuccess: false,

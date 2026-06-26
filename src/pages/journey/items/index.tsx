@@ -43,8 +43,6 @@ const Items = memo(({ children, offset }: TItemsProps) => {
   }, [data, state.staticLoop]);
 
   useEffect(() => {
-    console.log(state.loop, state.staticLoop, state.startFetchData, data.back, data.front);
-
     if (state.loop <= -1 || state.staticLoop <= -1 || state.startFetchData) {
       return;
     }
