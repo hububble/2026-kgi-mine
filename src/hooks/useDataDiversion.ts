@@ -2,6 +2,7 @@ import {
   JourneyContext,
   JourneyItemsList,
   JourneySceneDebug,
+  JourneySceneSetting,
   JourneySceneType,
   JourneyStaticItemsList,
 } from '@/pages/journey/config';
@@ -86,7 +87,10 @@ const useDataDiversion = ({ scene }: { scene: JourneySceneType }) => {
           : itemsLineUpSameAsContentLength.concat(roadSign);
 
       // 把items分成每組groupCount個
-      const groupCount = JourneySceneDebug.enabled ? JourneySceneDebug.count : 3;
+      const groupCount = JourneySceneDebug.enabled
+        ? JourneySceneDebug.count
+        : Math.min(JourneySceneSetting.itemCountOfScene, itemsList.length);
+
       const groupList: TDataDiversionItem[][] = [];
       let indexCounter = 0;
       for (let i = 0; i < itemsWithRoadSign.length; i += groupCount) {
