@@ -39,13 +39,14 @@ const Scene = memo(() => {
     [],
   );
 
-  const [, setStyle] = useTween({ left });
+  const [, setStyle, destroy] = useTween({ left });
   const [offset, setOffset] = useState(left);
 
   const [isAlpha, setIsAlpha] = useState(false);
 
   useEffect(() => {
     PATTERN_URI_PROPERTIES.forEach((item) => setURI(item));
+    return () => destroy();
   }, []);
 
   useEffect(() => {

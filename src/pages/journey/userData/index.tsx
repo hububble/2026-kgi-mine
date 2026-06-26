@@ -21,7 +21,7 @@ const Icon = memo(() => {
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [offsetIndex, setOffsetIndex] = useState(0);
 
-  const [style, setStyle] = useTween({ backgroundPositionY: '0%' });
+  const [style, setStyle, destroy] = useTween({ backgroundPositionY: '0%' });
 
   useEffect(() => {
     if (offsetIndex <= 0) return;
@@ -39,6 +39,7 @@ const Icon = memo(() => {
         },
       },
     );
+    return () => destroy();
   }, [offsetIndex]);
 
   useEffect(() => {

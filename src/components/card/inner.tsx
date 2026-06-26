@@ -16,7 +16,7 @@ type TInnerProps = {
 };
 
 const Inner = memo(({ transition, isFavorited, favoriteSwitcher }: TInnerProps) => {
-  const [style, setStyle] = useTween({ opacity: 0, y: 30 });
+  const [style, setStyle, destroy] = useTween({ opacity: 0, y: 30 });
   const [context, setContext] = useContext(Context);
   const { data, navBarIcon } = context[ActionType.Card]!;
 
@@ -43,8 +43,6 @@ const Inner = memo(({ transition, isFavorited, favoriteSwitcher }: TInnerProps) 
   }, [response]);
 
   useEffect(() => {
-    console.log(data);
-
     if (data?.hubSpot_FeaturedImage) {
       const img = new Image();
       img.onload = () => requestAnimationFrame(() => setImageDidLoaded(true));
@@ -56,6 +54,7 @@ const Inner = memo(({ transition, isFavorited, favoriteSwitcher }: TInnerProps) 
     if (transition === TransitionType.FadeIn && imageDidLoaded) {
       setStyle({ opacity: 1, y: 0 }, { duration: 600, delay: 200 });
     }
+    return () => destroy();
   }, [transition, imageDidLoaded]);
 
   const { primary, secondary } = useMemo(() => findPrimarySecondaryTag(data), [data]);

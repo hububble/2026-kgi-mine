@@ -18,7 +18,7 @@ const MinerWalker = memo(({ onShowDown }: MinerWalkerProps) => {
     getTargetWidth: () => number;
   }>(null);
 
-  const [style, setStyle] = useTween({
+  const [style, setStyle, destroy] = useTween({
     x: !JourneySceneDebug.enabled ? -window.innerWidth * 0.5 - 75 : 0,
   });
   const [state] = useContext(JourneyContext);
@@ -39,6 +39,7 @@ const MinerWalker = memo(({ onShowDown }: MinerWalkerProps) => {
     } else if (state.step === JourneyStepType.fadeOut) {
       ref.current?.slowDown();
     }
+    return () => destroy();
   }, [state.step]);
 
   return (
