@@ -138,7 +138,6 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
           .filter((content) => content.contentId)
           .filter((content) => content.hubSpot_Id)
           .filter((content) => content.hubSpot_FeaturedImage);
-        // .filter((_, index) => index === 9999);
 
         const filteredResult = currentResult;
         console.log(`新的資料有${filteredResult.length}筆`, filteredResult);

@@ -40,7 +40,7 @@ const useDataDiversion = () => {
   const [context] = useContext(Context);
   const { contents } = context[ActionType.UserData]!;
 
-  const [{ loop, scene, startFetchData }] = useContext(JourneyContext);
+  const [{ loop, scene }] = useContext(JourneyContext);
 
   const [state, setState] = useState<TDataDiversionState>({
     data: { back: [], front: [], static: [] },
@@ -56,8 +56,8 @@ const useDataDiversion = () => {
   }, [scene]);
 
   useEffect(() => {
-    if (startFetchData) dataRef.current = { back: [], front: [], static: [] };
-  }, [startFetchData]);
+    dataRef.current = { back: [], front: [], static: [] };
+  }, [contents]);
 
   useEffect(() => {
     if (!scene) return;

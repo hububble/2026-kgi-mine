@@ -72,8 +72,6 @@ const Items = memo(({ children, offset }: TItemsProps) => {
       if (JourneySceneDebug.enabled) return;
       setState((S) => ({ ...S, step: JourneyStepType.fadeOut }));
       const isRoadSign = name.includes('roadSign');
-      console.log(isRoadSign, name);
-
       if (isRoadSign) {
         setEvent((S) => ({
           ...S,

@@ -4,7 +4,7 @@ import { faker } from '@faker-js/faker';
 import { mergePath } from 'lesca-fetcher';
 import { HttpResponse, http } from 'msw';
 
-let time = 0;
+let time = -1;
 export const handlers = [
   http.get(mergePath(REST_PATH.login), () => {
     return HttpResponse.json({
