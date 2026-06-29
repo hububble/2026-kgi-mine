@@ -8,7 +8,7 @@ import { ActionType } from '@/settings/type';
 import { getPercentByViewPx, getViewPxByDirection as getPx, getScreenOffset } from '@/utils';
 import EnterFrame from 'lesca-enterframe';
 import useTween, { Bezier } from 'lesca-use-tween';
-import { memo, useContext, useEffect, useMemo, useState } from 'react';
+import { memo, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import {
   JourneyContext,
   JourneySceneDebug,
@@ -43,6 +43,12 @@ const Scene = memo(() => {
   const [offset, setOffset] = useState(left);
 
   const [isAlpha, setIsAlpha] = useState(false);
+
+  const onCenterItemRef = useRef<string[]>([]);
+
+  useEffect(() => {
+    onCenterItemRef.current = state.onCenterItem;
+  }, [state.onCenterItem]);
 
   useEffect(() => {
     PATTERN_URI_PROPERTIES.forEach((item) => setURI(item));
@@ -115,17 +121,20 @@ const Scene = memo(() => {
     } else if (state.step === JourneyStepType.fadeOut) {
       setStyle({ left: offset }, 1);
     } else if (state.step === JourneyStepType.resume) {
-      const currentCenterItem = state.onCenterItem.filter((name) => !name.includes('roadSign'));
+      const currentCenterItem = onCenterItemRef.current.filter(
+        (name) => !name.includes('roadSign'),
+      );
       if (currentCenterItem.length === 0) {
         EnterFrame.play();
         setIsAlpha(false);
+        setEvent((S) => ({ ...S, isCharacterStopped: false }));
       }
-      setEvent((S) => ({ ...S, isCharacterStopped: false }));
     } else if (state.step === JourneyStepType.loop) {
       EnterFrame.destroy();
       EnterFrame.reset();
       EnterFrame.add(() => setOffset((S) => S + 1));
       EnterFrame.play();
+    } else if (state.step === JourneyStepType.wait) {
     }
   }, [state.step]);
 

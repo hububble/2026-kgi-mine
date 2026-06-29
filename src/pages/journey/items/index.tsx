@@ -87,11 +87,17 @@ const Items = memo(({ children, offset }: TItemsProps) => {
 
   const onItemSelected = useMemo(
     () => (name: string, index?: number) => {
-      setState((S) => ({
-        ...S,
-        step: JourneyStepType.fadeOut,
-        onCenterItem: S.onCenterItem.filter((itemName) => itemName !== name),
-      }));
+      setState((S) => {
+        const currentOnCenterItem = S.onCenterItem.filter((itemName) => itemName !== name);
+        if (S.onCenterItem.length === 0) {
+          setEvent((S) => ({ ...S, isCharacterStopped: true }));
+        }
+        return {
+          ...S,
+          onCenterItem: currentOnCenterItem,
+          step: S.onCenterItem.length === 0 ? JourneyStepType.fadeOut : JourneyStepType.wait,
+        };
+      });
       setEvent((S) => ({
         ...S,
         onItemSelected: { ...S.onItemSelected, index: index || 0 },

@@ -17,6 +17,7 @@ export enum JourneyStepType {
   loop,
   fadeOut,
   resume,
+  wait,
 }
 
 export enum JourneyDialogType {
@@ -149,7 +150,7 @@ export const JourneyStaticItemsList = {
 
 export const JourneySceneSetting = {
   fps: 60,
-  itemCountOfScene: 6,
+  itemCountOfScene: 3,
   itemsCenterThreshold: 130,
   offset: 100,
   walkFadeInDistance: 100,
@@ -166,7 +167,7 @@ type JourneySceneDebugType = {
 export const JourneySceneDebug: JourneySceneDebugType = {
   enabled: QueryString.get('debug') === '1' || false,
   count: 3,
-  useLocalData: [1, 0, 0],
+  useLocalData: [2, 2, 1, 0],
 };
 
 const createJourneyFakeItem = (): TUserDataContent => ({
