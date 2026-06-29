@@ -55,6 +55,8 @@ const Item = memo(({ data, offset, onCenter, onItemSelected }: TItemProps) => {
       const inView = checkElementInViewport(ref.current);
 
       if (data.name) {
+        if (data.name.includes('wave')) return;
+
         setState((S) => {
           const included = S.onCenterItem.includes(data.name);
           if (inCenter) {
