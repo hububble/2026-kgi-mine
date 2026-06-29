@@ -114,6 +114,10 @@ export const JourneyEventProvider = memo(({ children }: IReactProps) => {
                     ...S,
                     loop: -1,
                     scene: randomScene,
+                    staticLoop: 0,
+                    baseLoop: 0,
+                    fetchTimes: 0,
+                    onCenterItem: [],
                     step: JourneyStepType.unset,
                   }));
                 }
